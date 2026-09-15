@@ -1,0 +1,1834 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_ds/nocturne-b9145440-adc2-45ec-971a-5df3fc18f482/styles.css">
+<script src="_ds/nocturne-b9145440-adc2-45ec-971a-5df3fc18f482/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  /* Light inversion of Nocturne — every value still a step of the system's
+     own OKLCH ramps: ground and surface take the light steps, ink drops to
+     neutral-900, and the accent sits at the 700 step the guide requires for
+     text on a light ground. */
+  :root {
+    --color-bg: #ffffff;
+    --color-surface: #f9fafe;
+    --color-text: #292b31;
+    --color-accent: #5d5294;
+    --color-divider: color-mix(in srgb, #292b31 14%, transparent);
+    /* The two solid buttons. Call-to-action red is sampled from the
+       reference button; the blue is the brand navy, so sign-in and post-a-job
+       read as one pair. Both are page furniture, not part of the per-language
+       theme. White on red 4.85:1, white on blue 7.1:1. */
+    --color-cta: #e4002b;
+    --color-cta-hover: #c40025;
+    --color-cta-active: #a8001f;
+    /* The navy is brand furniture now — it carries the nav as well as the
+       sign-in button, so it lives in one place and both read from it. */
+    --color-brand: #004FCB;
+    /* The utility strip runs the brand navy, so everything inside it is set
+       from the light end instead of the page's ink. */
+    --color-topbar: #004FCB;
+    --color-topbar-ink: rgba(255,255,255,.88);
+    /* The footer runs the same navy, so the page opens and closes on the
+       brand. Its ink sits a touch softer than the top strip's because there
+       is far more of it to read. */
+    --color-footer: #004FCB;
+    --color-footer-ink: rgba(255,255,255,.82);
+    --color-brand-dark: #003db8;
+    --color-btn: var(--color-brand);
+    --color-btn-hover: var(--color-brand-dark);
+    --color-btn-active: #002da9;
+    /* The two solid buttons carry a gradient of their own hue — a light
+       corner falling to a darker one, so the fill reads as a surface rather
+       than a swatch. The lift is the same hue as the button, never black,
+       and only appears on hover so the resting page stays quiet. */
+    --grad-cta: linear-gradient(135deg, #F51338 0%, #BC0023 100%);
+    --grad-cta-hover: linear-gradient(135deg, #FF2647 0%, #CE0027 100%);
+    --grad-cta-active: linear-gradient(135deg, #D2102F 0%, #A3001E 100%);
+    --grad-btn: linear-gradient(135deg, #0B5FD8 0%, #0040AE 100%);
+    --grad-btn-hover: linear-gradient(135deg, #1268E6 0%, #00479C 100%);
+    --grad-btn-active: linear-gradient(135deg, #0046B8 0%, #00388F 100%);
+    --lift-cta: 0 2px 4px rgba(120,0,20,.22), 0 8px 18px rgba(228,0,43,.26);
+    --lift-btn: 0 2px 4px rgba(0,40,110,.22), 0 8px 18px rgba(0,79,203,.26);
+    --shadow-sm: 0 0 0 1px #e4e7f5;
+    --shadow-md: 0 0 0 1px #cfd3e5, 0 6px 18px rgba(41,43,49,0.08);
+    --shadow-lg: 0 0 0 1px #9397ab, 0 16px 40px rgba(41,43,49,0.16);
+  }
+  body { margin: 0; background: #ffffff; }
+  a { color: var(--color-accent); }
+  a:hover { color: var(--color-accent-800); }
+  .text-muted, .card-meta, figcaption { color: var(--color-neutral-700); }
+  /* The system sets field labels at 70% ink; here they are the only thing
+     naming each control, so they take the full ink. */
+  .field > label { color: var(--color-text); }
+  /* Controls all sit at the 4px the solid buttons use, so inputs, selects and
+     outlined buttons share one corner across the page. */
+  .input, .btn { border-radius: var(--radius-sm); }
+  .card-kicker { color: var(--color-accent-700); }
+  h1, h2, h3, h4, h5 { line-height: 1.35; letter-spacing: 0; }
+  i[class^="ph"] { line-height: 1; }
+
+  /* ── Theme per language ─────────────────────────────────────────────────
+     Arabic keeps IBM Plex Sans Arabic (which carries the Latin too) on the
+     system's own accent. English runs the brand: Proxima Nova on the navy.
+     Both are set on the app root, so flipping language re-themes the page.
+
+     NOTE: Proxima Nova is a licensed face and is NOT loaded anywhere yet —
+     until a kit is added it falls back to Arial. Drop the Adobe Fonts link
+     (or a self-hosted @font-face) in beside the other font links above. */
+  .app { --font-heading: "IBM Plex Sans Arabic", "Inter", system-ui, sans-serif;
+         --font-body: "IBM Plex Sans Arabic", "Inter", system-ui, sans-serif; }
+
+  .app[lang="en"] {
+    --font-heading: "Proxima Nova SemiBold", "Proxima Nova", Arial, Helvetica, sans-serif;
+    --font-body: "Proxima Nova", Arial, Helvetica, sans-serif;
+    --font-heading-weight: 600;
+    line-height: 1.6;
+
+    /* The brand navy as a full tonal ramp, not one token: the template reads
+       accent-700 for accent text (25 uses), accent-800 for tinted fills and
+       accent-100 for the text on them, so swapping only --color-accent would
+       leave every tile, tag and badge purple. Steps 100–600 keep the design
+       system's own lightness scale and take the brand's hue and chroma; 700
+       IS the brand; 800/900 step below it so fills stay darker than the text
+       that sits on them. Verified on white: brand text 7.1:1, accent-100 on
+       an accent-800 fill 9.1:1. */
+    --color-accent: #004FCB;
+    --color-accent-100: #ebf6ff;
+    --color-accent-200: #d0eaff;
+    --color-accent-300: #a5d5ff;
+    --color-accent-400: #5eb1ff;
+    --color-accent-500: #328cff;
+    --color-accent-600: #086bff;
+    --color-accent-700: #004FCB; /* brand */
+    --color-accent-800: #073c96;
+    --color-accent-900: #132e5e;
+  }
+  /* The snippet this came from is a heading rule, so English headings take
+     the navy as well; body copy stays on the neutral ink for readability. */
+  .app[lang="en"] h1, .app[lang="en"] h2, .app[lang="en"] h3,
+  .app[lang="en"] h4, .app[lang="en"] h5 { color: var(--color-accent-700); }
+
+  /* ── Header ─────────────────────────────────────────────────────────────
+     Two bars: a quiet utility strip (audience links, language) over
+     the main bar (brand, nav, search, account, the one accented action).
+     Everything positions with logical properties, so the RTL to LTR flip
+     needs no mirrored rules. */
+  .hdr { position: sticky; top: 0; z-index: 40;
+         background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+         backdrop-filter: blur(14px) saturate(140%); }
+  .hdr-row { max-width: 1240px; margin: 0 auto; padding-inline: 24px;
+             display: flex; align-items: center; }
+
+  .hdr-util { background: var(--color-topbar);
+              border-bottom: 1px solid rgba(255,255,255,.14); }
+  .hdr-util .hdr-row { height: 34px; gap: var(--space-4); font-size: 12px; }
+  .hdr-util a { color: var(--color-topbar-ink); text-decoration: none;
+                display: inline-flex; align-items: center; }
+  .hdr-util a:hover { color: #ffffff; text-decoration: underline;
+                      text-underline-offset: 3px; }
+  .hdr-util-links { display: flex; align-items: center; gap: var(--space-4); }
+  .hdr-util-sep { width: 1px; height: 12px; background: rgba(255,255,255,.30); }
+
+  .hdr-main .hdr-row { height: 86px; gap: var(--space-6); }
+
+  .brand { display: flex; align-items: center; gap: 9px; text-decoration: none;
+           color: var(--color-text); font-family: var(--font-heading);
+           font-size: 19px; line-height: 1; white-space: nowrap; }
+  .brand-mark { display: grid; place-items: center; width: 32px; height: 32px;
+                border-radius: var(--radius-md); background: var(--color-accent-800);
+                color: var(--color-accent-100); font-size: 17px; flex: none; }
+  .brand-tld { color: var(--color-accent-700); }
+
+  .hdr-nav { display: flex; align-items: center; gap: var(--space-1); }
+  /* Nav items: brand navy, semi-bold, with the caret carrying the only red in
+     the bar. The icons inherit the navy; only the caret breaks out. 600 is a
+     weight the font actually ships here — see the Google Fonts link above. */
+  .hdr-link { display: inline-flex; align-items: center; gap: 6px; padding: 8px 11px;
+              border: 0; background: transparent; font-family: var(--font-heading);
+              font-weight: 600; font-size: 14px; line-height: 1;
+              color: var(--color-brand); text-decoration: none;
+              border-radius: var(--radius-sm); cursor: pointer; white-space: nowrap;
+              transition: background .15s, color .15s; }
+  .hdr-link:hover { background: color-mix(in srgb, var(--color-brand) 8%, transparent);
+                    color: var(--color-brand-dark); }
+  .hdr-link.is-open { background: color-mix(in srgb, var(--color-brand) 12%, transparent);
+                      color: var(--color-brand-dark); }
+  .hdr-link .caret { font-size: 11px; color: var(--color-cta); transition: transform .2s; }
+  .hdr-link.is-open .caret { transform: rotate(180deg); }
+
+  .hdr-actions { display: flex; align-items: center; gap: var(--space-3);
+                 margin-inline-start: auto; }
+
+  /* ── AI tools menu ──────────────────────────────────────────────────────
+     A panel anchored to its own nav item rather than a full-width mega:
+     four tools with a line of explanation each is a menu, not a directory.
+     The accent marks it as the one new thing in the bar; it stays a line
+     and a small fill, never a flood. */
+  .nav-drop { position: relative; display: inline-flex; align-items: stretch;
+               align-self: stretch; }
+  /* A nav item that owns a panel runs the full height of the bar and squares
+     off, so when it opens it reads as a tab the panel hangs from. */
+  .nav-drop > .hdr-link { align-self: stretch; border-radius: 0; padding-inline: 14px; }
+  .nav-drop > .hdr-link.is-open { background: var(--color-bg);
+                                  box-shadow: inset 0 3px 0 0 var(--color-brand); }
+  .ai-mark { font-size: 15px; color: var(--color-brand); }
+  .ai-badge { font-size: 9px; letter-spacing: .06em; text-transform: uppercase;
+              padding: 3px 5px; border-radius: 999px; line-height: 1;
+              background: var(--color-accent-800); color: var(--color-accent-100); }
+  /* Same card as the categories panel: flush under its tab, square, one
+     hairline border and the same drop shadow — only the width differs,
+     because three described tools do not need eight hundred pixels. */
+  .ai-menu { position: absolute; top: 100%; inset-inline-start: 0; z-index: 21;
+             width: 360px; padding: 20px 22px 14px; background: var(--color-bg);
+             border: 1px solid var(--color-divider);
+             box-shadow: 0 10px 26px rgba(41,43,49,.14);
+             display: flex; flex-direction: column; gap: 2px; }
+  .ai-item { display: flex; align-items: flex-start; gap: 10px; padding: 9px 0;
+             text-decoration: none; color: inherit; transition: color .12s; }
+  .ai-item:hover .ai-t { color: var(--color-brand-dark);
+                         text-decoration: underline; text-underline-offset: 3px; }
+  .ai-ico { display: grid; place-items: center; flex: none; width: 30px; height: 30px;
+            border-radius: var(--radius-sm); font-size: 16px;
+            color: var(--color-accent-800); }
+  .ai-t { display: block; font-size: 13.5px; line-height: 1.35; color: var(--color-brand); }
+  .ai-d { display: block; font-size: 11.5px; line-height: 1.5; margin-top: 2px;
+          color: var(--color-neutral-700); }
+
+  /* Compact search — stands in for the hero search on every screen that does
+     not carry one, so search is never more than a click away. */
+  .hdr-search { display: flex; align-items: center; gap: 7px; min-width: 210px;
+                padding: 0 11px; height: 36px; border-radius: 999px;
+                background: var(--color-surface); box-shadow: var(--shadow-sm);
+                color: var(--color-neutral-700); }
+  .hdr-search:focus-within { box-shadow: 0 0 0 1px var(--color-accent); }
+  .hdr-search input { border: 0; background: transparent; font: inherit; font-size: 13px;
+                      color: var(--color-text); width: 100%; min-width: 0; outline: none; }
+
+  /* Language switch — a two-state segment rather than a dropdown: with
+     exactly two languages the alternative should always be visible. */
+  .lang-seg { display: inline-flex; align-items: center; padding: 2px; flex: none;
+              border: 1px solid var(--color-divider); border-radius: 999px;
+              background: var(--color-bg); }
+  .lang-opt { appearance: none; border: 0; background: transparent; font: inherit;
+              font-size: 11px; line-height: 1; padding: 5px 10px; border-radius: 999px;
+              cursor: pointer; color: var(--color-neutral-700); white-space: nowrap;
+              transition: background .15s, color .15s; }
+  .lang-opt:hover { color: var(--color-accent-700); }
+  .lang-opt.is-on { background: var(--color-accent-800); color: var(--color-accent-100); }
+  .hdr-util .lang-seg { background: transparent; border-color: rgba(255,255,255,.34); }
+  .hdr-util .lang-opt { color: var(--color-topbar-ink); }
+  .hdr-util .lang-opt:hover { color: #ffffff; }
+  .hdr-util .lang-opt.is-on { background: #ffffff; color: var(--color-topbar); }
+
+  /* ── The solid actions ──────────────────────────────────────────────────
+     Everything else in the system is an outline; these are the only filled
+     buttons, and they carry the header's two decisions — sign in, and post
+     a job. Identical shape and text, different ground. Each takes its own
+     token set, independent of the accent: change the base and the hover
+     and pressed states follow. */
+  .btn-cta, .btn-blue {
+    display: inline-flex; align-items: center; justify-content: center; gap: 7px;
+    min-height: 38px; padding: 0 18px; border: 0; border-radius: 4px;
+    color: #ffffff; font-family: var(--font-heading); font-weight: 500;
+    font-size: 14px; line-height: 1; letter-spacing: 0; white-space: nowrap;
+    text-decoration: none; cursor: pointer;
+    transition: background .15s, box-shadow .15s, transform .15s;
+  }
+  .btn-cta { background: var(--grad-cta); }
+  .btn-cta:hover { background: var(--grad-cta-hover); color: #ffffff;
+                   box-shadow: var(--lift-cta); transform: translateY(-1px); }
+  .btn-cta:active { background: var(--grad-cta-active); box-shadow: none;
+                    transform: translateY(0); }
+  .btn-cta:focus-visible { outline: 2px solid var(--color-cta); outline-offset: 2px; }
+
+  .btn-blue { background: var(--grad-btn); }
+  .btn-blue:hover { background: var(--grad-btn-hover); color: #ffffff;
+                    box-shadow: var(--lift-btn); transform: translateY(-1px); }
+  .btn-blue:active { background: var(--grad-btn-active); box-shadow: none;
+                     transform: translateY(0); }
+  @media (prefers-reduced-motion: reduce) {
+    .btn-cta, .btn-blue { transition: background .15s; }
+    .btn-cta:hover, .btn-blue:hover { transform: none; }
+  }
+  .btn-blue:focus-visible { outline: 2px solid var(--color-btn); outline-offset: 2px; }
+
+  .btn-wide { width: 100%; }
+
+  .icon-btn { display: grid; place-items: center; width: 36px; height: 36px; flex: none;
+              border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+              background: transparent; color: var(--color-text); font-size: 17px;
+              cursor: pointer; transition: background .15s, border-color .15s, color .15s; }
+  .icon-btn:hover { background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+                    border-color: var(--color-accent); color: var(--color-accent-700); }
+
+  /* Mega-menu — the sixteen categories are the spine of the site; reaching
+     them should not mean going home first. */
+  /* A bordered card hung off its own nav item rather than a full-bleed band:
+     square corners, hairline border, one soft drop shadow. Because .nav-drop
+     stretches the full height of the bar, top:100% lands the panel flush
+     against its underside, so the open item reads as a tab joined to it. */
+  .mega { position: absolute; top: 100%; inset-inline-start: 0; z-index: 21;
+          width: min(880px, calc(100vw - 48px));
+          background: var(--color-bg); border: 1px solid var(--color-divider);
+          box-shadow: 0 10px 26px rgba(41,43,49,.14); }
+  .mega-inner { padding: 26px 30px 28px; }
+  /* 180px inside the card lands on four even columns, so all sixteen keep
+     the 4×4 block they had when the panel ran the full width. */
+  .mega-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+               gap: 4px var(--space-8); }
+  .mega-foot { display: flex; margin-top: var(--space-4); padding-top: var(--space-3);
+               border-top: 1px solid var(--color-divider); }
+  .mega-item { display: flex; align-items: center; gap: 9px; padding: 6px 0;
+               text-decoration: none; color: var(--color-brand); font-size: 13.5px;
+               transition: color .12s; }
+  .mega-item:hover { color: var(--color-brand-dark); text-decoration: underline;
+                     text-underline-offset: 3px; }
+  .mega-item i { font-size: 16px; color: var(--color-brand); flex: none; }
+  .mega-item img { flex: none; }
+  /* Column heading: bold ink with the red double-chevron the reference bar
+     uses to mark each group. */
+  .mega-h { display: flex; align-items: center; gap: 7px; margin: 0 0 var(--space-6);
+            font-family: var(--font-heading); font-weight: 700; font-size: 15px;
+            letter-spacing: 0; text-transform: none; color: var(--color-text); }
+  /* Guillemets are bidi-mirrored, so this one glyph points right in English
+     and left in Arabic on its own — do not add an RTL override. */
+  .mega-h::after { content: "\00bb"; color: var(--color-cta); font-weight: 700; }
+
+  /* Mobile drawer — a fixed box resolves logical insets against its own
+     writing mode, which is not what we want here, so the side is pinned
+     explicitly off the app root's direction. */
+  .burger { display: none; }
+  .scrim { position: fixed; inset: 0; z-index: 50; background: rgba(41,43,49,.45); }
+  .mega-scrim { position: fixed; inset: 0; z-index: 20; background: transparent; }
+  .drawer { position: fixed; top: 0; bottom: 0; z-index: 51;
+            width: min(88vw, 330px); background: var(--color-bg);
+            box-shadow: var(--shadow-lg); overflow-y: auto;
+            display: flex; flex-direction: column; padding: var(--space-6); }
+  .app[dir="rtl"] .drawer { right: 0; left: auto; }
+  .app[dir="ltr"] .drawer { left: 0; right: auto; }
+  .drawer-link { display: flex; align-items: center; gap: 10px; padding: 12px 4px;
+                 font-size: 15px; text-decoration: none; color: inherit;
+                 border-bottom: 1px solid var(--color-divider); }
+  .drawer-link i { font-size: 17px; color: var(--color-accent-700); }
+  .drawer-link img { flex: none; }
+
+  /* ── Hero band ──────────────────────────────────────────────────────────
+     The photograph runs the full width of the viewport while the content
+     stays on the same 1240px measure as the rest of the page. A scrim over
+     the image keeps the navy type legible whatever the photo turns out to
+     be: heaviest on the side the text starts from, thinning toward the far
+     edge so the picture is still visible there. The photograph arrives
+     already blue-washed, so the scrim only has to clear a path for the type
+     rather than tame full colour — hence the light far edge. Set the file with the
+     heroImage prop (default bg_img_2.png, sitting next to this file). */
+  .hero { position: relative; isolation: isolate; overflow: hidden; }
+  .hero-media { position: absolute; inset: 0; z-index: -1;
+                background-color: var(--color-surface);
+                background-size: cover; background-position: center;
+                background-repeat: no-repeat; }
+  .hero-media::after { content: ""; position: absolute; inset: 0; }
+  /* Two layers. The bottom fade dissolves the band into the page below so the
+     hero has no cut edge. Over it, the light is a pool centred on the type
+     rather than a wipe across the page — it falls off in every direction, so
+     the photograph survives in all four corners instead of only one, and the
+     headline keeps its ground wherever the copy runs long or short. Only the
+     pool's centre flips for Arabic; the fade is symmetrical already. */
+  .app[dir="ltr"] .hero-media::after {
+    background: linear-gradient(to top, rgba(255,255,255,.88) 0%, rgba(255,255,255,0) 24%),
+                radial-gradient(125% 135% at 14% 42%, rgba(255,255,255,.97) 0%,
+                                rgba(255,255,255,.82) 30%, rgba(255,255,255,.26) 56%,
+                                rgba(255,255,255,0) 76%); }
+  .app[dir="rtl"] .hero-media::after {
+    background: linear-gradient(to top, rgba(255,255,255,.88) 0%, rgba(255,255,255,0) 24%),
+                radial-gradient(125% 135% at 86% 42%, rgba(255,255,255,.97) 0%,
+                                rgba(255,255,255,.82) 30%, rgba(255,255,255,.26) 56%,
+                                rgba(255,255,255,0) 76%); }
+  .hero-inner { max-width: 1240px; margin: 0 auto; padding: 88px 24px 64px; }
+  /* Over a photograph the search panel has to read as a card of its own, so
+     it takes the page ground and a real elevation rather than the surface
+     tint it used against plain white. */
+  .hero-search { background: var(--color-bg); box-shadow: var(--shadow-md); }
+  /* A hero field can carry a leading icon inside the control. inset-inline-start
+     and padding-inline-start put it on the reading-start edge in both scripts,
+     and pointer-events:none keeps the click going through to the control. */
+  .hero-field { position: relative; }
+  .hero-field > i, .hero-field > img { position: absolute; inset-inline-start: 11px;
+                    top: 50%; transform: translateY(-50%); font-size: 16px; z-index: 1;
+                    color: var(--color-neutral-600); pointer-events: none; }
+  .hero-field .input { padding-inline-start: 38px; }
+  @media (max-width: 900px) {
+    .hero-inner { padding: 56px 24px 44px; }
+    /* Narrow screens leave no room beside the text, so the scrim goes flat
+       and the photo reads as a tint behind it. */
+    .app[dir="ltr"] .hero-media::after,
+    .app[dir="rtl"] .hero-media::after {
+      background: linear-gradient(to top, rgba(255,255,255,.92) 0%,
+                                  rgba(255,255,255,.78) 22%, rgba(255,255,255,.78) 100%); }
+  }
+  @media (max-width: 560px) { .hero-inner { padding-inline: 16px; } }
+
+  /* The latest-jobs panel carries two sides of the same board, so its heading
+     is a tab bar rather than the rail every other section uses — the rail
+     labels one thing, a tab bar says there is another thing behind it. */
+  .tabs { display: flex; align-items: flex-end; gap: var(--space-6);
+          border-bottom: 1px solid var(--color-divider); margin-bottom: var(--space-4); }
+  .tab { appearance: none; border: 0; background: none; cursor: pointer;
+         font-family: var(--font-heading); font-weight: 700; font-size: 18px;
+         line-height: 1.3; padding: 0 0 10px; color: var(--color-neutral-700);
+         border-bottom: 3px solid transparent; margin-bottom: -1px;
+         transition: color .15s, border-color .15s; }
+  .tab:hover { color: var(--color-brand); }
+  .tab.is-on { color: var(--color-brand); border-bottom-color: var(--color-brand); }
+  .tab:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
+  .tabs-note { display: flex; align-items: center; gap: 5px; font-size: 12px;
+               margin-inline-start: auto; padding-bottom: 10px;
+               color: var(--color-neutral-700); }
+
+  /* Trending searches — links, not chips. These are shortcuts into the
+     results, so they should read as text you follow, and leave the filled
+     shapes to the two buttons that actually commit to something. */
+  .trend-link { font-family: var(--font-heading); font-weight: 700; font-size: 13px;
+                color: var(--color-brand);
+                text-decoration: underline; text-underline-offset: 3px;
+                text-decoration-thickness: 1px;
+                text-decoration-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+                transition: color .12s, text-decoration-color .12s; }
+  .trend-link:hover { color: var(--color-brand-dark); text-decoration-color: currentColor; }
+
+  /* ── Contact dialog ─────────────────────────────────────────────────────
+     Each row is the whole hit area, so the number is tappable rather than
+     something to copy by hand. The values are forced to LTR: a phone number
+     or an email address reads left-to-right even on the Arabic page. */
+  .contact-row { display: flex; align-items: center; gap: 11px; padding: 11px 12px;
+                 border: 1px solid var(--color-divider); border-radius: var(--radius-md);
+                 text-decoration: none; color: inherit;
+                 transition: border-color .15s, background .15s; }
+  .contact-row + .contact-row { margin-top: var(--space-2); }
+  .contact-row:hover { border-color: var(--color-brand);
+                       background: color-mix(in srgb, var(--color-brand) 6%, transparent); }
+  .contact-ico { display: grid; place-items: center; flex: none; width: 34px; height: 34px;
+                 border-radius: var(--radius-sm); font-size: 17px;
+                 background: var(--color-accent-800); color: var(--color-accent-100); }
+  .contact-k { display: block; font-size: 11px; color: var(--color-neutral-700); }
+  .contact-v { display: block; font-family: var(--font-heading); font-weight: 700;
+               font-size: 14.5px; line-height: 1.35; color: var(--color-brand);
+               direction: ltr; }
+  .app[dir="rtl"] .contact-v { text-align: right; }
+
+  /* ── Footer ─────────────────────────────────────────────────────────────
+     Kept on the light surface rather than a flooded blue: the design system
+     asks that the accent stay a line and a mark, and the page already has
+     two solid buttons and a photograph competing for weight. The brand block
+     takes the wide column; the three link columns share the rest. */
+  .ftr { margin-top: 72px; background: var(--color-footer); color: #ffffff;
+         border-top: 0; }
+  /* The wordmark sits on navy here, so the chip inverts: white tile, navy
+     glyph. Scoped to the footer so the header's mark is untouched. */
+  .ftr .brand { color: #ffffff; }
+  .ftr .brand-mark { background: #ffffff; color: var(--color-footer); }
+  .ftr .brand-tld { color: rgba(255,255,255,.62); }
+  .ftr-inner { max-width: 1240px; margin: 0 auto; padding: 52px 24px 44px;
+               display: grid; grid-template-columns: minmax(0,1.6fr) repeat(3, minmax(0,1fr));
+               gap: 44px; }
+  .ftr-tagline { margin: var(--space-4) 0 var(--space-6); max-width: 34ch;
+                 font-size: 13px; line-height: 1.75; color: var(--color-footer-ink); }
+  .ftr-social { display: flex; gap: var(--space-3); }
+  .ftr-social a { display: grid; place-items: center; width: 34px; height: 34px;
+                  border: 1px solid rgba(255,255,255,.34); border-radius: var(--radius-sm);
+                  color: var(--color-footer-ink); font-size: 16px; text-decoration: none;
+                  transition: border-color .15s, background .15s, color .15s; }
+  .ftr-social a:hover { border-color: #ffffff; color: var(--color-footer);
+                        background: #ffffff; }
+  .ftr-col { display: flex; flex-direction: column; }
+  .ftr-h { font-family: var(--font-heading); font-weight: 700; font-size: 14px;
+           color: #ffffff; margin-bottom: var(--space-4); }
+  .ftr-link { padding: 6px 0; font-size: 13.5px; color: var(--color-footer-ink);
+              text-decoration: none; transition: color .12s; }
+  .ftr-link:hover { color: #ffffff; text-decoration: underline;
+                    text-underline-offset: 3px; }
+  .ftr-bar { border-top: 1px solid rgba(255,255,255,.18); }
+  .ftr-bar-inner { max-width: 1240px; margin: 0 auto; padding: 18px 24px;
+                   display: flex; flex-wrap: wrap; align-items: center;
+                   gap: var(--space-3) var(--space-6);
+                   font-size: 12px; color: rgba(255,255,255,.70); }
+  .ftr-legal { display: flex; flex-wrap: wrap; gap: var(--space-6);
+               margin-inline-start: auto; }
+  .ftr-legal a { color: rgba(255,255,255,.70); text-decoration: none; }
+  .ftr-legal a:hover { color: #ffffff; text-decoration: underline;
+                       text-underline-offset: 3px; }
+  @media (max-width: 900px) {
+    .ftr-inner { grid-template-columns: repeat(2, minmax(0,1fr)); gap: 36px; }
+  }
+  @media (max-width: 560px) {
+    .ftr-inner { grid-template-columns: minmax(0,1fr); padding: 40px 16px 32px; }
+    .ftr-bar-inner { padding-inline: 16px; }
+    .ftr-legal { margin-inline-start: 0; }
+  }
+
+  /* ── Page grids ─────────────────────────────────────────────────────────
+     Held in classes rather than inline styles so they can collapse to one
+     column; the sidebar follows the main column on a narrow screen. */
+  .page-home, .page-results { max-width: 1240px; margin: 0 auto; }
+  .page-home, .page-results, .page-detail { display: grid; align-items: start; }
+  .page-home { grid-template-columns: minmax(0,1fr) minmax(250px,312px); gap: 56px; padding: 44px 24px; }
+  .page-results { grid-template-columns: minmax(230px,266px) minmax(0,1fr); gap: 44px; padding: 36px 24px; }
+  .page-detail { grid-template-columns: minmax(0,1fr) minmax(270px,340px); gap: 56px; }
+
+  @media (max-width: 1080px) { .hdr-search { display: none; } }
+  @media (max-width: 980px) {
+    .page-home, .page-results, .page-detail { grid-template-columns: minmax(0,1fr); gap: 44px; }
+    /* On results the filter rail would otherwise bury the listings. */
+    .page-results > aside { order: 2; }
+    .page-detail > aside > .card { position: static; }
+  }
+  @media (max-width: 900px) {
+    .hdr-nav, .hdr-util-links, .hdr-signin { display: none; }
+    .burger { display: grid; }
+    .mega, .mega-scrim { display: none; }
+    .hdr-main .hdr-row { height: 72px; gap: var(--space-3); }
+  }
+  @media (max-width: 560px) {
+    /* The action keeps its words at every width — it is the point of the
+       bar — and gives back a little padding instead. */
+    .btn-cta, .btn-blue { padding: 0 13px; font-size: 13px; }
+    .hdr-util .hdr-row { justify-content: flex-end; }
+    .page-home, .page-results { padding-inline: 16px; }
+  }
+</style>
+</helmet>
+
+<div class="app" dir="{{ dir }}" lang="{{ lang }}" style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);line-height:1.7">
+
+  <header class="hdr" style="position:sticky">
+    <div class="hdr-util">
+      <div class="hdr-row">
+        <div class="hdr-util-links">
+          <a href="#" onClick="{{ goResults }}">{{ t.util.seekers }}</a>
+          <span class="hdr-util-sep"></span>
+          <a href="#" onClick="{{ goResults }}">{{ t.util.employers }}</a>
+        </div>
+        <div style="display:flex;align-items:center;gap:var(--space-3);margin-inline-start:auto">
+          <div class="lang-seg" role="group" aria-label="{{ t.util.language }}">
+            <button type="button" class="lang-opt {{ arClass }}" onClick="{{ setAr }}">العربية</button>
+            <button type="button" class="lang-opt {{ enClass }}" onClick="{{ setEn }}">English</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div class="hdr-main">
+      <div class="hdr-row">
+        <button type="button" class="icon-btn burger" aria-label="{{ t.nav.menu }}" onClick="{{ openDrawer }}"><i class="ph ph-list"></i></button>
+
+        <a href="#" class="brand" onClick="{{ goHome }}">
+          <span class="brand-mark"><i class="ph ph-briefcase"></i></span>
+          <span>{{ brand }}<span class="brand-tld">{{ t.brand.tld }}</span></span>
+        </a>
+
+        <nav class="hdr-nav">
+          <span class="nav-drop">
+            <button type="button" class="hdr-link {{ megaClass }}" onClick="{{ toggleMega }}">{{ t.nav.browse }}<i class="ph ph-caret-down caret"></i></button>
+            <sc-if value="{{ megaOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="mega" style="z-index:21">
+                <div class="mega-inner">
+                  <div class="mega-h">{{ t.nav.allCategories }}</div>
+                  <div class="mega-grid">
+                    <sc-for list="{{ categories }}" as="c" hint-placeholder-count="16">
+                      <a href="#" class="mega-item" onClick="{{ c.open }}"><img src="{{ c.svg }}" alt="" width="20" height="20">{{ c.name }}</a>
+                    </sc-for>
+                  </div>
+                  <div class="mega-foot">
+                    <a href="#" class="btn btn-ghost" onClick="{{ goResults }}">{{ t.nav.viewAll }}<i class="ph {{ arrowIcon }}" style="margin-inline-start:5px"></i></a>
+                  </div>
+                </div>
+              </div>
+            </sc-if>
+          </span>
+          <span class="nav-drop">
+            <button type="button" class="hdr-link {{ aiClass }}" onClick="{{ toggleAi }}"><i class="ph ph-sparkle ai-mark"></i>{{ t.ai.nav }}<i class="ph ph-caret-down caret"></i></button>
+            <sc-if value="{{ aiOpen }}" hint-placeholder-val="{{ false }}">
+              <div class="ai-menu">
+                <sc-for list="{{ aiTools }}" as="tool" hint-placeholder-count="3">
+                  <a href="#" class="ai-item" onClick="{{ tool.open }}">
+                    <span class="ai-ico"><img src="{{ tool.svg }}" alt="" width="28" height="28"></span>
+                    <span style="min-width:0"><span class="ai-t">{{ tool.title }}</span><span class="ai-d">{{ tool.body }}</span></span>
+                  </a>
+                </sc-for>
+              </div>
+            </sc-if>
+          </span>
+        </nav>
+
+        <div class="hdr-actions">
+          <sc-if value="{{ showHeaderSearch }}" hint-placeholder-val="{{ false }}">
+            <label class="hdr-search">
+              <i class="ph ph-magnifying-glass" style="font-size:15px"></i>
+              <input type="text" placeholder="{{ t.nav.searchPh }}" value="{{ q }}" onChange="{{ onQ }}">
+            </label>
+          </sc-if>
+          <a href="#" class="btn-blue hdr-signin" style="min-height:36px" onClick="{{ noop }}">{{ t.nav.signIn }}</a>
+          <a href="#" class="btn-cta" style="min-height:36px" onClick="{{ goResults }}">{{ t.nav.placeAd }}</a>
+        </div>
+      </div>
+    </div>
+
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px,var(--color-divider) calc(100% - 48px),transparent)"></div>
+
+    <sc-if value="{{ anyMenu }}" hint-placeholder-val="{{ false }}">
+      <div class="mega-scrim" onClick="{{ closeMenus }}"></div>
+    </sc-if>
+
+  </header>
+
+  <sc-if value="{{ drawerOpen }}" hint-placeholder-val="{{ false }}">
+    <div>
+      <div class="scrim" onClick="{{ closeDrawer }}"></div>
+      <div class="drawer" dir="{{ dir }}">
+        <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-6)">
+          <a href="#" class="brand" style="font-size:17px" onClick="{{ goHome }}">
+            <span class="brand-mark" style="width:28px;height:28px;font-size:15px"><i class="ph ph-briefcase"></i></span>
+            <span>{{ brand }}<span class="brand-tld">{{ t.brand.tld }}</span></span>
+          </a>
+          <button type="button" class="icon-btn" style="margin-inline-start:auto" aria-label="{{ t.nav.close }}" onClick="{{ closeDrawer }}"><i class="ph ph-x"></i></button>
+        </div>
+        <div class="lang-seg" style="align-self:flex-start;margin-bottom:var(--space-6)">
+          <button type="button" class="lang-opt {{ arClass }}" onClick="{{ setAr }}">العربية</button>
+          <button type="button" class="lang-opt {{ enClass }}" onClick="{{ setEn }}">English</button>
+        </div>
+        <a href="#" class="drawer-link" onClick="{{ noop }}"><i class="ph ph-bookmark-simple"></i>{{ t.nav.saved }}</a>
+        <div class="mega-h" style="margin-top:var(--space-8)"><i class="ph ph-sparkle ai-mark" style="font-size:13px"></i>{{ t.ai.nav }}</div>
+        <sc-for list="{{ aiTools }}" as="tool" hint-placeholder-count="3">
+          <a href="#" class="drawer-link" style="padding:10px 4px;font-size:14px" onClick="{{ tool.open }}"><img src="{{ tool.svg }}" alt="" width="22" height="22">{{ tool.title }}</a>
+        </sc-for>
+        <div class="mega-h" style="margin-top:var(--space-8)">{{ t.nav.allCategories }}</div>
+        <sc-for list="{{ drawerCats }}" as="c" hint-placeholder-count="8">
+          <a href="#" class="drawer-link" style="padding:10px 4px;font-size:14px" onClick="{{ c.open }}"><img src="{{ c.svg }}" alt="" width="22" height="22">{{ c.name }}</a>
+        </sc-for>
+        <div style="display:flex;flex-direction:column;gap:var(--space-2);margin-top:var(--space-8)">
+          <button class="btn-blue btn-wide" onClick="{{ noop }}">{{ t.nav.signIn }}</button>
+          <button class="btn-cta btn-wide" onClick="{{ goResults }}">{{ t.nav.placeAd }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <section class="hero">
+      <div class="hero-media" style="background-image:url({{ heroImage }})"></div>
+      <div class="hero-inner">
+      <h1 style="font-size:clamp(30px,4.2vw,46px);max-width:20ch;margin-bottom:var(--space-4);line-height:1.28">{{ t.home.title }}</h1>
+      <p style="max-width:58ch;font-size:16px;color:var(--color-text)">{{ t.home.lead }}</p>
+
+      <div class="hero-search" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--space-3);align-items:end;margin-top:var(--space-8);padding:var(--space-6);border-radius:var(--radius-sm)">
+        <div class="field hero-field" style="grid-column:span 2;min-width:0">
+          <img src="ui_svg_icons/search.svg" alt="" width="20" height="20">
+          <input class="input" type="text" placeholder="{{ t.search.keywordPh }}" aria-label="{{ t.search.keyword }}" value="{{ q }}" onChange="{{ onQ }}">
+        </div>
+        <div class="field hero-field" style="min-width:0">
+          <img src="ui_svg_icons/location.svg" alt="" width="20" height="20">
+          <select class="input" aria-label="{{ t.search.city }}" value="{{ city }}" onChange="{{ onCity }}">
+            <sc-for list="{{ cityOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c.key }}">{{ c.name }}</option></sc-for>
+          </select>
+        </div>
+        <div class="field" style="min-width:0">
+          <select class="input" aria-label="{{ t.search.category }}" value="{{ cat }}" onChange="{{ onCat }}">
+            <sc-for list="{{ catOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c.key }}">{{ c.name }}</option></sc-for>
+          </select>
+        </div>
+        <button class="btn-blue" style="min-height:36px" onClick="{{ goResults }}">{{ t.search.submit }}</button>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-3) var(--space-6);margin-top:var(--space-4);align-items:center">
+        <span style="display:flex;align-items:center;gap:5px;font-size:12px;color:var(--color-text)"><i class="ph ph-trend-up"></i>{{ t.home.trending }}</span>
+        <sc-for list="{{ trending }}" as="tr" hint-placeholder-count="6">
+          <a href="#" class="trend-link" onClick="{{ tr.open }}">{{ tr.label }}</a>
+        </sc-for>
+      </div>
+      </div>
+    </section>
+
+    <div class="page-home">
+      <main style="min-width:0">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-6)">
+          <span style="width:3px;height:20px;background:var(--color-accent);border-radius:2px"></span>
+          <h5 style="margin:0;font-size:20px">{{ t.home.browseByCat }}</h5>
+          <span class="text-muted" style="font-size:12px;margin-inline-start:auto">{{ catCountLabel }}</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:var(--space-3);margin-bottom:56px">
+          <sc-for list="{{ categories }}" as="c" hint-placeholder-count="16">
+            <a href="#" onClick="{{ c.open }}" style="display:flex;align-items:center;gap:11px;padding:13px 14px;border-radius:var(--radius-sm);background:var(--color-surface);box-shadow:var(--shadow-sm);text-decoration:none;color:var(--color-text);transition:box-shadow .15s,transform .15s" style-hover="box-shadow:var(--shadow-md);transform:translateY(-1px)">
+              <span style="display:grid;place-items:center;flex:none;width:52px;height:52px;color:var(--color-accent-800);font-size:40px">
+                <sc-if value="{{ c.hasSvg }}" hint-placeholder-val="{{ true }}"><img src="{{ c.svg }}" alt="" width="48" height="48" style="display:block"></sc-if>
+                <sc-if value="{{ c.noSvg }}" hint-placeholder-val="{{ false }}"><i class="ph {{ c.icon }}"></i></sc-if>
+              </span>
+              <span style="min-width:0">
+                <span style="display:block;font-family:var(--font-heading);font-weight:700;font-size:14px;line-height:1.35;color:var(--color-text)">{{ c.name }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ showFeatured }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-bottom:56px">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-6)">
+            <span style="width:3px;height:20px;background:var(--color-accent);border-radius:2px"></span>
+            <h5 style="margin:0;font-size:20px">{{ t.home.featuredToday }}</h5>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:var(--space-4)">
+            <sc-for list="{{ featuredJobs }}" as="j" hint-placeholder-count="3">
+              <a href="#" onClick="{{ j.open }}" class="card elev-sm" style="text-decoration:none;color:inherit;gap:0;padding:0;border-radius:var(--radius-sm);overflow:hidden;transition:box-shadow .15s,transform .15s" style-hover="box-shadow:var(--shadow-md);transform:translateY(-1px)">
+                <div style="flex:none;height:132px;display:grid;place-items:center;background:{{ j.art }}">
+                  <i class="ph {{ j.artIcon }}" style="font-size:46px;color:{{ j.artInk }};opacity:.5"></i>
+                </div>
+                <div style="flex:1;display:flex;flex-direction:column;gap:var(--space-3);padding:var(--space-6)">
+                  <div class="card-title" style="line-height:1.4">{{ j.title }}</div>
+                  <p class="card-body" style="font-size:13px;line-height:1.65">{{ j.excerpt }}</p>
+                  <div class="card-meta" style="margin-top:var(--space-2)"><i class="ph ph-clock"></i>{{ j.posted }}</div>
+                </div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <div class="tabs" role="tablist">
+          <button type="button" class="tab {{ jobsTabClass }}" role="tab" onClick="{{ pickJobs }}">{{ t.home.latestJobs }}</button>
+          <button type="button" class="tab {{ seekersTabClass }}" role="tab" onClick="{{ pickSeekers }}">{{ t.home.seekerPosts }}</button>
+          <span class="tabs-note"><i class="ph ph-sort-descending"></i>{{ t.home.sortedNewest }}</span>
+        </div>
+        <sc-if value="{{ onJobs }}" hint-placeholder-val="{{ true }}">
+        <div style="display:flex;flex-direction:column;border-radius:var(--radius-sm);background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
+          <sc-for list="{{ latestJobs }}" as="j" hint-placeholder-count="8">
+            <a href="#" onClick="{{ j.open }}" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-2) var(--space-4);align-items:center;padding:26px 18px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))">
+              <span style="min-width:0">
+                <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                  <span style="font-family:var(--font-heading);font-weight:700;font-size:16px">{{ j.title }}</span>
+                </span>
+                <span class="text-muted" style="display:block;font-size:13px;line-height:1.5;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ j.excerpt }}</span>
+                <span class="text-muted" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:2px">
+                  <span style="color:var(--color-text)">{{ j.category }}</span>
+                  <span><i class="ph ph-map-pin" style="margin-inline-end:4px"></i>{{ j.city }}</span>
+                </span>
+              </span>
+              <span class="text-muted" style="text-align:end;white-space:nowrap;font-size:12px">{{ j.posted }}</span>
+            </a>
+          </sc-for>
+        </div>
+        </sc-if>
+
+        <sc-if value="{{ onSeekers }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;border-radius:var(--radius-sm);background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
+          <sc-for list="{{ seekerPosts }}" as="s" hint-placeholder-count="7">
+            <a href="#" onClick="{{ s.open }}" style="display:grid;grid-template-columns:minmax(0,1fr) auto;gap:var(--space-2) var(--space-4);align-items:center;padding:26px 18px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))">
+              <span style="min-width:0">
+                <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                  <span style="font-family:var(--font-heading);font-weight:700;font-size:16px">{{ s.role }}</span>
+                </span>
+                <span class="text-muted" style="display:block;font-size:13px;line-height:1.5;margin-top:3px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap">{{ s.pitch }}</span>
+                <span class="text-muted" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:2px">
+                  <span style="color:var(--color-text)">{{ s.category }}</span>
+                  <span><i class="ph ph-map-pin" style="margin-inline-end:4px"></i>{{ s.city }}</span>
+                  <span>{{ s.experience }}</span>
+                </span>
+              </span>
+              <span class="text-muted" style="text-align:end;white-space:nowrap;font-size:12px">{{ s.posted }}</span>
+            </a>
+          </sc-for>
+        </div>
+        <div class="text-muted" style="margin-top:var(--space-4);font-size:12px;text-align:center">{{ seekerCountLabel }}</div>
+        </sc-if>
+
+        <sc-if value="{{ onJobs }}" hint-placeholder-val="{{ true }}">
+        <button class="btn btn-secondary btn-block" style="margin-top:var(--space-6);min-height:40px" onClick="{{ goResults }}">{{ viewAllLabel }}<i class="ph {{ arrowIcon }}" style="margin-inline-start:6px"></i></button>
+        </sc-if>
+      </main>
+
+      <aside style="min-width:0;display:flex;flex-direction:column;gap:44px">
+        <div>
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-4)">
+            <span style="width:3px;height:20px;background:var(--color-accent);border-radius:2px"></span>
+            <h5 style="margin:0;font-size:20px">{{ t.home.jobsByCity }}</h5>
+          </div>
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ cities }}" as="c" hint-placeholder-count="9">
+              <a href="#" onClick="{{ c.open }}" style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);padding:9px 2px;font-size:14px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="color:var(--color-accent-700)">
+                <span>{{ c.name }}</span>
+                <span class="text-muted" style="font-size:12px;font-variant-numeric:tabular-nums">{{ c.count }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="card elev-sm" style="padding:var(--space-6);gap:var(--space-4);border-radius:var(--radius-sm)">
+          <div class="card-title" style="font-size:18px;line-height:1.45;color:var(--color-brand)">{{ t.promo.title }}</div>
+          <button class="btn-blue btn-wide" onClick="{{ goResults }}">{{ t.promo.cta }}</button>
+        </div>
+
+      </aside>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isResults }}" hint-placeholder-val="{{ false }}">
+  <div class="page-results">
+    <aside style="min-width:0">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-6)">
+        <span style="width:3px;height:20px;background:var(--color-accent);border-radius:2px"></span>
+        <h5 style="margin:0;font-size:20px">{{ t.results.filter }}</h5>
+      </div>
+      <div class="field" style="margin-bottom:var(--space-6)">
+        <label>{{ t.search.keyword }}</label>
+        <input class="input" type="text" placeholder="{{ t.search.keywordShortPh }}" value="{{ q }}" onChange="{{ onQ }}">
+      </div>
+      <div class="field" style="margin-bottom:var(--space-6)">
+        <label>{{ t.search.city }}</label>
+        <select class="input" value="{{ city }}" onChange="{{ onCity }}">
+          <sc-for list="{{ cityOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c.key }}">{{ c.name }}</option></sc-for>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:var(--space-6)">
+        <label>{{ t.search.category }}</label>
+        <select class="input" value="{{ cat }}" onChange="{{ onCat }}">
+          <sc-for list="{{ catOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c.key }}">{{ c.name }}</option></sc-for>
+        </select>
+      </div>
+      <div style="margin-bottom:var(--space-6)">
+        <div style="font-size:12px;color:var(--color-neutral-700);margin-bottom:9px">{{ t.search.employmentType }}</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ typeFilters }}" as="tf" hint-placeholder-count="5">
+            <label class="radio"><input type="radio" name="etype" checked="{{ tf.checked }}" onChange="{{ tf.pick }}"><span class="dot"></span>{{ tf.label }}</label>
+          </sc-for>
+        </div>
+      </div>
+      <button class="btn btn-secondary btn-block" onClick="{{ resetFilters }}"><i class="ph ph-x" style="font-size:14px"></i>{{ t.results.clear }}</button>
+    </aside>
+
+    <main style="min-width:0">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-6)">
+        <h3 style="margin:0;font-size:26px">{{ resultsHeading }}</h3>
+        <span class="text-muted" style="font-size:13px">{{ resultsCountLabel }}</span>
+      </div>
+      <div style="display:flex;flex-direction:column;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
+        <sc-for list="{{ results }}" as="j" hint-placeholder-count="6">
+          <a href="#" onClick="{{ j.open }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-2) var(--space-4);align-items:center;padding:17px 18px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))">
+            <span style="display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:var(--radius-sm);background:var(--color-bg);box-shadow:inset 0 0 0 1px var(--color-divider);font-family:var(--font-heading);font-size:16px;color:var(--color-accent-700)">{{ j.initial }}</span>
+            <span style="min-width:0">
+              <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-family:var(--font-heading);font-weight:500;font-size:16px">{{ j.title }}</span>
+                <sc-if value="{{ j.verified }}" hint-placeholder-val="{{ true }}"><span class="tag tag-accent"><i class="ph ph-seal-check" style="margin-inline-end:4px"></i>{{ t.tag.verified }}</span></sc-if>
+              </span>
+              <span class="text-muted" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:2px">
+                <span>{{ j.company }}</span>
+                <span><i class="ph ph-map-pin" style="margin-inline-end:4px"></i>{{ j.city }}</span>
+                <span><i class="ph ph-clock-user" style="margin-inline-end:4px"></i>{{ j.type }}</span>
+                <span>{{ j.category }}</span>
+              </span>
+            </span>
+            <span style="text-align:end;white-space:nowrap">
+              <span style="display:block;font-size:14px;color:var(--color-accent-700)">{{ j.salary }}</span>
+              <span class="text-muted" style="display:block;font-size:12px">{{ j.posted }}</span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--space-3);padding:64px 0;text-align:center">
+          <i class="ph ph-briefcase" style="font-size:32px;color:var(--color-neutral-500)"></i>
+          <p class="text-muted" style="margin:0">{{ t.results.empty }}</p>
+        </div>
+      </sc-if>
+    </main>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1240px;margin:0 auto;padding:28px 24px 0">
+    <div style="display:flex;gap:var(--space-2);align-items:center;font-size:12px;margin-bottom:var(--space-8)">
+      <a href="#" onClick="{{ goHome }}">{{ t.detail.home }}</a><i class="ph {{ crumbIcon }}" style="color:var(--color-neutral-600);font-size:11px"></i>
+      <a href="#" onClick="{{ goResults }}">{{ job.category }}</a><i class="ph {{ crumbIcon }}" style="color:var(--color-neutral-600);font-size:11px"></i>
+      <span class="text-muted">{{ job.city }}</span>
+    </div>
+
+    <div class="page-detail">
+      <main style="min-width:0">
+        <sc-if value="{{ job.urgent }}" hint-placeholder-val="{{ false }}">
+          <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4)">
+            <span class="tag tag-outline"><i class="ph ph-lightning" style="margin-inline-end:4px"></i>{{ t.detail.urgentHiring }}</span>
+          </div>
+        </sc-if>
+        <h1 style="font-size:clamp(25px,3.4vw,37px);margin-bottom:var(--space-4);line-height:1.3">{{ job.title }}</h1>
+        <div style="display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;font-size:14px">
+          <span style="display:flex;align-items:center;gap:9px">
+            <span style="display:grid;place-items:center;width:34px;height:34px;border-radius:var(--radius-sm);background:var(--color-surface);box-shadow:var(--shadow-sm);font-family:var(--font-heading);color:var(--color-accent-700)">{{ job.initial }}</span>
+            {{ job.company }}
+          </span>
+          <sc-if value="{{ job.verified }}" hint-placeholder-val="{{ true }}"><span class="tag tag-accent"><i class="ph ph-seal-check" style="margin-inline-end:4px"></i>{{ t.detail.verifiedEmployer }}</span></sc-if>
+          <span class="text-muted" style="display:flex;align-items:center;gap:6px"><i class="ph ph-map-pin"></i>{{ job.city }}</span>
+        </div>
+
+
+        <h4 style="font-size:19px;margin:44px 0 var(--space-3)">{{ t.detail.description }}</h4>
+        <sc-for list="{{ job.description }}" as="p" hint-placeholder-count="2">
+          <p style="font-size:15px;max-width:64ch;line-height:1.85">{{ p }}</p>
+        </sc-for>
+
+        <a href="#" class="btn-blue" style="margin-top:var(--space-6)" onClick="{{ openContact }}">{{ t.detail.viewContact }}</a>
+
+        <div style="height:1px;margin:44px 0;background:linear-gradient(to right,transparent,var(--color-divider) 48px,var(--color-divider) calc(100% - 48px),transparent)"></div>
+
+        <h4 style="font-size:19px;margin-bottom:var(--space-4)">{{ t.detail.similar }}</h4>
+        <div style="display:flex;flex-direction:column;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
+          <sc-for list="{{ similar }}" as="j" hint-placeholder-count="3">
+            <a href="#" onClick="{{ j.open }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-4);align-items:center;padding:15px 18px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))">
+              <span style="display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:var(--radius-sm);background:var(--color-bg);box-shadow:inset 0 0 0 1px var(--color-divider);font-family:var(--font-heading);font-size:14px;color:var(--color-accent-700)">{{ j.initial }}</span>
+              <span style="min-width:0">
+                <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:15px">{{ j.title }}</span>
+                <span class="text-muted" style="display:block;font-size:13px">{{ j.company }} · {{ j.city }}</span>
+              </span>
+              <span class="text-muted" style="font-size:12px;white-space:nowrap">{{ j.posted }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </main>
+
+      <aside style="min-width:0;display:flex;flex-direction:column;gap:var(--space-6)">
+        <div class="card elev-sm" style="padding:var(--space-6);gap:var(--space-3)">
+          <span class="card-kicker">{{ t.detail.postedBy }}</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:var(--radius-sm);background:var(--color-bg);box-shadow:inset 0 0 0 1px var(--color-divider);font-family:var(--font-heading);font-size:16px;color:var(--color-accent-700)">{{ job.initial }}</span>
+            <span class="card-title" style="font-size:16px;line-height:1.4">{{ job.company }}</span>
+          </div>
+          <button class="btn btn-ghost" style="align-self:flex-start" onClick="{{ goResults }}">{{ t.detail.allEmployerAds }}<i class="ph {{ arrowIcon }}" style="margin-inline-start:5px"></i></button>
+        </div>
+
+        <div style="display:flex;gap:var(--space-6);font-size:12px">
+          <a href="#" onClick="{{ noop }}" style="display:flex;align-items:center;gap:5px"><i class="ph ph-share-network"></i>{{ t.detail.share }}</a>
+          <a href="#" onClick="{{ noop }}" class="text-muted" style="display:flex;align-items:center;gap:5px"><i class="ph ph-flag"></i>{{ t.detail.report }}</a>
+        </div>
+
+        <div class="card elev-sm" style="padding:var(--space-6);gap:var(--space-4);border-radius:var(--radius-sm)">
+          <div class="card-title" style="font-size:18px;line-height:1.45;color:var(--color-brand)">{{ t.promo.title }}</div>
+          <button class="btn-blue btn-wide" onClick="{{ goResults }}">{{ t.promo.cta }}</button>
+        </div>
+      </aside>
+    </div>
+  </div>
+  </sc-if>
+
+  <footer class="ftr">
+    <div class="ftr-inner">
+      <div>
+        <a href="#" class="brand" onClick="{{ goHome }}">
+          <span class="brand-mark"><i class="ph ph-briefcase"></i></span>
+          <span>{{ brand }}<span class="brand-tld">{{ t.brand.tld }}</span></span>
+        </a>
+        <p class="ftr-tagline">{{ t.footer.tagline }}</p>
+        <div class="ftr-social">
+          <a href="#" aria-label="X" onClick="{{ noop }}"><i class="ph ph-x-logo"></i></a>
+          <a href="#" aria-label="LinkedIn" onClick="{{ noop }}"><i class="ph ph-linkedin-logo"></i></a>
+          <a href="#" aria-label="Instagram" onClick="{{ noop }}"><i class="ph ph-instagram-logo"></i></a>
+          <a href="#" aria-label="WhatsApp" onClick="{{ noop }}"><i class="ph ph-whatsapp-logo"></i></a>
+        </div>
+      </div>
+      <sc-for list="{{ footerCols }}" as="col" hint-placeholder-count="3">
+        <div class="ftr-col">
+          <div class="ftr-h">{{ col.title }}</div>
+          <sc-for list="{{ col.links }}" as="l" hint-placeholder-count="5">
+            <a href="#" class="ftr-link" onClick="{{ l.open }}">{{ l.label }}</a>
+          </sc-for>
+        </div>
+      </sc-for>
+    </div>
+    <div class="ftr-bar">
+      <div class="ftr-bar-inner">
+        <span>{{ copyright }}</span>
+        <span class="ftr-legal">
+          <a href="#" onClick="{{ noop }}">{{ t.footer.privacy }}</a>
+          <a href="#" onClick="{{ noop }}">{{ t.footer.terms }}</a>
+          <a href="#" onClick="{{ noop }}">{{ t.footer.cookies }}</a>
+        </span>
+      </div>
+    </div>
+  </footer>
+
+  <sc-if value="{{ contactOpen }}" hint-placeholder-val="{{ false }}">
+    <div class="dialog-backdrop" onClick="{{ closeContact }}">
+      <div class="dialog" dir="{{ dir }}" style="padding:var(--space-8)" onClick="{{ stopClick }}">
+        <div class="dialog-title">{{ t.contactDialog.title }}</div>
+        <div style="margin-top:var(--space-3)">
+          <sc-for list="{{ contactRows }}" as="r" hint-placeholder-count="3">
+            <a class="contact-row" href="{{ r.href }}">
+              <span class="contact-ico"><i class="ph {{ r.icon }}"></i></span>
+              <span style="min-width:0">
+                <span class="contact-k">{{ r.label }}</span>
+                <span class="contact-v">{{ r.value }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+        <div class="dialog-actions">
+          <button class="btn btn-secondary" onClick="{{ closeContact }}">{{ t.contactDialog.close }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+
+  <sc-if value="{{ applied }}" hint-placeholder-val="{{ false }}">
+    <div class="dialog-backdrop" onClick="{{ closeApply }}">
+      <div class="dialog" dir="{{ dir }}" style="padding:var(--space-8)" onClick="{{ stopClick }}">
+        <i class="ph ph-paper-plane-tilt" style="font-size:26px;color:var(--color-accent-700)"></i>
+        <div class="dialog-title">{{ t.applied.title }}</div>
+        <p class="dialog-body" style="line-height:1.75">{{ appliedBody }}</p>
+        <div class="dialog-actions">
+          <button class="btn btn-secondary" onClick="{{ closeApply }}">{{ t.applied.close }}</button>
+          <button class="btn btn-primary" onClick="{{ goResults }}">{{ t.applied.keepBrowsing }}</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;brandName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;مهنة&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;brandNameEn&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;Mihna&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;startInEnglish&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:false,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;اللغة&quot;},&quot;heroImage&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;bg_img_2.png&quot;,&quot;tsType&quot;:&quot;string&quot;,&quot;section&quot;:&quot;الصفحة الرئيسية&quot;},&quot;showFeatured&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;الصفحة الرئيسية&quot;}}">
+/* ═══════════════════════════════════════════════════════════════════════════
+   Mihna — Saudi Arabia job board. Bilingual (ar / en).
+
+   Every piece of copy lives in one of two places and nowhere else:
+     • STRINGS — interface copy, keyed by dotted path (STRINGS.ar.nav.browse).
+       These are the keys that become resources/lang/{ar,en}/*.php in Laravel;
+       the nesting is deliberate so the port is a straight transcription.
+     • the data tables below — content, carried as { ar, en } pairs on the
+       field itself, which is how a translatable model row reads once this
+       moves to a database.
+
+   Anything derived — a salary, a relative time, a closing date, a count —
+   is FORMATTED per language rather than stored twice. Numbers stay Western
+   in both languages, which is what Saudi job boards use.
+   ═══════════════════════════════════════════════════════════════════════ */
+
+const ALL = "all";
+
+/* pick a localised value off a { ar, en } pair (or pass a plain value through) */
+const pick = (v, lang) =>
+  v && typeof v === "object" && !Array.isArray(v) && ("ar" in v || "en" in v) ? (v[lang] ?? v.ar) : v;
+
+/* :placeholder interpolation, same shape Laravel's trans() uses */
+const fmt = (s, vars) => String(s).replace(/:(\w+)/g, (m, k) => (k in (vars || {}) ? vars[k] : m));
+
+const num = (n) => Number(n).toLocaleString("en-US");
+
+/* Arabic has six plural categories; these four cover every count this page
+   shows. English falls through to the plain singular/plural pair. */
+const plural = (n, set) =>
+  n === 1 ? set.one
+    : n === 2 ? set.two
+    : n % 100 >= 3 && n % 100 <= 10 ? fmt(set.few, { n: num(n) })
+    : fmt(set.many, { n: num(n) });
+
+/* ── Interface copy ────────────────────────────────────────────────────── */
+const STRINGS = {
+  ar: {
+    brand: { tld: ".كوم" },
+    util: { seekers: "للباحثين عن عمل", employers: "لأصحاب العمل", language: "اللغة" },
+    nav: {
+      browse: "تصفّح الأقسام",
+      signIn: "تسجيل الدخول", placeAd: "أضف إعلاناً", saved: "الإعلانات المحفوظة",
+      searchPh: "ابحث عن وظيفة…", menu: "القائمة", close: "إغلاق",
+      allCategories: "جميع الأقسام", viewAll: "عرض جميع الوظائف"
+    },
+    ai: {
+      nav: "أدوات الذكاء الاصطناعي", badge: "جديد",
+      tools: {
+        cv: { title: "تحسين السيرة الذاتية", body: "احصل على تقييم لسيرتك ونسخة مهيّأة لأنظمة فرز المتقدّمين" },
+        match: { title: "مطابقة ذكية للوظائف", body: "وظائف مرتّبة حسب مهاراتك وخبرتك، لا حسب تاريخ النشر" },
+        letter: { title: "خطاب تقديم فوري", body: "خطاب مخصّص لكل وظيفة في أقل من دقيقة" }
+      }
+    },
+    home: {
+      kicker: "سوق الوظائف في السعودية",
+      title: "وظائف المملكة، تُنشر كل يوم.",
+      lead: "إعلانات مجانية للباحثين عن عمل ولأصحاب العمل.",
+      trending: "الأكثر بحثاً",
+      browseByCat: "تصفّح حسب القسم",
+      catCount: ":n قسماً",
+      featuredToday: "إعلانات مميّزة اليوم",
+      latestJobs: "أحدث الوظائف",
+      seekerPosts: "إعلانات الباحثين عن عمل",
+      sortedNewest: "مرتّبة من الأحدث",
+      viewAllJobs: "عرض جميع الوظائف (:n)",
+      seekerCount: "‏:n باحث عن عمل",
+      jobsByCity: "الوظائف حسب المدينة"
+    },
+    search: {
+      keyword: "كلمة مفتاحية", keywordPh: "أبحث عن",
+      keywordShortPh: "مسمى وظيفي أو شركة",
+      city: "المدينة", category: "القسم", employmentType: "نوع العمل", submit: "ابحث",
+      allCities: "كل المدن", allCategories: "كل الأقسام", anyType: "أي نوع"
+    },
+    results: {
+      filter: "تنقية النتائج", clear: "مسح التنقية", allJobs: "جميع الوظائف",
+      count: { one: "وظيفة واحدة مطابقة", two: "وظيفتان مطابقتان", few: ":n وظائف مطابقة", many: ":n وظيفة مطابقة" },
+      in: "في :city",
+      empty: "لا توجد وظائف مطابقة لهذه التنقية. جرّب مدينة أوسع أو امسح الكلمة المفتاحية."
+    },
+    detail: {
+      home: "الرئيسية", urgentHiring: "توظيف عاجل", verifiedEmployer: "صاحب عمل موثّق",
+      description: "وصف الوظيفة",
+      similar: "وظائف مشابهة", contact: "بيانات التواصل:",
+      applyWhatsapp: "التقديم عبر واتساب", showPhone: "إظهار رقم الهاتف",
+      postedBy: "أُعلن بواسطة", allEmployerAds: "عرض جميع إعلانات صاحب العمل",
+      share: "مشاركة", report: "إبلاغ",
+      viewContact: "عرض بيانات التواصل"
+    },
+    contactDialog: {
+      title: "بيانات التواصل",
+      whatsapp: "واتساب", phone: "الهاتف", email: "البريد الإلكتروني",
+      close: "إغلاق"
+    },
+    applied: {
+      title: "تم إرسال طلبك",
+      body: "وصل ملفك وسيرتك الذاتية إلى :company. عادةً يردّون خلال ثلاثة أيام، وستصلك رسالة بالبريد الإلكتروني ورسالة نصية.",
+      close: "إغلاق", keepBrowsing: "متابعة التصفّح"
+    },
+    promo: {
+      title: "مجاناً تماماً. فرص بلا حدود للباحثين عن عمل ولأصحاب العمل.",
+      cta: "أضف إعلاناً مجاناً"
+    },
+    tag: { featured: "مميّز", verified: "موثّق", urgent: "عاجل", transfer: "نقل الكفالة" },
+    footer: {
+      tagline: "منصة توظيف سعودية تجمع الباحثين عن عمل بأصحاب العمل في جميع مناطق المملكة.",
+      seekers: { title: "للباحثين عن عمل", browseJobs: "تصفّح الوظائف", categories: "الوظائف حسب القسم",
+                 cities: "الوظائف حسب المدينة", ai: "أدوات الذكاء الاصطناعي", saved: "الإعلانات المحفوظة" },
+      employers: { title: "لأصحاب العمل", placeAd: "أضف إعلاناً", pricing: "الباقات والأسعار",
+                   login: "دخول أصحاب العمل", solutions: "حلول التوظيف" },
+      company: { title: "عن المنصة", about: "من نحن", contact: "اتصل بنا",
+                 advice: "نصائح مهنية", help: "مركز المساعدة" },
+      copyright: "© :year :brand. جميع الحقوق محفوظة.",
+      privacy: "سياسة الخصوصية", terms: "شروط الاستخدام", cookies: "سياسة ملفات الارتباط"
+    },
+    units: {
+      salaryRange: ":min – :max ريال", salaryOne: ":n ريال",
+      minutes: { one: "قبل دقيقة", two: "قبل دقيقتين", few: "قبل :n دقائق", many: "قبل :n دقيقة" },
+      hours: { one: "قبل ساعة", two: "قبل ساعتين", few: "قبل :n ساعات", many: "قبل :n ساعة" },
+      days: { one: "أمس", two: "قبل يومين", few: "قبل :n أيام", many: "قبل :n يوماً" }
+    },
+    trending: ["سائق", "محاسب", "تمريض", "مبيعات", "موظف استقبال", "عمل عن بُعد"]
+  },
+
+  en: {
+    brand: { tld: ".com" },
+    util: { seekers: "For job seekers", employers: "For employers", language: "Language" },
+    nav: {
+      browse: "Browse categories",
+      signIn: "Sign in", placeAd: "Place an Ad", saved: "Saved jobs",
+      searchPh: "Search jobs…", menu: "Menu", close: "Close",
+      allCategories: "All categories", viewAll: "View all jobs"
+    },
+    ai: {
+      nav: "AI tools", badge: "New",
+      tools: {
+        cv: { title: "CV optimiser", body: "Score your CV and get a rewrite that clears applicant tracking systems" },
+        match: { title: "Smart job match", body: "Jobs ranked by your skills and experience, not by posting date" },
+        letter: { title: "Instant cover letter", body: "A letter tailored to any job in under a minute" }
+      }
+    },
+    home: {
+      kicker: "The Saudi job market",
+      title: "Jobs across the Kingdom, posted daily.",
+      lead: "Free listings for job seekers and employers.",
+      trending: "Popular searches",
+      browseByCat: "Browse by category",
+      catCount: ":n categories",
+      featuredToday: "Featured today",
+      latestJobs: "Latest jobs",
+      seekerPosts: "Job seeker posts",
+      sortedNewest: "Newest first",
+      viewAllJobs: "View all jobs (:n)",
+      seekerCount: ":n people looking for work",
+      jobsByCity: "Jobs by city"
+    },
+    search: {
+      keyword: "Keyword", keywordPh: "I am looking for",
+      keywordShortPh: "Job title or company",
+      city: "City", category: "Category", employmentType: "Employment type", submit: "Search",
+      allCities: "All cities", allCategories: "All categories", anyType: "Any type"
+    },
+    results: {
+      filter: "Filter results", clear: "Clear filters", allJobs: "All jobs",
+      count: { one: "1 matching job", two: "2 matching jobs", few: ":n matching jobs", many: ":n matching jobs" },
+      in: "in :city",
+      empty: "No jobs match these filters. Try a wider city or clear the keyword."
+    },
+    detail: {
+      home: "Home", urgentHiring: "Urgent hiring", verifiedEmployer: "Verified employer",
+      description: "Description",
+      similar: "Similar jobs", contact: "Contact Details:",
+      applyWhatsapp: "Apply on WhatsApp", showPhone: "Show phone number",
+      postedBy: "Posted by", allEmployerAds: "View All Ads by This Employer",
+      share: "Share", report: "Report",
+      viewContact: "View Contact Details"
+    },
+    contactDialog: {
+      title: "Contact Details",
+      whatsapp: "WhatsApp", phone: "Phone", email: "Email",
+      close: "Close"
+    },
+    applied: {
+      title: "Your application is in",
+      body: "Your profile and CV reached :company. Employers usually reply within three days, and you will get an email and an SMS.",
+      close: "Close", keepBrowsing: "Keep browsing"
+    },
+    promo: {
+      title: "Zero cost. Endless opportunities for seekers and employers.",
+      cta: "Place Free Ad"
+    },
+    tag: { featured: "Featured", verified: "Verified", urgent: "Urgent", transfer: "Transferable" },
+    footer: {
+      tagline: "A Saudi hiring platform connecting job seekers with employers in every region of the Kingdom.",
+      seekers: { title: "For job seekers", browseJobs: "Browse jobs", categories: "Jobs by category",
+                 cities: "Jobs by city", ai: "AI tools", saved: "Saved ads" },
+      employers: { title: "For employers", placeAd: "Place an ad", pricing: "Packages and pricing",
+                   login: "Employer login", solutions: "Hiring solutions" },
+      company: { title: "Company", about: "About us", contact: "Contact us",
+                 advice: "Career advice", help: "Help centre" },
+      copyright: "© :year :brand. All rights reserved.",
+      privacy: "Privacy policy", terms: "Terms of use", cookies: "Cookie policy"
+    },
+    units: {
+      salaryRange: "SAR :min – :max", salaryOne: "SAR :n",
+      minutes: { one: "1 minute ago", two: "2 minutes ago", few: ":n minutes ago", many: ":n minutes ago" },
+      hours: { one: "1 hour ago", two: "2 hours ago", few: ":n hours ago", many: ":n hours ago" },
+      days: { one: "Yesterday", two: "2 days ago", few: ":n days ago", many: ":n days ago" }
+    },
+    trending: ["Driver", "Accountant", "Nursing", "Sales", "Receptionist", "Remote work"]
+  }
+};
+
+/* ── Taxonomies ────────────────────────────────────────────────────────────
+   Keyed, not string-matched: filters compare keys, so a language switch
+   never drops the user's current filter. */
+const CITIES = [
+  { key: "riyadh",   ar: "الرياض",            en: "Riyadh",   count: 4820 },
+  { key: "jeddah",   ar: "جدة",               en: "Jeddah",   count: 2740 },
+  { key: "dammam",   ar: "الدمام",            en: "Dammam",   count: 1360 },
+  { key: "khobar",   ar: "الخبر",             en: "Khobar",   count: 1105 },
+  { key: "makkah",   ar: "مكة المكرمة",       en: "Makkah",   count: 864 },
+  { key: "madinah",  ar: "المدينة المنورة",   en: "Madinah",  count: 712 },
+  { key: "buraidah", ar: "بريدة",             en: "Buraidah", count: 468 },
+  { key: "tabuk",    ar: "تبوك",              en: "Tabuk",    count: 262 },
+  { key: "abha",     ar: "أبها",              en: "Abha",     count: 149 }
+];
+
+/* svg is the drawn icon for the category, in categorories_svg_icons — one
+   24x24 grid, 2px round-capped strokes, indigo-to-blue gradient defined in the
+   file. icon is the Phosphor name, kept as the fallback if an svg is removed. */
+const CATEGORIES = [
+  { key: "sales",       ar: "المبيعات والتسويق",          en: "Sales & Marketing",    count: 2842, icon: "ph-chart-line-up", svg: "categorories_svg_icons/sales.svg", art: ["#dbeafe", "#bfdbfe", "#1e4b91"] },
+  { key: "drivers",     ar: "السائقون والتوصيل",          en: "Drivers & Delivery",   count: 1516, icon: "ph-truck",        svg: "categorories_svg_icons/drivers.svg", art: ["#fef3c7", "#fde68a", "#8a5a05"] },
+  { key: "engineering", ar: "الهندسة",                    en: "Engineering",          count: 1204, icon: "ph-compass-tool", svg: "categorories_svg_icons/engineering.svg", art: ["#e0e7ff", "#c7d2fe", "#3b3f8f"] },
+  { key: "finance",     ar: "المحاسبة والمالية",          en: "Accounting & Finance", count: 986,  icon: "ph-calculator",   svg: "categorories_svg_icons/finance.svg", art: ["#dcfce7", "#bbf7d0", "#166534"] },
+  { key: "it",          ar: "تقنية المعلومات والبرمجة",   en: "IT & Software",        count: 874,  icon: "ph-code",         svg: "categorories_svg_icons/it.svg", art: ["#e0f2fe", "#bae6fd", "#075985"] },
+  { key: "health",      ar: "الرعاية الصحية",             en: "Healthcare",           count: 762,  icon: "ph-first-aid-kit", svg: "categorories_svg_icons/health.svg", art: ["#fee2e2", "#fecaca", "#9f1239"] },
+  { key: "hospitality", ar: "الفنادق والمطاعم",           en: "Hotels & Restaurants", count: 731,  icon: "ph-fork-knife",   svg: "categorories_svg_icons/hospitality.svg", art: ["#ffedd5", "#fed7aa", "#9a3412"] },
+  { key: "construction",ar: "البناء والمهن اليدوية",      en: "Construction & Trades",count: 690,  icon: "ph-wrench",       svg: "categorories_svg_icons/construction.svg", art: ["#eceae7", "#ded9d3", "#57534e"] },
+  { key: "admin",       ar: "الإدارة والسكرتارية",        en: "Admin & Secretarial",  count: 604,  icon: "ph-folders",      svg: "categorories_svg_icons/admin.svg", art: ["#f3e8ff", "#e9d5ff", "#6b21a8"] },
+  { key: "education",   ar: "التعليم",                    en: "Education",            count: 512,  icon: "ph-graduation-cap", svg: "categorories_svg_icons/education.svg", art: ["#ccfbf1", "#99f6e4", "#115e59"] },
+  { key: "logistics",   ar: "الشحن والمستودعات",          en: "Logistics & Warehouse",count: 468,  icon: "ph-package",      svg: "categorories_svg_icons/logistics.svg", art: ["#ecfccb", "#d9f99d", "#3f6212"] },
+  { key: "security",    ar: "الأمن والصيانة",             en: "Security & Maintenance",count: 391, icon: "ph-shield-check", svg: "categorories_svg_icons/security.svg", art: ["#e2e8f0", "#cbd5e1", "#334155"] },
+  { key: "beauty",      ar: "التجميل والصالونات",         en: "Beauty & Salons",      count: 264,  icon: "ph-scissors",     svg: "categorories_svg_icons/beauty.svg", art: ["#fce7f3", "#fbcfe8", "#9d2463"] },
+  { key: "domestic",    ar: "العمالة المنزلية",           en: "Domestic Staff",       count: 236,  icon: "ph-house",        svg: "categorories_svg_icons/domestic.svg", art: ["#fef9c3", "#fef08a", "#854d0e"] },
+  { key: "retail",      ar: "البيع بالتجزئة والكاشير",    en: "Retail & Cashier",     count: 218,  icon: "ph-storefront",   svg: "categorories_svg_icons/retail.svg", art: ["#cffafe", "#a5f3fc", "#155e75"] },
+  { key: "legal",       ar: "القانون والموارد البشرية",   en: "Legal & HR",           count: 182,  icon: "ph-scales",       svg: "categorories_svg_icons/legal.svg", art: ["#ede9fe", "#ddd6fe", "#5b21b6"] }
+];
+
+/* AI tools — keys and icons only; the copy lives in STRINGS[lang].ai.tools,
+   so a new tool is one row here plus one entry per language file. */
+/* Footer columns — keys only; the labels live in STRINGS[lang].footer, so a
+   new link is one entry here plus one per language file. */
+const FOOTER_COLS = [
+  { key: "seekers",   links: ["browseJobs", "categories", "cities", "ai", "saved"] },
+  { key: "employers", links: ["placeAd", "pricing", "login", "solutions"] },
+  { key: "company",   links: ["about", "contact", "advice", "help"] }
+];
+/* The ones that have a screen behind them in this prototype. */
+const FOOTER_TO_RESULTS = new Set(["browseJobs", "categories", "cities", "placeAd"]);
+
+const AI_TOOLS = [
+  { key: "cv",     icon: "ph-file-text",   svg: "ui_svg_icons/ai-cv.svg" },
+  { key: "match",  icon: "ph-target",      svg: "ui_svg_icons/ai-match.svg" },
+  { key: "letter", icon: "ph-note-pencil", svg: "ui_svg_icons/ai-letter.svg" }
+];
+
+const TYPES = [
+  { key: "full",     ar: "دوام كامل", en: "Full-time" },
+  { key: "contract", ar: "عقد مؤقت",  en: "Contract" },
+  { key: "part",     ar: "دوام جزئي", en: "Part-time" },
+  { key: "remote",   ar: "عن بُعد",   en: "Remote" }
+];
+
+/* ── Listings ──────────────────────────────────────────────────────────────
+   postedMin / closes / salary are stored once and formatted per language.
+   excerpt is the one-line card blurb. image is optional: give a listing a
+   file path next to this canvas and its card shows that photo, otherwise the
+   card falls back to the category art set in CATEGORIES. */
+const JOBS = [
+  { id: 1, city: "riyadh", type: "full", cat: "sales",
+    title: { ar: "مندوب مبيعات أول — مواد بناء", en: "Senior Sales Representative — Building Materials" },
+    excerpt: { ar: "إدارة حسابات المقاولين في الرياض والخرج والقصيم، بهدف شهري وسيارة من الشركة وعمولة تصل إلى 3%.", en: "Own contractor accounts across Riyadh, Al Kharj and Qassim — a monthly target, a company car and commission up to 3%." },
+    company: { ar: "شركة الفيصلية للتجارة والتوريد", en: "Al Faisaliah Trading & Supply Co." },
+    salary: { min: 9000, max: 12000 },
+    salaryNote: { ar: "شهرياً، مع عمولة وسيارة من الشركة", en: "Per month, plus commission and a company car" },
+    postedMin: 22, views: 412, applicants: 18, closes: "2026-10-12",
+    verified: true, urgent: false, featured: true, companyJobs: 7, memberSince: 2019,
+    whatsapp: "+966 55 214 8890", phone: "+966 55 214 8890", email: "careers@alfaisaliah-trading.sa",
+    experience: { ar: "5 سنوات+", en: "5+ years" },
+    eligibility: { ar: "نقل الكفالة متاح", en: "Iqama transfer available" },
+    companyBlurb: { ar: "موزّع للأسمنت والحديد ومواد التشطيب لمقاولين في منطقة الرياض والقصيم. 140 موظفاً والمقر في المصانع.",
+                    en: "A distributor of cement, steel and finishing materials to contractors across Riyadh and Qassim. 140 staff, based in the industrial district." },
+    description: {
+      ar: ["نبحث عن مندوب مبيعات ذي خبرة لإدارة حسابات المقاولين في الرياض والخرج والقصيم. ستتولى هدفاً شهرياً ومحفظة تضم نحو أربعين عميلاً نشطاً، بالتنسيق مع فريق المستودع في المصانع بشأن مواعيد التسليم.",
+           "العمل ميداني أربعة أيام في الأسبوع، ويوم واحد في المكتب لمراجعة قائمة الفرص والتحصيلات. اللغة الإنجليزية ميزة إضافية وليست شرطاً."],
+      en: ["We are looking for an experienced sales representative to own contractor accounts across Riyadh, Al Kharj and Qassim. You will carry a monthly target and a book of roughly forty active accounts, coordinating delivery dates with the warehouse team.",
+           "Four days a week in the field, one day in the office reviewing the pipeline and collections. English is an advantage, not a requirement."]
+    },
+    requirements: {
+      ar: ["خبرة 5 سنوات+ في بيع مواد البناء أو المعدات الصناعية داخل السعودية", "سجل مُثبت في تحقيق أهداف مبيعات شهرية", "رخصة قيادة سعودية سارية — شرط أساسي", "القدرة على التفاوض في شروط السداد ومتابعة التحصيل", "إجادة العربية، والإنجليزية ميزة"],
+      en: ["5+ years selling building materials or industrial equipment in Saudi Arabia", "A proven record of hitting monthly sales targets", "A valid Saudi driving licence — essential", "Able to negotiate payment terms and chase collections", "Fluent Arabic; English an advantage"]
+    },
+    benefits: {
+      ar: ["سيارة من الشركة", "تأمين طبي", "تذكرة سنوية", "عمولة تصل إلى 3%", "إجازة 30 يوماً"],
+      en: ["Company car", "Medical insurance", "Annual ticket", "Commission up to 3%", "30 days leave"]
+    } },
+
+  { id: 2, city: "jeddah", type: "full", cat: "drivers",
+    title: { ar: "سائق باص ثقيل (رخصة ثقيل)", en: "Heavy Bus Driver (heavy licence)" },
+    excerpt: { ar: "ثلاثون سائق باص ثقيل للفصل الدراسي الجديد. مسارات ثابتة بنظام الفترتين، مع سكن مشترك وأجر عمل إضافي.", en: "Thirty heavy bus drivers for the new school term. Fixed routes on a split shift, with shared accommodation and paid overtime." },
+    company: { ar: "شركة جدة للنقل الجماعي", en: "Jeddah Mass Transport Co." },
+    salary: { min: 3400, max: 4200 },
+    salaryNote: { ar: "شهرياً، مع سكن وأجر العمل الإضافي", en: "Per month, with housing and overtime" },
+    postedMin: 64, views: 1290, applicants: 96, closes: "2026-09-30",
+    verified: true, urgent: true, featured: true, companyJobs: 24, memberSince: 2017,
+    whatsapp: "+966 56 733 1204", phone: "+966 56 733 1204", email: "hr@jeddahtransport.sa",
+    experience: { ar: "سنتان+", en: "2+ years" },
+    eligibility: { ar: "نقل الكفالة متاح", en: "Iqama transfer available" },
+    companyBlurb: { ar: "مشغّل لنقل الطلبة والموظفين يدير 600 باص في منطقة مكة المكرمة.",
+                    en: "A student and staff transport operator running 600 buses across the Makkah region." },
+    description: {
+      ar: ["نحتاج ثلاثين سائق باص ثقيل للفصل الدراسي الجديد. المسارات ثابتة بنظام الفترتين، مع سكن مشترك ومواصلات إلى المستودع."],
+      en: ["We need thirty heavy bus drivers for the new school term. Fixed routes on a split shift, with shared accommodation and transport to the depot."]
+    },
+    requirements: {
+      ar: ["رخصة باص ثقيل سعودية سارية", "خبرة سنتين على الأقل في القيادة داخل المملكة", "سجل مروري نظيف", "إلمام بسيط بالإنجليزية لقراءة كشوف المسار"],
+      en: ["A valid Saudi heavy bus licence", "At least two years driving inside the Kingdom", "A clean traffic record", "Basic English to read route sheets"]
+    },
+    benefits: {
+      ar: ["سكن مشترك", "أجر العمل الإضافي", "تأمين طبي", "تجديد الإقامة والرخصة على الشركة"],
+      en: ["Shared accommodation", "Paid overtime", "Medical insurance", "Iqama and licence renewal covered"]
+    } },
+
+  { id: 3, city: "riyadh", type: "contract", cat: "engineering",
+    title: { ar: "مهندس مدني موقع — بنية تحتية", en: "Site Civil Engineer — Infrastructure" },
+    excerpt: { ar: "الإشراف على أعمال الحفر وطبقة الأساس والأسفلت في حزمة طريق شرياني بطول 9 كم، بإشراف مدير المشروع.", en: "Supervise excavation, subbase and asphalt works on a 9 km arterial road package, reporting to the project manager." },
+    company: { ar: "الراجحي للمقاولات", en: "Al Rajhi Contracting" },
+    salary: { min: 14000, max: 18000 },
+    salaryNote: { ar: "شهرياً، عقد مشروع لمدة 24 شهراً", en: "Per month, on a 24-month project contract" },
+    postedMin: 190, views: 388, applicants: 27, closes: "2026-10-20",
+    verified: true, urgent: false, featured: true, companyJobs: 12, memberSince: 2015,
+    whatsapp: "+966 50 918 4471", phone: "+966 50 918 4471", email: "recruitment@alrajhi-contracting.sa",
+    experience: { ar: "7 سنوات+", en: "7+ years" },
+    eligibility: { ar: "نقل الكفالة متاح", en: "Iqama transfer available" },
+    companyBlurb: { ar: "مقاول من الدرجة الأولى ينفّذ حزم الطرق وتصريف الأمطار والخدمات لأمانة منطقة الرياض.",
+                    en: "A grade-one contractor delivering roads, stormwater and utilities packages for the Riyadh municipality." },
+    description: {
+      ar: ["الإشراف على أعمال الحفر وطبقات الأساس والأسفلت في حزمة طريق شرياني بطول 9 كم. ترفع تقاريرك إلى مدير المشروع وتنسّق يومياً مع فريق الاستشاري في الموقع."],
+      en: ["Supervising excavation, subbase and asphalt works on a 9 km arterial road package. You report to the project manager and coordinate daily with the consultant team on site."]
+    },
+    requirements: {
+      ar: ["بكالوريوس هندسة مدنية وعضوية الهيئة السعودية للمهندسين", "خبرة 7 سنوات+ في الطرق أو البنية التحتية، ويفضّل داخل السعودية", "إجادة قراءة المخططات التنفيذية وخطط الفحص", "العربية والإنجليزية"],
+      en: ["A civil engineering degree and Saudi Council of Engineers membership", "7+ years on roads or infrastructure, preferably in Saudi Arabia", "Confident reading shop drawings and inspection plans", "Arabic and English"]
+    },
+    benefits: {
+      ar: ["بدل سكن", "بدل نقل", "تأمين طبي للعائلة", "تذكرة سنوية"],
+      en: ["Housing allowance", "Transport allowance", "Family medical insurance", "Annual ticket"]
+    } },
+
+  { id: 4, city: "dammam", type: "full", cat: "finance",
+    title: { ar: "محاسب — الأستاذ العام", en: "Accountant — General Ledger" },
+    excerpt: { ar: "إقفال نهاية الشهر لشركتين تابعتين: التسويات البينية وسجل الأصول الثابتة ودعم المراجعة السنوية.", en: "Month-end close for two subsidiaries: intercompany reconciliations, the fixed asset register and audit support." },
+    company: { ar: "مجموعة الظهران القابضة", en: "Dhahran Holding Group" },
+    salary: { min: 8000, max: 10000 },
+    salaryNote: { ar: "شهرياً", en: "Per month" },
+    postedMin: 320, views: 274, applicants: 41, closes: "2026-10-15",
+    verified: false, urgent: false, featured: false, companyJobs: 4, memberSince: 2021,
+    whatsapp: "+966 53 480 2216", phone: "+966 53 480 2216", email: "careers@dhahranholding.sa",
+    experience: { ar: "3 سنوات+", en: "3+ years" },
+    eligibility: { ar: "سعوديون فقط", en: "Saudi nationals only" },
+    companyBlurb: { ar: "مجموعة متنوّعة تملك شركات في التجزئة وإدارة المرافق والخدمات اللوجستية في المنطقة الشرقية.",
+                    en: "A diversified group with retail, facilities management and logistics companies in the Eastern Province." },
+    description: {
+      ar: ["إقفال الشهر لشركتين تابعتين، وتسويات الحسابات البينية، وسجل الأصول الثابتة، ودعم التدقيق السنوي."],
+      en: ["Month-end close for two subsidiaries, intercompany reconciliations, the fixed asset register and support for the annual audit."]
+    },
+    requirements: {
+      ar: ["خبرة 3 سنوات+ في محاسبة الأستاذ العام", "شهادة جزئية SOCPA أو CMA أو ما يعادلها", "إكسل متقدم وخبرة بأنظمة ERP (أوراكل أو ساب)", "إلمام بإقرارات ضريبة القيمة المضافة لدى هيئة الزكاة والضريبة والجمارك"],
+      en: ["3+ years in general ledger accounting", "Part-qualified SOCPA, CMA or equivalent", "Advanced Excel and ERP experience (Oracle or SAP)", "Familiar with ZATCA VAT filing"]
+    },
+    benefits: {
+      ar: ["تأمين طبي", "تذكرة سنوية", "مكافأة أداء"],
+      en: ["Medical insurance", "Annual ticket", "Performance bonus"]
+    } },
+
+  { id: 5, city: "jeddah", type: "full", cat: "health",
+    title: { ar: "ممرضة مسجّلة — العناية المركّزة", en: "Registered Nurse — Intensive Care" },
+    excerpt: { ar: "تمريض عناية مركّزة بورديات متناوبة من اثنتي عشرة ساعة في وحدة بالغين بسعة ستة عشر سريراً.", en: "Intensive care nursing on rotating twelve-hour shifts in a sixteen-bed adult unit." },
+    company: { ar: "مركز النور الطبي", en: "Al Noor Medical Centre" },
+    salary: { min: 8500, max: 11000 },
+    salaryNote: { ar: "شهرياً، مع بدل الورديات", en: "Per month, plus shift allowance" },
+    postedMin: 430, views: 511, applicants: 63, closes: "2026-09-28",
+    verified: true, urgent: true, featured: false, companyJobs: 15, memberSince: 2016,
+    whatsapp: "+966 54 302 7745", phone: "+966 12 661 4400", email: "nursing.hr@alnoormedical.sa",
+    experience: { ar: "4 سنوات+", en: "4+ years" },
+    eligibility: { ar: "تصنيف هيئة التخصصات الصحية مطلوب", en: "SCFHS classification required" },
+    companyBlurb: { ar: "مجموعة طبية متعددة التخصصات تضم ثلاثة مستشفيات وإحدى عشرة عيادة في منطقة مكة المكرمة.",
+                    en: "A multi-specialty medical group with three hospitals and eleven clinics across the Makkah region." },
+    description: {
+      ar: ["تمريض العناية المركّزة بورديات دوّارة مدتها اثنتا عشرة ساعة في وحدة للبالغين تضم ستة عشر سريراً."],
+      en: ["Intensive care nursing on rotating twelve-hour shifts in a sixteen-bed adult unit."]
+    },
+    requirements: {
+      ar: ["بكالوريوس تمريض", "تصنيف وتسجيل الهيئة السعودية للتخصصات الصحية", "خبرة 4 سنوات+ في العناية المركّزة، منها سنتان داخل المملكة", "شهادتا BLS و ACLS ساريتان"],
+      en: ["A nursing degree", "SCFHS classification and registration", "4+ years in intensive care, two of them in the Kingdom", "Current BLS and ACLS certification"]
+    },
+    benefits: {
+      ar: ["رسوم التصنيف على الشركة", "بدل سكن", "تأمين طبي للعائلة", "تذكرة سنوية"],
+      en: ["Classification fees covered", "Housing allowance", "Family medical insurance", "Annual ticket"]
+    } },
+
+  { id: 6, city: "riyadh", type: "remote", cat: "it",
+    title: { ar: "مطوّر ويب متكامل (Node و React)", en: "Full-stack Web Developer (Node and React)" },
+    excerpt: { ar: "تطوير المزايا من طرفٍ إلى طرف على Node وPostgres بواجهة React، ضمن فريق من مهندسَين ومصمّم.", en: "Ship features end to end on a Node and Postgres backend with a React frontend, alongside two engineers and a designer." },
+    company: { ar: "منارة ديجيتال", en: "Manara Digital" },
+    salary: { min: 18000, max: 24000 },
+    salaryNote: { ar: "شهرياً، عن بُعد داخل توقيت السعودية", en: "Per month, remote within Saudi hours" },
+    postedMin: 545, views: 902, applicants: 154, closes: "2026-10-10",
+    verified: true, urgent: false, featured: false, companyJobs: 6, memberSince: 2020,
+    whatsapp: "+966 59 118 6032", phone: "+966 59 118 6032", email: "jobs@manara.digital",
+    experience: { ar: "5 سنوات+", en: "5+ years" },
+    eligibility: { ar: "إقامة سارية أو عمل حر", en: "Valid iqama or freelance permit" },
+    companyBlurb: { ar: "استوديو منتجات يبني منصات حجز ومدفوعات لمشغّلين في المملكة.",
+                    en: "A product studio building booking and payment platforms for operators in the Kingdom." },
+    description: {
+      ar: ["تنفيذ الميزات من البداية إلى النهاية على واجهة خلفية بـ Node و Postgres وواجهة أمامية بـ React، بالعمل مع مهندسين اثنين ومصمم."],
+      en: ["Shipping features end to end on a Node and Postgres backend with a React frontend, working alongside two engineers and a designer."]
+    },
+    requirements: {
+      ar: ["خبرة 5 سنوات+ في إطلاق تطبيقات ويب إنتاجية", "إجادة TypeScript و Node و React", "الإلمام بـ AWS وخطوط التكامل المستمر", "تداخل مع الدوام 09:00–18:00 بتوقيت الرياض"],
+      en: ["5+ years shipping production web applications", "Strong TypeScript, Node and React", "Comfortable with AWS and CI pipelines", "Overlap with 09:00–18:00 Riyadh time"]
+    },
+    benefits: {
+      ar: ["عمل عن بُعد بالكامل", "ميزانية سنوية للأجهزة", "تأمين طبي", "ساعات مرنة"],
+      en: ["Fully remote", "Annual hardware budget", "Medical insurance", "Flexible hours"]
+    } },
+
+  { id: 7, city: "khobar", type: "full", cat: "hospitality",
+    title: { ar: "مشرف مطعم", en: "Restaurant Supervisor" },
+    excerpt: { ar: "إدارة الصالة في الفترة المسائية: توزيع الطاولات ومعايير الخدمة والتعامل النقدي وتقرير الإقفال.", en: "Run the floor on the evening shift: table allocation, service standards, cash handling and the closing report." },
+    company: { ar: "زيتون للضيافة", en: "Zaytoun Hospitality" },
+    salary: { min: 5500, max: 6500 },
+    salaryNote: { ar: "شهرياً، مع نسبة الخدمة", en: "Per month, plus service charge" },
+    postedMin: 720, views: 197, applicants: 22, closes: "2026-10-18",
+    verified: false, urgent: false, featured: false, companyJobs: 9, memberSince: 2018,
+    whatsapp: "+966 55 640 9138", phone: "+966 55 640 9138", email: "hiring@zaytoun.sa",
+    experience: { ar: "3 سنوات+", en: "3+ years" },
+    eligibility: { ar: "نقل الكفالة متاح", en: "Iqama transfer available" },
+    companyBlurb: { ar: "مجموعة مطاعم شامية تدير أحد عشر فرعاً في المنطقة الشرقية.",
+                    en: "A Levantine restaurant group running eleven branches in the Eastern Province." },
+    description: {
+      ar: ["إدارة الصالة في الوردية المسائية: توزيع الطاولات، ومعايير الخدمة، والتعامل مع النقد، وتقرير الإغلاق."],
+      en: ["Running the floor on the evening shift: table allocation, service standards, cash handling and the closing report."]
+    },
+    requirements: {
+      ar: ["خبرة 3 سنوات+ في الإشراف على مطعم خدمة كاملة", "إقامة قابلة للنقل", "إجادة العربية والإنجليزية", "شهادة سلامة غذائية"],
+      en: ["3+ years supervising a full-service restaurant", "A transferable iqama", "Fluent Arabic and English", "A food safety certificate"]
+    },
+    benefits: {
+      ar: ["وجبات للموظفين", "سكن", "نسبة الخدمة"],
+      en: ["Staff meals", "Accommodation", "Service charge"]
+    } },
+
+  { id: 8, city: "riyadh", type: "full", cat: "education",
+    title: { ar: "مدرّس رياضيات للمرحلة الثانوية", en: "Secondary Mathematics Teacher" },
+    excerpt: { ar: "تدريس الرياضيات للمرحلتين الثالثة والرابعة، إضافة إلى شعبة رياضيات متقدّمة في الصف السادس.", en: "Teach mathematics at Key Stage 3 and 4, plus a further maths set in the sixth form." },
+    company: { ar: "مدارس الرياض العالمية", en: "Riyadh International Schools" },
+    salary: { min: 9000, max: 11500 },
+    salaryNote: { ar: "شهرياً، المباشرة في أغسطس", en: "Per month, starting in August" },
+    postedMin: 1500, views: 233, applicants: 35, closes: "2026-10-05",
+    verified: true, urgent: false, featured: false, companyJobs: 5, memberSince: 2014,
+    whatsapp: "+966 56 407 2255", phone: "+966 11 482 6600", email: "recruitment@ris.edu.sa",
+    experience: { ar: "3 سنوات+", en: "3+ years" },
+    eligibility: { ar: "تأشيرة عمل من المدرسة", en: "School-sponsored work visa" },
+    companyBlurb: { ar: "مدرسة بمنهج بريطاني تضم 1,100 طالب من الروضة إلى الصف الثالث عشر.",
+                    en: "A British-curriculum school of 1,100 pupils from kindergarten to Year 13." },
+    description: {
+      ar: ["تدريس الرياضيات للمرحلتين الثالثة والرابعة من المنهج البريطاني، مع مجموعة رياضيات متقدّمة في المرحلة السادسة."],
+      en: ["Teaching mathematics at Key Stage 3 and 4, plus a further maths set in the sixth form."]
+    },
+    requirements: {
+      ar: ["شهادة PGCE أو بكالوريوس تربية مع QTS", "خبرة 3 سنوات+ في تدريس المنهج الوطني الإنجليزي", "خبرة بمناهج IGCSE و A-level"],
+      en: ["A PGCE or an education degree with QTS", "3+ years teaching the English National Curriculum", "Experience with IGCSE and A-level"]
+    },
+    benefits: {
+      ar: ["سكن مؤمَّن", "دراسة مجانية لطفلين", "تذكرة سنوية", "تأمين طبي"],
+      en: ["Housing provided", "Free schooling for two children", "Annual ticket", "Medical insurance"]
+    } },
+
+  { id: 9, city: "dammam", type: "full", cat: "logistics",
+    title: { ar: "أمين مستودع", en: "Warehouse Keeper" },
+    excerpt: { ar: "استلام المخزون وتخزينه وصرفه، وتنفيذ الجرد الدوري وتحديث نظام إدارة المستودع أولاً بأول.", en: "Receive, put away and issue stock, run cycle counts and keep the warehouse management system current." },
+    company: { ar: "الشرقية للخدمات اللوجستية", en: "Eastern Logistics Services" },
+    salary: { min: 4200, max: 5000 },
+    salaryNote: { ar: "شهرياً", en: "Per month" },
+    postedMin: 1900, views: 161, applicants: 29, closes: "2026-10-22",
+    verified: false, urgent: false, featured: false, companyJobs: 3, memberSince: 2022,
+    whatsapp: "+966 58 923 1170", phone: "+966 13 847 2210", email: "careers@easternlogistics.sa",
+    experience: { ar: "سنتان+", en: "2+ years" },
+    eligibility: { ar: "سعوديون فقط", en: "Saudi nationals only" },
+    companyBlurb: { ar: "مزوّد خدمات لوجستية لديه 20,000 متر مربع من المستودعات في المدينة الصناعية الثانية.",
+                    en: "A logistics provider with 20,000 square metres of warehousing in the Second Industrial City." },
+    description: {
+      ar: ["استلام المخزون وترتيبه وصرفه، وتنفيذ الجرد الدوري، وتحديث سجلات نظام إدارة المستودعات."],
+      en: ["Receiving, putting away and issuing stock, running cycle counts and keeping the warehouse management system current."]
+    },
+    requirements: {
+      ar: ["خبرة سنتين+ في أمانة المستودعات", "خبرة إدخال بيانات على WMS أو ERP", "رخصة رافعة شوكية ميزة إضافية"],
+      en: ["2+ years as a warehouse keeper", "Data entry experience on a WMS or ERP", "A forklift licence is an advantage"]
+    },
+    benefits: {
+      ar: ["مواصلات مؤمَّنة", "تأمين طبي", "أجر العمل الإضافي"],
+      en: ["Transport provided", "Medical insurance", "Paid overtime"]
+    } },
+
+  { id: 10, city: "jeddah", type: "part", cat: "beauty",
+    title: { ar: "أخصائية تجميل", en: "Beauty Therapist" },
+    excerpt: { ar: "جلسات العناية بالبشرة وإزالة الشعر لعميلات منتظمات، مع عمولة على مبيعات المنتجات.", en: "Skincare and hair removal treatments for a regular clientele, with commission on product sales." },
+    company: { ar: "صالون لوميير", en: "Lumière Salon" },
+    salary: { min: 4500, max: null },
+    salaryNote: { ar: "شهرياً، خمسة أيام في الأسبوع، مع عمولة", en: "Per month, five days a week, plus commission" },
+    postedMin: 2900, views: 318, applicants: 44, closes: "2026-10-25",
+    verified: false, urgent: false, featured: false, companyJobs: 2, memberSince: 2023,
+    whatsapp: "+966 56 221 7734", phone: "+966 56 221 7734", email: "info@lumieresalon.sa",
+    experience: { ar: "سنتان+", en: "2+ years" },
+    eligibility: { ar: "نقل الكفالة متاح", en: "Iqama transfer available" },
+    companyBlurb: { ar: "صالون وسبا نسائي في حي الروضة.", en: "A women's salon and spa in the Al Rawdah district." },
+    description: {
+      ar: ["جلسات العناية بالبشرة وإزالة الشعر لعميلات منتظمات، مع عمولة على بيع المنتجات."],
+      en: ["Skincare and hair removal treatments for a regular clientele, with commission on product sales."]
+    },
+    requirements: {
+      ar: ["خبرة سنتين+ في الصالونات", "تدريب على جلسات البشرة وإزالة الشعر", "العربية أو الإنجليزية"],
+      en: ["2+ years of salon experience", "Trained in facials and hair removal", "Arabic or English"]
+    },
+    benefits: {
+      ar: ["عمولة على المنتجات", "بدل سكن", "تأمين طبي"],
+      en: ["Product commission", "Housing allowance", "Medical insurance"]
+    } }
+];
+
+const TOTAL_JOBS = CITIES.reduce((sum, c) => sum + c.count, 0);
+
+/* ── Job seeker posts ──────────────────────────────────────────────────────
+   The other side of the board: people advertising themselves rather than a
+   vacancy. Same shape as a listing so one row component renders both — a
+   monogram, a headline, who and where, and how long ago. transfer is the
+   detail that decides most hires here, so it earns a tag of its own. */
+const SEEKERS = [
+  { id: 1, city: "riyadh", cat: "drivers", postedMin: 35, transfer: true,
+    name: { ar: "أحمد القحطاني", en: "Ahmed Al-Qahtani" },
+    role: { ar: "سائق شاحنة ثقيل — رخصة ثقيل سارية", en: "Heavy truck driver — valid heavy licence" },
+    pitch: { ar: "خبرة في الطرق الطويلة داخل المملكة، سجل مروري نظيف، والاستعداد للمباشرة فوراً.", en: "Long-haul routes across the Kingdom, a clean traffic record, and free to start immediately." },
+    experience: { ar: "8 سنوات", en: "8 years" } },
+
+  { id: 2, city: "jeddah", cat: "health", postedMin: 90, transfer: false,
+    name: { ar: "فاطمة الزهراني", en: "Fatimah Al-Zahrani" },
+    role: { ar: "ممرضة مسجّلة — تصنيف هيئة التخصصات", en: "Registered nurse — SCFHS classified" },
+    pitch: { ar: "خمس سنوات في أقسام البالغين، وشهادتا BLS وACLS ساريتان، وأبحث عن مستشفى في جدة.", en: "Five years on adult wards, BLS and ACLS current, looking for a Jeddah hospital." },
+    experience: { ar: "5 سنوات", en: "5 years" } },
+
+  { id: 3, city: "dammam", cat: "logistics", postedMin: 260, transfer: true,
+    name: { ar: "محمد إقبال", en: "Mohammed Iqbal" },
+    role: { ar: "مشرف مستودع — خبرة أنظمة إدارة المستودعات", en: "Warehouse supervisor — WMS experience" },
+    pitch: { ar: "أدرت وردية من أربعين موظفاً على نظام أوراكل، وخبرة في الجرد الدوري ودقة المخزون.", en: "Ran a forty-person shift on Oracle WMS; strong on cycle counts and stock accuracy." },
+    experience: { ar: "6 سنوات", en: "6 years" } },
+
+  { id: 4, city: "riyadh", cat: "admin", postedMin: 420, transfer: false,
+    name: { ar: "سارة العتيبي", en: "Sara Al-Otaibi" },
+    role: { ar: "سكرتيرة تنفيذية — عربي وإنجليزي", en: "Executive secretary — Arabic and English" },
+    pitch: { ar: "تنظيم المواعيد وكتابة المحاضر والمراسلات باللغتين العربية والإنجليزية.", en: "Diary management, minutes and correspondence in both Arabic and English." },
+    experience: { ar: "3 سنوات", en: "3 years" } },
+
+  { id: 5, city: "khobar", cat: "construction", postedMin: 1500, transfer: true,
+    name: { ar: "راشد حسين", en: "Rashid Hussain" },
+    role: { ar: "كهربائي صناعي — جهد منخفض ومتوسط", en: "Industrial electrician — LV and MV" },
+    pitch: { ar: "توصيل اللوحات الكهربائية والتحكم بالمحركات والصيانة الوقائية في المواقع الصناعية.", en: "Panel wiring, motor controls and planned maintenance on industrial sites." },
+    experience: { ar: "10 سنوات", en: "10 years" } },
+
+  { id: 6, city: "makkah", cat: "education", postedMin: 1700, transfer: false,
+    name: { ar: "نورة الشهري", en: "Nora Al-Shehri" },
+    role: { ar: "معلّمة مرحلة ابتدائية", en: "Primary school teacher" },
+    pitch: { ar: "الصفوف من الأول إلى الرابع على المنهج العربي، مع خبرة في إدارة الصف.", en: "Grades one to four on the Arabic curriculum, with classroom management experience." },
+    experience: { ar: "4 سنوات", en: "4 years" } },
+
+  { id: 7, city: "jeddah", cat: "drivers", postedMin: 2900, transfer: true,
+    name: { ar: "بلال أحمد", en: "Bilal Ahmed" },
+    role: { ar: "سائق توصيل — بسيارته الخاصة", en: "Delivery driver — own car" },
+    pitch: { ar: "سيارة خاصة وجوال، وإلمام بأحياء جدة وأنظمة التوصيل عبر التطبيقات.", en: "Own car and phone, and knows the Jeddah districts and app dispatch." },
+    experience: { ar: "سنتان", en: "2 years" } }
+];
+const TOTAL_SEEKERS = 3184;
+
+class Component extends DCLogic {
+  state = {
+    screen: "home", jobId: 1, lang: null, homeTab: "jobs",
+    q: "", city: ALL, cat: ALL, etype: ALL,
+    applied: false, contactOpen: false, megaOpen: false, aiOpen: false, drawerOpen: false
+  };
+
+  go = (screen, extra) => {
+    this.setState(Object.assign({ screen: screen, megaOpen: false, aiOpen: false, drawerOpen: false }, extra || {}));
+    window.scrollTo(0, 0);
+  };
+
+  /* Latin companies initial off the Latin name, Arabic off the Arabic one, so
+     the monogram stays readable in whichever language is showing. */
+  monogram = (name, lang) => {
+    const clean = String(name).replace(/^(شركة|مجموعة|مركز|مدارس|مدرسة|صالون)\s+/, "").replace(/^(Al|The)\s+/i, "").trim();
+    const first = clean.split(/\s+/)[0] || "";
+    return first ? (lang === "en" ? first.charAt(0).toUpperCase() : first.charAt(0)) : "؟";
+  };
+
+  salary = (s, u, lang) =>
+    s.max == null
+      ? fmt(u.salaryOne, { n: num(s.min) })
+      : fmt(u.salaryRange, { min: num(s.min), max: num(s.max) });
+
+  posted = (minutes, u) => {
+    if (minutes < 60) return plural(Math.max(1, Math.round(minutes)), u.minutes);
+    if (minutes < 1440) return plural(Math.round(minutes / 60), u.hours);
+    return plural(Math.round(minutes / 1440), u.days);
+  };
+
+  renderVals() {
+    const s = this.state;
+    const lang = s.lang ?? (this.props.startInEnglish ? "en" : "ar");
+    const isAr = lang === "ar";
+    const t = STRINGS[lang];
+    const u = t.units;
+    const L = (v) => pick(v, lang);
+    const showFeatured = this.props.showFeatured ?? true;
+    const brandName = (isAr ? this.props.brandName : this.props.brandNameEn) ?? (isAr ? "مهنة" : "Mihna");
+
+    const catOf = (key) => CATEGORIES.find((c) => c.key === key);
+    const cityOf = (key) => CITIES.find((c) => c.key === key);
+    const typeOf = (key) => TYPES.find((c) => c.key === key);
+
+    /* One listing, flattened into display strings for the current language. */
+    const view = (j) => ({
+      id: j.id,
+      initial: this.monogram(L(j.company), lang),
+      title: L(j.title),
+      company: L(j.company),
+      city: L(cityOf(j.city)),
+      type: L(typeOf(j.type)),
+      category: L(catOf(j.cat)),
+      excerpt: L(j.excerpt),
+      /* Card art. A listing with its own photo wins; otherwise the category
+         gradient stands in, so every card carries an image either way. */
+      art: j.image ? "url(" + j.image + ") center/cover no-repeat"
+                   : "linear-gradient(135deg, " + catOf(j.cat).art[0] + ", " + catOf(j.cat).art[1] + ")",
+      artIcon: j.image ? "" : catOf(j.cat).icon,
+      artInk: catOf(j.cat).art[2],
+      salary: this.salary(j.salary, u, lang),
+      whatsapp: j.whatsapp, phone: j.phone, email: j.email,
+      posted: this.posted(j.postedMin, u),
+      verified: j.verified, urgent: j.urgent, featured: j.featured,
+      experience: L(j.experience),
+      eligibility: L(j.eligibility),
+      description: L(j.description),
+      open: (e) => { if (e) e.preventDefault(); this.go("detail", { jobId: j.id }); }
+    });
+
+    const base = JOBS.find((j) => j.id === s.jobId) || JOBS[0];
+    const job = view(base);
+
+    const needle = s.q.trim().toLowerCase();
+    const matches = JOBS.filter((j) => {
+      if (s.city !== ALL && j.city !== s.city) return false;
+      if (s.cat !== ALL && j.cat !== s.cat) return false;
+      if (s.etype !== ALL && j.type !== s.etype) return false;
+      if (!needle) return true;
+      const hay = [L(j.title), L(j.company), L(catOf(j.cat)), j.title.ar, j.title.en, j.company.ar, j.company.en].join(" ").toLowerCase();
+      return hay.includes(needle);
+    });
+
+    const bits = [];
+    if (s.q.trim()) bits.push(isAr ? "«" + s.q.trim() + "»" : "“" + s.q.trim() + "”");
+    if (s.cat !== ALL) bits.push(L(catOf(s.cat)));
+    if (s.city !== ALL) bits.push(fmt(t.results.in, { city: L(cityOf(s.city)) }));
+
+    const categories = CATEGORIES.map((c) => ({
+      key: c.key, name: L(c), icon: c.icon,
+      svg: c.svg ?? "", hasSvg: !!c.svg, noSvg: !c.svg,
+      open: (e) => { if (e) e.preventDefault(); this.go("results", { cat: c.key }); }
+    }));
+    const cities = CITIES.map((c) => ({
+      key: c.key, name: L(c), count: num(c.count),
+      open: (e) => { if (e) e.preventDefault(); this.go("results", { city: c.key }); }
+    }));
+
+    return {
+      /* ── language and direction ───────────────────────────────────────── */
+      lang: lang,
+      dir: isAr ? "rtl" : "ltr",
+      isAr: isAr, isEn: !isAr,
+      arClass: isAr ? "is-on" : "",
+      enClass: isAr ? "" : "is-on",
+      setAr: () => this.setState({ lang: "ar" }),
+      setEn: () => this.setState({ lang: "en" }),
+      t: t,
+      /* Direction-aware glyphs — the arrow has to point the way reading goes. */
+      arrowIcon: isAr ? "ph-arrow-left" : "ph-arrow-right",
+      crumbIcon: isAr ? "ph-caret-left" : "ph-caret-right",
+
+      /* ── header ───────────────────────────────────────────────────────── */
+      brand: brandName,
+      /* Only one menu is ever open: opening either closes the other, and the
+         transparent scrim behind both closes whichever is showing. */
+      megaOpen: s.megaOpen,
+      megaClass: s.megaOpen ? "is-open" : "",
+      toggleMega: () => this.setState({ megaOpen: !s.megaOpen, aiOpen: false }),
+      aiOpen: s.aiOpen,
+      aiClass: s.aiOpen ? "is-open" : "",
+      toggleAi: () => this.setState({ aiOpen: !s.aiOpen, megaOpen: false }),
+      anyMenu: s.megaOpen || s.aiOpen,
+      closeMenus: () => this.setState({ megaOpen: false, aiOpen: false }),
+      aiTools: AI_TOOLS.map((x) => ({
+        key: x.key, icon: x.icon, svg: x.svg,
+        title: t.ai.tools[x.key].title,
+        body: t.ai.tools[x.key].body,
+        open: (e) => { if (e) e.preventDefault(); this.setState({ aiOpen: false, drawerOpen: false }); }
+      })),
+      drawerOpen: s.drawerOpen,
+      openDrawer: () => this.setState({ drawerOpen: true }),
+      closeDrawer: () => this.setState({ drawerOpen: false }),
+      showHeaderSearch: s.screen !== "home",
+      drawerCats: categories.slice(0, 8),
+
+      /* ── footer ───────────────────────────────────────────────────────── */
+      footerCols: FOOTER_COLS.map((c) => ({
+        title: t.footer[c.key].title,
+        links: c.links.map((k) => ({
+          label: t.footer[c.key][k],
+          open: (e) => { if (e) e.preventDefault(); if (FOOTER_TO_RESULTS.has(k)) this.go("results"); }
+        }))
+      })),
+      copyright: fmt(t.footer.copyright, { year: new Date().getFullYear(), brand: brandName }),
+
+      /* ── screens ──────────────────────────────────────────────────────── */
+      showFeatured: showFeatured,
+      heroImage: this.props.heroImage ?? "bg_img_2.png",
+      isHome: s.screen === "home",
+      isResults: s.screen === "results",
+      isDetail: s.screen === "detail",
+      applied: s.applied,
+      appliedBody: fmt(t.applied.body, { company: job.company }),
+      contactOpen: s.contactOpen,
+      contactRows: [
+        { key: "whatsapp", icon: "ph-whatsapp-logo", label: t.contactDialog.whatsapp, value: job.whatsapp, href: "https://wa.me/" + job.whatsapp.replace(/[^0-9]/g, "") },
+        { key: "phone", icon: "ph-phone", label: t.contactDialog.phone, value: job.phone, href: "tel:" + job.phone.replace(/[^0-9+]/g, "") },
+        { key: "email", icon: "ph-envelope-simple", label: t.contactDialog.email, value: job.email, href: "mailto:" + job.email }
+      ],
+
+      /* ── search and filters ───────────────────────────────────────────── */
+      q: s.q, city: s.city, cat: s.cat,
+      onQ: (e) => this.setState({ q: e.target.value }),
+      onCity: (e) => this.setState({ city: e.target.value }),
+      onCat: (e) => this.setState({ cat: e.target.value }),
+      cityOptions: [{ key: ALL, name: t.search.allCities }].concat(CITIES.map((c) => ({ key: c.key, name: L(c) }))),
+      catOptions: [{ key: ALL, name: t.search.allCategories }].concat(CATEGORIES.map((c) => ({ key: c.key, name: L(c) }))),
+      typeFilters: [{ key: ALL, name: t.search.anyType }].concat(TYPES.map((x) => ({ key: x.key, name: L(x) })))
+        .map((x) => ({ label: x.name, checked: s.etype === x.key, pick: () => this.setState({ etype: x.key }) })),
+      resetFilters: () => this.setState({ q: "", city: ALL, cat: ALL, etype: ALL }),
+
+      /* ── navigation ───────────────────────────────────────────────────── */
+      goHome: (e) => { if (e) e.preventDefault(); this.go("home"); },
+      goResults: (e) => { if (e) e.preventDefault(); this.go("results"); },
+      noop: (e) => { if (e) e.preventDefault(); },
+      apply: () => this.setState({ applied: true }),
+      closeApply: () => this.setState({ applied: false }),
+      openContact: (e) => { if (e) e.preventDefault(); this.setState({ contactOpen: true }); },
+      closeContact: () => this.setState({ contactOpen: false }),
+      /* a dialog must not close when the dialog itself is clicked */
+      stopClick: (e) => { if (e) e.stopPropagation(); },
+
+      /* ── home ─────────────────────────────────────────────────────────── */
+      catCountLabel: fmt(t.home.catCount, { n: CATEGORIES.length }),
+      viewAllLabel: fmt(t.home.viewAllJobs, { n: num(TOTAL_JOBS) }),
+      categories: categories,
+      cities: cities,
+      trending: t.trending.map((label) => ({
+        label: label, open: (e) => { if (e) e.preventDefault(); this.go("results", { q: label }); }
+      })),
+      featuredJobs: JOBS.filter((j) => j.featured).map(view).slice(0, 3),
+      latestJobs: (showFeatured ? JOBS.filter((j) => !j.featured) : JOBS).map(view).slice(0, 8),
+
+      /* ── the two sides of the board ───────────────────────────────────── */
+      onJobs: s.homeTab === "jobs",
+      onSeekers: s.homeTab === "seekers",
+      jobsTabClass: s.homeTab === "jobs" ? "is-on" : "",
+      seekersTabClass: s.homeTab === "seekers" ? "is-on" : "",
+      pickJobs: (e) => { if (e) e.preventDefault(); this.setState({ homeTab: "jobs" }); },
+      pickSeekers: (e) => { if (e) e.preventDefault(); this.setState({ homeTab: "seekers" }); },
+      seekerCountLabel: fmt(t.home.seekerCount, { n: num(TOTAL_SEEKERS) }),
+      seekerPosts: SEEKERS.map((x) => ({
+        id: x.id,
+        initial: this.monogram(L(x.name), lang),
+        name: L(x.name),
+        role: L(x.role),
+        pitch: L(x.pitch),
+        category: L(catOf(x.cat)),
+        city: L(cityOf(x.city)),
+        experience: L(x.experience),
+        transfer: x.transfer,
+        posted: this.posted(x.postedMin, u),
+        open: (e) => { if (e) e.preventDefault(); }
+      })),
+
+      /* ── results ──────────────────────────────────────────────────────── */
+      results: matches.map(view),
+      resultsCountLabel: plural(matches.length, t.results.count),
+      noResults: matches.length === 0,
+      resultsHeading: bits.length ? bits.join(" · ") : t.results.allJobs,
+
+      /* ── detail ───────────────────────────────────────────────────────── */
+      job: job,
+      similar: JOBS
+        .filter((j) => j.cat === base.cat && j.id !== base.id)
+        .concat(JOBS.filter((j) => j.city === base.city && j.id !== base.id && j.cat !== base.cat))
+        .map(view).slice(0, 3)
+    };
+  }
+}
+</script>
+</body>
+</html>

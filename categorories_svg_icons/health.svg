@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-health">
+  <title id="t-health">Healthcare</title>
+  <defs>
+    <linearGradient id="grad-health" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-health" stroke="url(#grad-health)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="health-case" d="M4 8.5h16A1.5 1.5 0 0 1 21.5 10v7.5A1.5 1.5 0 0 1 20 19H4a1.5 1.5 0 0 1-1.5-1.5V10A1.5 1.5 0 0 1 4 8.5Z"/>
+    <path id="health-handle" d="M9 8.5v-2A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5v2"/>
+    <path id="health-cross" d="M12 11.3v5M9.5 13.8h5"/>
+  </g>
+</svg>

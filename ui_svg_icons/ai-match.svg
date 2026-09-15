@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-ai-match">
+  <title id="t-ai-match">Smart job match</title>
+  <defs>
+    <linearGradient id="grad-ai-match" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-ai-match" stroke="url(#grad-ai-match)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="ai-match-ring-outer" d="M10.6 5.799999999999999a7.4 7.4 0 1 0 0 14.8a7.4 7.4 0 1 0 0 -14.8Z"/>
+    <path id="ai-match-ring-inner" d="M10.6 9.299999999999999a3.9 3.9 0 1 0 0 7.8a3.9 3.9 0 1 0 0 -7.8Z"/>
+    <path id="ai-match-centre" d="M10.6 13.2h.01"/>
+    <path id="ai-match-spark" d="M19.4 2.4Q19.4 4.6 21.6 4.6Q19.4 4.6 19.4 6.8Q19.4 4.6 17.2 4.6Q19.4 4.6 19.4 2.4Z"/>
+  </g>
+</svg>

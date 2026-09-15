@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-drivers">
+  <title id="t-drivers">Drivers and delivery</title>
+  <defs>
+    <linearGradient id="grad-drivers" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-drivers" stroke="url(#grad-drivers)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="drivers-body" d="M2 15V6.5A1.5 1.5 0 0 1 3.5 5H12a1.5 1.5 0 0 1 1.5 1.5V8.5h3.6a1.5 1.5 0 0 1 1.16.55l1.85 2.25a1.5 1.5 0 0 1 .34.95V15Z"/>
+    <path id="drivers-cab-split" d="M13.5 8.5V15"/>
+    <path id="drivers-wheel-front" d="M6.6 14.899999999999999a2 2 0 1 0 0 4a2 2 0 1 0 0 -4Z"/>
+    <path id="drivers-wheel-rear" d="M17 14.899999999999999a2 2 0 1 0 0 4a2 2 0 1 0 0 -4Z"/>
+  </g>
+</svg>

@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-hospitality">
+  <title id="t-hospitality">Hotels and restaurants</title>
+  <defs>
+    <linearGradient id="grad-hospitality" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-hospitality" stroke="url(#grad-hospitality)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="hospitality-fork" d="M5.5 3.5v5a2.5 2.5 0 0 0 5 0v-5"/>
+    <path id="hospitality-fork-tine" d="M8 3.5v5"/>
+    <path id="hospitality-fork-stem" d="M8 11v9.5"/>
+    <path id="hospitality-knife-blade" d="M18.5 3.5c-1.8 1.1-2.9 3.1-2.9 5.3V13h2.9Z"/>
+    <path id="hospitality-knife-handle" d="M17.05 13v7.5"/>
+  </g>
+</svg>

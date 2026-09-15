@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-domestic">
+  <title id="t-domestic">Domestic staff</title>
+  <defs>
+    <linearGradient id="grad-domestic" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-domestic" stroke="url(#grad-domestic)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="domestic-roof" d="M3 10.4 12 3.5l9 6.9"/>
+    <path id="domestic-walls" d="M4.8 9v10a1.5 1.5 0 0 0 1.5 1.5h11.4a1.5 1.5 0 0 0 1.5-1.5V9"/>
+    <path id="domestic-door" d="M9.6 20.5v-6h4.8v6"/>
+  </g>
+</svg>

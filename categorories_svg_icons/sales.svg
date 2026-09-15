@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-sales">
+  <title id="t-sales">Sales and marketing</title>
+  <defs>
+    <linearGradient id="grad-sales" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-sales" stroke="url(#grad-sales)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="sales-cone" d="M16.5 5 9.5 9.5H5.5A2.5 2.5 0 0 0 3 12a2.5 2.5 0 0 0 2.5 2.5h4l7 4.5Z"/>
+    <path id="sales-handle" d="M8 14.5v3.3a1.9 1.9 0 0 0 3.8 0v-1.6"/>
+    <path id="sales-waves" d="M19.6 9.6a4 4 0 0 1 0 4.8"/>
+  </g>
+</svg>

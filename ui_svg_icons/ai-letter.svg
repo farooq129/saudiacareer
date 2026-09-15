@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-ai-letter">
+  <title id="t-ai-letter">Instant cover letter</title>
+  <defs>
+    <linearGradient id="grad-ai-letter" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-ai-letter" stroke="url(#grad-ai-letter)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="ai-letter-envelope" d="M3.6 8.4h12.8a1.6 1.6 0 0 1 1.6 1.6v8.8a1.6 1.6 0 0 1-1.6 1.6H3.6A1.6 1.6 0 0 1 2 18.8V10a1.6 1.6 0 0 1 1.6-1.6Z"/>
+    <path id="ai-letter-flap" d="m2.4 9.4 6.6 4.5a1.8 1.8 0 0 0 2 0l6.6-4.5"/>
+    <path id="ai-letter-spark" d="M19.4 2.4Q19.4 4.6 21.6 4.6Q19.4 4.6 19.4 6.8Q19.4 4.6 17.2 4.6Q19.4 4.6 19.4 2.4Z"/>
+  </g>
+</svg>

@@ -1,0 +1,15 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-ai-cv">
+  <title id="t-ai-cv">CV optimiser</title>
+  <defs>
+    <linearGradient id="grad-ai-cv" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-ai-cv" stroke="url(#grad-ai-cv)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="ai-cv-page" d="M5 19.6V4.6A1.6 1.6 0 0 1 6.6 3h5.6l4 4V19.6a1.6 1.6 0 0 1-1.6 1.6H6.6A1.6 1.6 0 0 1 5 19.6Z"/>
+    <path id="ai-cv-fold" d="M12.2 3v4h4"/>
+    <path id="ai-cv-score" d="M8.2 17.4v-2M11 17.4v-3.4M13.8 17.4v-5"/>
+    <path id="ai-cv-spark" d="M19.4 2.4Q19.4 4.6 21.6 4.6Q19.4 4.6 19.4 6.8Q19.4 4.6 17.2 4.6Q19.4 4.6 19.4 2.4Z"/>
+  </g>
+</svg>

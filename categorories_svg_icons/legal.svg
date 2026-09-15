@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-legal">
+  <title id="t-legal">Legal and HR</title>
+  <defs>
+    <linearGradient id="grad-legal" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-legal" stroke="url(#grad-legal)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="legal-pillar" d="M12 4.2v16.3"/>
+    <path id="legal-base" d="M7.5 20.5h9"/>
+    <path id="legal-beam" d="M5 7.5h1.5c1.9 0 4-.7 5.5-1.5 1.5.8 3.6 1.5 5.5 1.5H19"/>
+    <path id="legal-pan-left" d="M5 7.5 2.6 13.4a2.6 2.6 0 0 0 4.8 0Z"/>
+    <path id="legal-pan-right" d="M19 7.5l-2.4 5.9a2.6 2.6 0 0 0 4.8 0Z"/>
+  </g>
+</svg>

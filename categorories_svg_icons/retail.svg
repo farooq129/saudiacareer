@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-retail">
+  <title id="t-retail">Retail and cashier</title>
+  <defs>
+    <linearGradient id="grad-retail" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-retail" stroke="url(#grad-retail)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="retail-bag" d="M4.6 8h14.8l-1 11.6a1.5 1.5 0 0 1-1.5 1.4H7.1a1.5 1.5 0 0 1-1.5-1.4Z"/>
+    <path id="retail-handles" d="M8.5 11V7.5a3.5 3.5 0 0 1 7 0V11"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-search">
+  <title id="t-search">Search</title>
+  <defs>
+    <linearGradient id="grad-search" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-search" stroke="url(#grad-search)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="search-lens" d="M10.4 4a6.4 6.4 0 1 0 0 12.8a6.4 6.4 0 1 0 0 -12.8Z"/>
+    <path id="search-handle" d="M15 15 20 20"/>
+  </g>
+</svg>

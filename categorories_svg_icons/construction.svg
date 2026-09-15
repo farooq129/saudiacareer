@@ -1,0 +1,12 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-construction">
+  <title id="t-construction">Construction and trades</title>
+  <defs>
+    <linearGradient id="grad-construction" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-construction" stroke="url(#grad-construction)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="construction-wrench" d="M14.9 6.4a1 1 0 0 0 0 1.4l1.3 1.3a1 1 0 0 0 1.4 0l3.4-3.4a6 6 0 0 1-7.9 7.9l-6.6 6.6a2.1 2.1 0 0 1-3-3l6.6-6.6a6 6 0 0 1 7.9-7.9Z"/>
+  </g>
+</svg>

@@ -1,0 +1,13 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-security">
+  <title id="t-security">Security and maintenance</title>
+  <defs>
+    <linearGradient id="grad-security" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-security" stroke="url(#grad-security)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="security-shield" d="M12 2.8 4.6 6v5.4c0 4.4 3.1 8.4 7.4 9.6 4.3-1.2 7.4-5.2 7.4-9.6V6Z"/>
+    <path id="security-check" d="m9 11.9 2.2 2.2L15.4 10"/>
+  </g>
+</svg>

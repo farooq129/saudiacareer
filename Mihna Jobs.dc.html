@@ -1,0 +1,601 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<script src="./support.js"></script>
+</head>
+<body>
+<x-dc>
+<helmet>
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<link rel="stylesheet" href="_ds/nocturne-b9145440-adc2-45ec-971a-5df3fc18f482/styles.css">
+<script src="_ds/nocturne-b9145440-adc2-45ec-971a-5df3fc18f482/_ds_bundle.js"></script>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Sans+Arabic:wght@400;500;600&display=swap">
+<link rel="stylesheet" href="https://unpkg.com/@phosphor-icons/web@2.1.1/src/regular/style.css">
+<style>
+  :root {
+    --font-heading: "IBM Plex Sans Arabic", "Inter", system-ui, sans-serif;
+    --font-body: "IBM Plex Sans Arabic", "Inter", system-ui, sans-serif;
+  }
+  body { margin: 0; background: #161826; }
+  a { color: var(--color-accent); }
+  a:hover { color: var(--color-accent-300); }
+  h1, h2, h3, h4, h5 { line-height: 1.35; letter-spacing: 0; }
+  i[class^="ph"] { line-height: 1; }
+</style>
+</helmet>
+
+<div dir="rtl" lang="ar" style="min-height:100vh;background:var(--color-bg);color:var(--color-text);font-family:var(--font-body);line-height:1.7;padding-bottom:72px">
+
+  <header style="position:sticky;top:0;z-index:30;background:color-mix(in srgb, var(--color-bg) 90%, transparent);backdrop-filter:blur(12px)">
+    <div class="nav" style="max-width:1240px;margin:0 auto;padding:14px 24px;flex-wrap:wrap;gap:var(--space-6)">
+      <a href="#" onClick="{{ goHome }}" class="nav-brand" style="text-decoration:none;display:flex;align-items:center;gap:8px;margin-inline-end:auto">
+        <span style="display:grid;place-items:center;width:28px;height:28px;border-radius:var(--radius-sm);background:var(--color-accent-800);color:var(--color-accent-100);font-size:15px"><i class="ph ph-briefcase"></i></span>
+        <span>{{ brandName }}<span style="color:var(--color-accent-300)">.كوم</span></span>
+      </a>
+      <a href="#" onClick="{{ goResults }}" style="display:flex;align-items:center;gap:6px"><i class="ph ph-magnifying-glass" style="font-size:15px"></i>ابحث عن وظيفة</a>
+      <a href="#" onClick="{{ goResults }}">الشركات</a>
+      <a href="#" onClick="{{ goResults }}">الرواتب</a>
+      <a href="#" class="btn btn-primary" onClick="{{ goResults }}"><i class="ph ph-plus-circle" style="font-size:16px"></i>أضف إعلان وظيفة</a>
+    </div>
+    <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px,var(--color-divider) calc(100% - 48px),transparent)"></div>
+  </header>
+
+  <sc-if value="{{ isHome }}" hint-placeholder-val="{{ true }}">
+  <div>
+    <section style="max-width:1240px;margin:0 auto;padding:56px 24px 8px">
+      <div style="display:flex;align-items:center;gap:8px;font-size:12px;color:var(--color-accent-300);margin-bottom:var(--space-4)">
+        <span style="width:22px;height:2px;background:var(--color-accent);border-radius:2px"></span>
+        <span>سوق الوظائف في الخليج</span>
+      </div>
+      <h1 style="font-size:clamp(30px,4.2vw,46px);max-width:20ch;margin-bottom:var(--space-4);line-height:1.28">وظائف الخليج، تُنشر كل يوم.</h1>
+      <p class="text-muted" style="max-width:58ch;font-size:16px">إعلانات مجانية للباحثين عن عمل ولأصحاب العمل في الإمارات والسعودية وقطر والكويت والبحرين وعمان. <span style="color:var(--color-accent-300)">12,480 وظيفة متاحة</span> — 640 أُضيفت خلال آخر 24 ساعة.</p>
+
+      <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:var(--space-3);align-items:end;margin-top:var(--space-8);padding:var(--space-6);border-radius:var(--radius-lg);box-shadow:var(--shadow-sm);background:var(--color-surface)">
+        <div class="field" style="grid-column:span 2;min-width:0">
+          <label>كلمة مفتاحية أو مسمى وظيفي أو شركة</label>
+          <input class="input" type="text" placeholder="مثال: مندوب مبيعات، سائق شاحنة" value="{{ q }}" onChange="{{ onQ }}">
+        </div>
+        <div class="field" style="min-width:0">
+          <label>المدينة</label>
+          <select class="input" value="{{ city }}" onChange="{{ onCity }}">
+            <sc-for list="{{ cityOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c }}">{{ c }}</option></sc-for>
+          </select>
+        </div>
+        <div class="field" style="min-width:0">
+          <label>القسم</label>
+          <select class="input" value="{{ cat }}" onChange="{{ onCat }}">
+            <sc-for list="{{ catOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c }}">{{ c }}</option></sc-for>
+          </select>
+        </div>
+        <button class="btn btn-primary" style="min-height:38px" onClick="{{ goResults }}"><i class="ph ph-magnifying-glass" style="font-size:16px"></i>ابحث</button>
+      </div>
+
+      <div style="display:flex;flex-wrap:wrap;gap:var(--space-2);margin-top:var(--space-4);align-items:center">
+        <span class="text-muted" style="display:flex;align-items:center;gap:5px;font-size:12px"><i class="ph ph-trend-up"></i>الأكثر بحثاً</span>
+        <sc-for list="{{ trending }}" as="t" hint-placeholder-count="6">
+          <a href="#" class="tag tag-neutral" style="text-decoration:none" onClick="{{ t.open }}">{{ t.label }}</a>
+        </sc-for>
+      </div>
+    </section>
+
+    <div style="max-width:1240px;margin:0 auto;padding:44px 24px;display:grid;grid-template-columns:minmax(0,1fr) minmax(250px,312px);gap:56px">
+      <main style="min-width:0">
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-6)">
+          <span style="width:3px;height:16px;background:var(--color-accent);border-radius:2px"></span>
+          <h5 style="margin:0;font-size:16px">تصفّح حسب القسم</h5>
+          <span class="text-muted" style="font-size:12px;margin-inline-start:auto">16 قسماً</span>
+        </div>
+        <div style="display:grid;grid-template-columns:repeat(auto-fill,minmax(196px,1fr));gap:var(--space-3);margin-bottom:56px">
+          <sc-for list="{{ categories }}" as="c" hint-placeholder-count="16">
+            <a href="#" onClick="{{ c.open }}" style="display:flex;align-items:center;gap:11px;padding:13px 14px;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-sm);text-decoration:none;color:var(--color-text);transition:box-shadow .15s,transform .15s" style-hover="box-shadow:var(--shadow-md);transform:translateY(-1px)">
+              <span style="display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:var(--radius-sm);background:var(--color-accent-800);color:var(--color-accent-100);font-size:18px"><i class="ph {{ c.icon }}"></i></span>
+              <span style="min-width:0">
+                <span style="display:block;font-size:14px;line-height:1.35">{{ c.name }}</span>
+                <span class="text-muted" style="display:block;font-size:12px;font-variant-numeric:tabular-nums">{{ c.count }} وظيفة</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+
+        <sc-if value="{{ showFeatured }}" hint-placeholder-val="{{ true }}">
+        <div style="margin-bottom:56px">
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-6)">
+            <span style="width:3px;height:16px;background:var(--color-accent);border-radius:2px"></span>
+            <h5 style="margin:0;font-size:16px">إعلانات مميّزة اليوم</h5>
+          </div>
+          <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(236px,1fr));gap:var(--space-4)">
+            <sc-for list="{{ featuredJobs }}" as="j" hint-placeholder-count="3">
+              <a href="#" onClick="{{ j.open }}" class="card elev-sm" style="text-decoration:none;color:inherit;gap:var(--space-3);padding:var(--space-6);transition:box-shadow .15s,transform .15s" style-hover="box-shadow:var(--shadow-md);transform:translateY(-1px)">
+                <div style="display:flex;justify-content:space-between;align-items:center;gap:var(--space-2)">
+                  <span class="card-kicker">{{ j.category }}</span>
+                  <span class="tag tag-outline"><i class="ph ph-star" style="margin-inline-end:4px"></i>مميّز</span>
+                </div>
+                <div class="card-title" style="line-height:1.4">{{ j.title }}</div>
+                <div class="text-muted" style="display:flex;align-items:center;gap:6px;font-size:13px"><i class="ph ph-buildings"></i>{{ j.company }}</div>
+                <div class="text-muted" style="display:flex;align-items:center;gap:6px;font-size:13px"><i class="ph ph-map-pin"></i>{{ j.city }} · {{ j.type }}</div>
+                <div style="color:var(--color-accent-300);font-size:14px;margin-top:var(--space-1)">{{ j.salary }}</div>
+                <div class="card-meta" style="gap:12px"><span><i class="ph ph-clock" style="margin-inline-end:4px"></i>{{ j.posted }}</span><span><i class="ph ph-eye" style="margin-inline-end:4px"></i>{{ j.views }}</span></div>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+        </sc-if>
+
+        <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-4)">
+          <span style="width:3px;height:16px;background:var(--color-accent);border-radius:2px"></span>
+          <h5 style="margin:0;font-size:16px">أحدث الوظائف</h5>
+          <span class="text-muted" style="display:flex;align-items:center;gap:5px;font-size:12px;margin-inline-start:auto"><i class="ph ph-sort-descending"></i>مرتّبة من الأحدث</span>
+        </div>
+        <div style="display:flex;flex-direction:column;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
+          <sc-for list="{{ latestJobs }}" as="j" hint-placeholder-count="8">
+            <a href="#" onClick="{{ j.open }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-2) var(--space-4);align-items:center;padding:16px 18px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))">
+              <span style="display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:var(--radius-sm);background:var(--color-bg);box-shadow:inset 0 0 0 1px var(--color-divider);font-family:var(--font-heading);font-size:16px;color:var(--color-accent-300)">{{ j.initial }}</span>
+              <span style="min-width:0">
+                <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                  <span style="font-family:var(--font-heading);font-weight:500;font-size:16px">{{ j.title }}</span>
+                  <sc-if value="{{ j.verified }}" hint-placeholder-val="{{ true }}"><span class="tag tag-accent"><i class="ph ph-seal-check" style="margin-inline-end:4px"></i>موثّق</span></sc-if>
+                  <sc-if value="{{ j.urgent }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline">عاجل</span></sc-if>
+                </span>
+                <span class="text-muted" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:2px">
+                  <span>{{ j.company }}</span>
+                  <span><i class="ph ph-map-pin" style="margin-inline-end:4px"></i>{{ j.city }}</span>
+                  <span><i class="ph ph-clock-user" style="margin-inline-end:4px"></i>{{ j.type }}</span>
+                </span>
+              </span>
+              <span style="text-align:left;white-space:nowrap">
+                <span style="display:block;font-size:14px;color:var(--color-accent-300)">{{ j.salary }}</span>
+                <span class="text-muted" style="display:block;font-size:12px">{{ j.posted }}</span>
+              </span>
+            </a>
+          </sc-for>
+        </div>
+        <button class="btn btn-secondary btn-block" style="margin-top:var(--space-6);min-height:40px" onClick="{{ goResults }}">عرض جميع الوظائف (12,480)<i class="ph ph-arrow-left" style="margin-inline-start:6px"></i></button>
+      </main>
+
+      <aside style="min-width:0;display:flex;flex-direction:column;gap:44px">
+        <div>
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-4)">
+            <span style="width:3px;height:16px;background:var(--color-accent);border-radius:2px"></span>
+            <h5 style="margin:0;font-size:16px">الوظائف حسب المدينة</h5>
+          </div>
+          <div style="display:flex;flex-direction:column">
+            <sc-for list="{{ cities }}" as="c" hint-placeholder-count="9">
+              <a href="#" onClick="{{ c.open }}" style="display:flex;align-items:center;justify-content:space-between;gap:var(--space-2);padding:9px 2px;font-size:14px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="color:var(--color-accent-300)">
+                <span style="display:flex;align-items:center;gap:7px"><i class="ph ph-map-pin" style="font-size:14px;color:var(--color-neutral-500)"></i>{{ c.name }}</span>
+                <span class="text-muted" style="font-size:12px;font-variant-numeric:tabular-nums">{{ c.count }}</span>
+              </a>
+            </sc-for>
+          </div>
+        </div>
+
+        <div class="card elev-sm" style="padding:var(--space-6);gap:var(--space-3)">
+          <span class="card-kicker">لأصحاب العمل</span>
+          <div class="card-title">أعلن عن وظيفة مجاناً</div>
+          <p class="card-body" style="line-height:1.7">إعلان واحد، ثلاثون يوماً، في ست دول خليجية. طوّره إلى إعلان مميّز ليظهر في الأعلى ويحصل على أربعة أضعاف الطلبات.</p>
+          <button class="btn btn-primary btn-block" style="min-height:38px" onClick="{{ goResults }}"><i class="ph ph-plus-circle" style="font-size:16px"></i>ابدأ الإعلان</button>
+        </div>
+
+        <div>
+          <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-4)">
+            <span style="width:3px;height:16px;background:var(--color-neutral-500);border-radius:2px"></span>
+            <h5 style="margin:0;font-size:16px">هذا الأسبوع</h5>
+          </div>
+          <div style="display:grid;gap:var(--space-6)">
+            <sc-for list="{{ stats }}" as="s" hint-placeholder-count="3">
+              <div style="display:flex;align-items:flex-start;gap:11px">
+                <span style="display:grid;place-items:center;flex:none;width:30px;height:30px;border-radius:var(--radius-sm);background:var(--color-surface);box-shadow:var(--shadow-sm);color:var(--color-accent-300);font-size:15px"><i class="ph {{ s.icon }}"></i></span>
+                <span>
+                  <span style="display:block;font-family:var(--font-heading);font-size:23px;line-height:1.2">{{ s.value }}</span>
+                  <span class="text-muted" style="display:block;font-size:12px;line-height:1.5">{{ s.label }}</span>
+                </span>
+              </div>
+            </sc-for>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isResults }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1240px;margin:0 auto;padding:36px 24px;display:grid;grid-template-columns:minmax(230px,266px) minmax(0,1fr);gap:44px">
+    <aside style="min-width:0">
+      <div style="display:flex;align-items:center;gap:9px;margin-bottom:var(--space-6)">
+        <span style="width:3px;height:16px;background:var(--color-accent);border-radius:2px"></span>
+        <h5 style="margin:0;font-size:16px">تنقية النتائج</h5>
+      </div>
+      <div class="field" style="margin-bottom:var(--space-6)">
+        <label>كلمة مفتاحية</label>
+        <input class="input" type="text" placeholder="مسمى وظيفي أو شركة" value="{{ q }}" onChange="{{ onQ }}">
+      </div>
+      <div class="field" style="margin-bottom:var(--space-6)">
+        <label>المدينة</label>
+        <select class="input" value="{{ city }}" onChange="{{ onCity }}">
+          <sc-for list="{{ cityOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c }}">{{ c }}</option></sc-for>
+        </select>
+      </div>
+      <div class="field" style="margin-bottom:var(--space-6)">
+        <label>القسم</label>
+        <select class="input" value="{{ cat }}" onChange="{{ onCat }}">
+          <sc-for list="{{ catOptions }}" as="c" hint-placeholder-count="4"><option value="{{ c }}">{{ c }}</option></sc-for>
+        </select>
+      </div>
+      <div style="margin-bottom:var(--space-6)">
+        <div style="font-size:12px;color:var(--color-neutral-700);margin-bottom:9px">نوع العمل</div>
+        <div style="display:flex;flex-direction:column;gap:9px">
+          <sc-for list="{{ typeFilters }}" as="t" hint-placeholder-count="5">
+            <label class="radio"><input type="radio" name="etype" checked="{{ t.checked }}" onChange="{{ t.pick }}"><span class="dot"></span>{{ t.label }}</label>
+          </sc-for>
+        </div>
+      </div>
+      <button class="btn btn-secondary btn-block" onClick="{{ resetFilters }}"><i class="ph ph-x" style="font-size:14px"></i>مسح التنقية</button>
+    </aside>
+
+    <main style="min-width:0">
+      <div style="display:flex;align-items:baseline;justify-content:space-between;gap:var(--space-3);flex-wrap:wrap;margin-bottom:var(--space-6)">
+        <h3 style="margin:0;font-size:26px">{{ resultsHeading }}</h3>
+        <span class="text-muted" style="font-size:13px">{{ resultsCount }} وظيفة مطابقة</span>
+      </div>
+      <div style="display:flex;flex-direction:column;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
+        <sc-for list="{{ results }}" as="j" hint-placeholder-count="6">
+          <a href="#" onClick="{{ j.open }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-2) var(--space-4);align-items:center;padding:17px 18px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))">
+            <span style="display:grid;place-items:center;flex:none;width:40px;height:40px;border-radius:var(--radius-sm);background:var(--color-bg);box-shadow:inset 0 0 0 1px var(--color-divider);font-family:var(--font-heading);font-size:16px;color:var(--color-accent-300)">{{ j.initial }}</span>
+            <span style="min-width:0">
+              <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
+                <span style="font-family:var(--font-heading);font-weight:500;font-size:16px">{{ j.title }}</span>
+                <sc-if value="{{ j.verified }}" hint-placeholder-val="{{ true }}"><span class="tag tag-accent"><i class="ph ph-seal-check" style="margin-inline-end:4px"></i>موثّق</span></sc-if>
+              </span>
+              <span class="text-muted" style="display:flex;align-items:center;gap:12px;flex-wrap:wrap;font-size:13px;margin-top:2px">
+                <span>{{ j.company }}</span>
+                <span><i class="ph ph-map-pin" style="margin-inline-end:4px"></i>{{ j.city }}</span>
+                <span><i class="ph ph-clock-user" style="margin-inline-end:4px"></i>{{ j.type }}</span>
+                <span>{{ j.category }}</span>
+              </span>
+            </span>
+            <span style="text-align:left;white-space:nowrap">
+              <span style="display:block;font-size:14px;color:var(--color-accent-300)">{{ j.salary }}</span>
+              <span class="text-muted" style="display:block;font-size:12px">{{ j.posted }}</span>
+            </span>
+          </a>
+        </sc-for>
+      </div>
+      <sc-if value="{{ noResults }}" hint-placeholder-val="{{ false }}">
+        <div style="display:flex;flex-direction:column;align-items:center;gap:var(--space-3);padding:64px 0;text-align:center">
+          <i class="ph ph-briefcase" style="font-size:32px;color:var(--color-neutral-500)"></i>
+          <p class="text-muted" style="margin:0">لا توجد وظائف مطابقة لهذه التنقية. جرّب مدينة أوسع أو امسح الكلمة المفتاحية.</p>
+        </div>
+      </sc-if>
+    </main>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ isDetail }}" hint-placeholder-val="{{ false }}">
+  <div style="max-width:1240px;margin:0 auto;padding:28px 24px 0">
+    <div style="display:flex;gap:var(--space-2);align-items:center;font-size:12px;margin-bottom:var(--space-8)">
+      <a href="#" onClick="{{ goHome }}">الرئيسية</a><i class="ph ph-caret-left" style="color:var(--color-neutral-500);font-size:11px"></i>
+      <a href="#" onClick="{{ goResults }}">{{ job.category }}</a><i class="ph ph-caret-left" style="color:var(--color-neutral-500);font-size:11px"></i>
+      <span class="text-muted">{{ job.city }}</span>
+    </div>
+
+    <div style="display:grid;grid-template-columns:minmax(0,1fr) minmax(270px,340px);gap:56px">
+      <main style="min-width:0">
+        <div style="display:flex;gap:var(--space-2);flex-wrap:wrap;margin-bottom:var(--space-4)">
+          <span class="tag tag-neutral">{{ job.category }}</span>
+          <span class="tag tag-neutral">{{ job.type }}</span>
+          <sc-if value="{{ job.urgent }}" hint-placeholder-val="{{ false }}"><span class="tag tag-outline"><i class="ph ph-lightning" style="margin-inline-end:4px"></i>توظيف عاجل</span></sc-if>
+        </div>
+        <h1 style="font-size:clamp(25px,3.4vw,37px);margin-bottom:var(--space-4);line-height:1.3">{{ job.title }}</h1>
+        <div style="display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;font-size:14px">
+          <span style="display:flex;align-items:center;gap:9px">
+            <span style="display:grid;place-items:center;width:34px;height:34px;border-radius:var(--radius-sm);background:var(--color-surface);box-shadow:var(--shadow-sm);font-family:var(--font-heading);color:var(--color-accent-300)">{{ job.initial }}</span>
+            {{ job.company }}
+          </span>
+          <sc-if value="{{ job.verified }}" hint-placeholder-val="{{ true }}"><span class="tag tag-accent"><i class="ph ph-seal-check" style="margin-inline-end:4px"></i>صاحب عمل موثّق</span></sc-if>
+          <span class="text-muted" style="display:flex;align-items:center;gap:6px"><i class="ph ph-map-pin"></i>{{ job.city }}</span>
+        </div>
+
+        <div style="display:grid;grid-template-columns:repeat(auto-fit,minmax(160px,1fr));gap:var(--space-3);margin:44px 0">
+          <sc-for list="{{ jobFacts }}" as="f" hint-placeholder-count="4">
+            <div style="background:var(--color-surface);box-shadow:var(--shadow-sm);border-radius:var(--radius-md);padding:14px 16px">
+              <div class="text-muted" style="display:flex;align-items:center;gap:6px;font-size:11px"><i class="ph {{ f.icon }}" style="font-size:14px"></i>{{ f.label }}</div>
+              <div style="font-size:15px;margin-top:5px;line-height:1.4">{{ f.value }}</div>
+            </div>
+          </sc-for>
+        </div>
+
+        <h4 style="font-size:19px;margin-bottom:var(--space-3)">عن الوظيفة</h4>
+        <sc-for list="{{ job.description }}" as="p" hint-placeholder-count="2">
+          <p style="font-size:15px;max-width:64ch;line-height:1.85">{{ p }}</p>
+        </sc-for>
+
+        <h4 style="font-size:19px;margin:44px 0 var(--space-3)">المتطلبات</h4>
+        <div style="display:flex;flex-direction:column;gap:9px;max-width:64ch">
+          <sc-for list="{{ job.requirements }}" as="r" hint-placeholder-count="5">
+            <div style="display:flex;align-items:flex-start;gap:9px;font-size:15px;line-height:1.7">
+              <i class="ph ph-check-circle" style="color:var(--color-accent-300);font-size:17px;margin-top:5px;flex:none"></i>
+              <span>{{ r }}</span>
+            </div>
+          </sc-for>
+        </div>
+
+        <h4 style="font-size:19px;margin:44px 0 var(--space-3)">ما تقدّمه الشركة</h4>
+        <div style="display:flex;flex-wrap:wrap;gap:var(--space-2)">
+          <sc-for list="{{ job.benefits }}" as="b" hint-placeholder-count="4">
+            <span class="tag tag-neutral">{{ b }}</span>
+          </sc-for>
+        </div>
+
+        <div style="height:1px;margin:44px 0;background:linear-gradient(to right,transparent,var(--color-divider) 48px,var(--color-divider) calc(100% - 48px),transparent)"></div>
+
+        <h4 style="font-size:19px;margin-bottom:var(--space-4)">وظائف مشابهة</h4>
+        <div style="display:flex;flex-direction:column;border-radius:var(--radius-md);background:var(--color-surface);box-shadow:var(--shadow-sm);overflow:hidden">
+          <sc-for list="{{ similar }}" as="j" hint-placeholder-count="3">
+            <a href="#" onClick="{{ j.open }}" style="display:grid;grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-4);align-items:center;padding:15px 18px;text-decoration:none;color:inherit;border-bottom:1px solid var(--color-divider)" style-hover="background:color-mix(in srgb, var(--color-accent) 6%, var(--color-surface))">
+              <span style="display:grid;place-items:center;flex:none;width:34px;height:34px;border-radius:var(--radius-sm);background:var(--color-bg);box-shadow:inset 0 0 0 1px var(--color-divider);font-family:var(--font-heading);font-size:14px;color:var(--color-accent-300)">{{ j.initial }}</span>
+              <span style="min-width:0">
+                <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:15px">{{ j.title }}</span>
+                <span class="text-muted" style="display:block;font-size:13px">{{ j.company }} · {{ j.city }}</span>
+              </span>
+              <span class="text-muted" style="font-size:12px;white-space:nowrap">{{ j.posted }}</span>
+            </a>
+          </sc-for>
+        </div>
+      </main>
+
+      <aside style="min-width:0;display:flex;flex-direction:column;gap:var(--space-6)">
+        <div class="card elev-md" style="position:sticky;top:92px;padding:var(--space-6);gap:var(--space-3)">
+          <div class="text-muted" style="font-size:11px">الراتب المعروض</div>
+          <div style="font-family:var(--font-heading);font-size:23px;line-height:1.3;color:var(--color-accent-300)">{{ job.salary }}</div>
+          <div class="text-muted" style="font-size:12px;line-height:1.6">{{ job.salaryNote }}</div>
+          <button class="btn btn-primary btn-block" style="min-height:40px;margin-top:var(--space-3)" onClick="{{ apply }}"><i class="ph ph-paper-plane-tilt" style="font-size:16px"></i>تقدّم بملفي الشخصي</button>
+          <button class="btn btn-secondary btn-block" style="min-height:38px" onClick="{{ apply }}"><i class="ph ph-whatsapp-logo" style="font-size:16px"></i>التقديم عبر واتساب</button>
+          <button class="btn btn-secondary btn-block" style="min-height:38px" onClick="{{ apply }}"><i class="ph ph-phone" style="font-size:16px"></i>إظهار رقم الهاتف</button>
+          <div class="card-meta" style="margin-top:var(--space-3);gap:12px;flex-wrap:wrap">
+            <span><i class="ph ph-users" style="margin-inline-end:4px"></i>{{ job.applicants }} متقدّم</span>
+            <span><i class="ph ph-eye" style="margin-inline-end:4px"></i>{{ job.views }}</span>
+            <span><i class="ph ph-calendar-x" style="margin-inline-end:4px"></i>{{ job.closes }}</span>
+          </div>
+        </div>
+
+        <div class="card elev-sm" style="padding:var(--space-6);gap:var(--space-3)">
+          <span class="card-kicker">أُعلن بواسطة</span>
+          <div style="display:flex;align-items:center;gap:10px">
+            <span style="display:grid;place-items:center;flex:none;width:38px;height:38px;border-radius:var(--radius-sm);background:var(--color-bg);box-shadow:inset 0 0 0 1px var(--color-divider);font-family:var(--font-heading);font-size:16px;color:var(--color-accent-300)">{{ job.initial }}</span>
+            <span class="card-title" style="font-size:16px;line-height:1.4">{{ job.company }}</span>
+          </div>
+          <p class="card-body" style="line-height:1.7">{{ job.companyBlurb }}</p>
+          <div class="card-meta">{{ job.companyJobs }} وظيفة متاحة · عضو منذ 2019</div>
+          <button class="btn btn-ghost" style="align-self:flex-start" onClick="{{ goResults }}">عرض جميع وظائف الشركة<i class="ph ph-arrow-left" style="margin-inline-start:5px"></i></button>
+        </div>
+
+        <div style="display:flex;gap:var(--space-6);font-size:12px">
+          <a href="#" onClick="{{ noop }}" style="display:flex;align-items:center;gap:5px"><i class="ph ph-share-network"></i>مشاركة</a>
+          <a href="#" onClick="{{ noop }}" style="display:flex;align-items:center;gap:5px"><i class="ph ph-bookmark-simple"></i>حفظ الإعلان</a>
+          <a href="#" onClick="{{ noop }}" class="text-muted" style="display:flex;align-items:center;gap:5px"><i class="ph ph-flag"></i>إبلاغ</a>
+        </div>
+      </aside>
+    </div>
+  </div>
+  </sc-if>
+
+  <sc-if value="{{ applied }}" hint-placeholder-val="{{ false }}">
+    <div class="dialog-backdrop" onClick="{{ closeApply }}">
+      <div class="dialog" dir="rtl" style="padding:var(--space-8)">
+        <i class="ph ph-paper-plane-tilt" style="font-size:26px;color:var(--color-accent-300)"></i>
+        <div class="dialog-title">تم إرسال طلبك</div>
+        <p class="dialog-body" style="line-height:1.75">وصل ملفك وسيرتك الذاتية إلى {{ job.company }}. عادةً يردّون خلال ثلاثة أيام، وستصلك رسالة بالبريد الإلكتروني ورسالة نصية.</p>
+        <div class="dialog-actions">
+          <button class="btn btn-secondary" onClick="{{ closeApply }}">إغلاق</button>
+          <button class="btn btn-primary" onClick="{{ goResults }}">متابعة التصفّح</button>
+        </div>
+      </div>
+    </div>
+  </sc-if>
+</div>
+</x-dc>
+<script type="text/x-dc" data-dc-script data-props="{&quot;brandName&quot;:{&quot;editor&quot;:&quot;text&quot;,&quot;default&quot;:&quot;مهنة&quot;,&quot;tsType&quot;:&quot;string&quot;},&quot;showFeatured&quot;:{&quot;editor&quot;:&quot;boolean&quot;,&quot;default&quot;:true,&quot;tsType&quot;:&quot;boolean&quot;,&quot;section&quot;:&quot;الصفحة الرئيسية&quot;}}">
+const JOBS = [
+  { id: 1, title: "مندوب مبيعات أول — مواد بناء", company: "شركة الخليج للتجارة والتوريد", city: "دبي", type: "دوام كامل", category: "المبيعات والتسويق",
+    salary: "9,000 – 12,000 درهم", salaryNote: "شهرياً، مع عمولة وسيارة من الشركة", posted: "قبل 22 دقيقة", views: 412, applicants: 18, closes: "يُغلق 12 أكتوبر",
+    verified: true, urgent: false, featured: true, experience: "5 سنوات+", visa: "تأشيرة عمل من الشركة", companyJobs: 7,
+    companyBlurb: "موزّع للأسمنت والحديد ومواد التشطيب لمقاولين في الإمارات وعمان. 140 موظفاً والمقر في القوز.",
+    description: [
+      "نبحث عن مندوب مبيعات ذي خبرة لإدارة حسابات المقاولين في دبي والإمارات الشمالية. ستتولى هدفاً شهرياً ومحفظة تضم نحو أربعين عميلاً نشطاً، بالتنسيق مع فريق المستودع في جبل علي بشأن مواعيد التسليم.",
+      "العمل ميداني أربعة أيام في الأسبوع، ويوم واحد في المكتب لمراجعة قائمة الفرص والتحصيلات. اللغة العربية ميزة إضافية وليست شرطاً."
+    ],
+    requirements: ["خبرة 5 سنوات+ في بيع مواد البناء أو المعدات الصناعية في دول الخليج", "سجل مُثبت في تحقيق أهداف مبيعات شهرية", "رخصة قيادة إماراتية سارية — شرط أساسي", "القدرة على التفاوض في شروط السداد ومتابعة التحصيل", "إجادة الإنجليزية، والعربية أو الهندية ميزة"],
+    benefits: ["سيارة من الشركة", "تأمين طبي", "تذكرة سنوية", "عمولة تصل إلى 3%", "إجازة 30 يوماً"] },
+  { id: 2, title: "سائق باص ثقيل (رخصة ثقيل)", company: "مواصلات الإمارات للخدمات", city: "الشارقة", type: "دوام كامل", category: "السائقون والتوصيل",
+    salary: "3,200 درهم + عمل إضافي", salaryNote: "شهرياً، مع سكن", posted: "قبل ساعة", views: 1290, applicants: 96, closes: "يُغلق 30 سبتمبر",
+    verified: true, urgent: true, featured: true, experience: "سنتان+", visa: "تأشيرة عمل من الشركة", companyJobs: 24,
+    companyBlurb: "مشغّل لنقل الطلبة والموظفين يدير 600 باص في الإمارات الشمالية.",
+    description: ["نحتاج ثلاثين سائق باص ثقيل للفصل الدراسي الجديد. المسارات ثابتة بنظام الفترتين، مع سكن مشترك ومواصلات إلى المستودع."],
+    requirements: ["رخصة باص ثقيل إماراتية سارية", "خبرة سنتين على الأقل في القيادة داخل الإمارات", "سجل مروري نظيف", "إنجليزية بسيطة لقراءة كشوف المسار"],
+    benefits: ["سكن مشترك", "أجر العمل الإضافي", "تأمين طبي", "تجديد التأشيرة والرخصة على الشركة"] },
+  { id: 3, title: "مهندس مدني موقع — بنية تحتية", company: "الراجحي للمقاولات", city: "الرياض", type: "عقد مؤقت", category: "الهندسة",
+    salary: "14,000 – 18,000 ريال", salaryNote: "شهرياً، عقد مشروع لمدة 24 شهراً", posted: "قبل 3 ساعات", views: 388, applicants: 27, closes: "يُغلق 20 أكتوبر",
+    verified: true, urgent: false, featured: true, experience: "7 سنوات+", visa: "نقل الكفالة متاح", companyJobs: 12,
+    companyBlurb: "مقاول من الدرجة الأولى ينفّذ حزم الطرق وتصريف الأمطار والخدمات لأمانة الرياض.",
+    description: ["الإشراف على أعمال الحفر وطبقات الأساس والأسفلت في حزمة طريق شرياني بطول 9 كم. ترفع تقاريرك إلى مدير المشروع وتنسّق يومياً مع فريق الاستشاري في الموقع."],
+    requirements: ["بكالوريوس هندسة مدنية وعضوية الهيئة السعودية للمهندسين", "خبرة 7 سنوات+ في الطرق أو البنية التحتية، ويفضّل داخل السعودية", "إجادة قراءة المخططات التنفيذية وخطط الفحص", "العربية والإنجليزية"],
+    benefits: ["بدل سكن", "بدل نقل", "تأمين طبي للعائلة", "تذكرة سنوية"] },
+  { id: 4, title: "محاسب — الأستاذ العام", company: "مجموعة الدوحة القابضة", city: "الدوحة", type: "دوام كامل", category: "المحاسبة والمالية",
+    salary: "8,000 – 10,000 ريال قطري", salaryNote: "شهرياً", posted: "قبل 5 ساعات", views: 274, applicants: 41, closes: "يُغلق 15 أكتوبر",
+    verified: false, urgent: false, featured: false, experience: "3 سنوات+", visa: "تأشيرة عمل من الشركة", companyJobs: 4,
+    companyBlurb: "مجموعة متنوّعة تملك شركات في التجزئة وإدارة المرافق والخدمات اللوجستية في قطر.",
+    description: ["إقفال الشهر لشركتين تابعتين، وتسويات الحسابات البينية، وسجل الأصول الثابتة، ودعم التدقيق السنوي."],
+    requirements: ["خبرة 3 سنوات+ في محاسبة الأستاذ العام", "شهادة جزئية ACCA أو CMA أو ما يعادلها", "إكسل متقدم وخبرة بأنظمة ERP (أوراكل أو ساب)", "متواجد في قطر مع شهادة عدم مانع"],
+    benefits: ["تأمين طبي", "تذكرة سنوية", "مكافأة أداء"] },
+  { id: 5, title: "ممرضة مسجّلة — العناية المركّزة", company: "مركز النور الطبي", city: "أبوظبي", type: "دوام كامل", category: "الرعاية الصحية",
+    salary: "8,500 – 11,000 درهم", salaryNote: "شهرياً، مع بدل الورديات", posted: "قبل 7 ساعات", views: 511, applicants: 63, closes: "يُغلق 28 سبتمبر",
+    verified: true, urgent: true, featured: false, experience: "4 سنوات+", visa: "تأشيرة عمل من الشركة", companyJobs: 15,
+    companyBlurb: "مجموعة طبية متعددة التخصصات تضم ثلاثة مستشفيات وإحدى عشرة عيادة في إمارة أبوظبي.",
+    description: ["تمريض العناية المركّزة بورديات دوّارة مدتها اثنتا عشرة ساعة في وحدة للبالغين تضم ستة عشر سريراً."],
+    requirements: ["بكالوريوس تمريض", "رخصة دائرة الصحة — أبوظبي أو خطاب أهلية", "خبرة 4 سنوات+ في العناية المركّزة، منها سنتان في الخليج", "شهادتا BLS و ACLS ساريتان"],
+    benefits: ["رسوم الرخصة على الشركة", "بدل سكن", "تأمين طبي للعائلة", "تذكرة سنوية"] },
+  { id: 6, title: "مطوّر ويب متكامل (Node و React)", company: "منارة ديجيتال", city: "دبي", type: "عن بُعد", category: "تقنية المعلومات والبرمجة",
+    salary: "18,000 – 24,000 درهم", salaryNote: "شهرياً، عن بُعد داخل توقيت الخليج", posted: "قبل 9 ساعات", views: 902, applicants: 154, closes: "يُغلق 10 أكتوبر",
+    verified: true, urgent: false, featured: false, experience: "5 سنوات+", visa: "تأشيرة عمل أو عمل حر", companyJobs: 6,
+    companyBlurb: "استوديو منتجات يبني منصات حجز ومدفوعات لمشغّلين في المنطقة.",
+    description: ["تنفيذ الميزات من البداية إلى النهاية على واجهة خلفية بـ Node و Postgres وواجهة أمامية بـ React، بالعمل مع مهندسين اثنين ومصمم."],
+    requirements: ["خبرة 5 سنوات+ في إطلاق تطبيقات ويب إنتاجية", "إجادة TypeScript و Node و React", "الإلمام بـ AWS وخطوط التكامل المستمر", "تداخل مع الدوام 09:00–18:00 بتوقيت الخليج"],
+    benefits: ["عمل عن بُعد بالكامل", "ميزانية سنوية للأجهزة", "تأمين طبي", "ساعات مرنة"] },
+  { id: 7, title: "مشرف مطعم", company: "زيتون للضيافة", city: "مدينة الكويت", type: "دوام كامل", category: "الفنادق والمطاعم",
+    salary: "350 – 450 دينار", salaryNote: "شهرياً، مع نسبة الخدمة", posted: "قبل 12 ساعة", views: 197, applicants: 22, closes: "يُغلق 18 أكتوبر",
+    verified: false, urgent: false, featured: false, experience: "3 سنوات+", visa: "إقامة قابلة للتحويل (مادة 18)", companyJobs: 9,
+    companyBlurb: "مجموعة مطاعم شامية تدير أحد عشر فرعاً في الكويت.",
+    description: ["إدارة الصالة في الوردية المسائية: توزيع الطاولات، ومعايير الخدمة، والتعامل مع النقد، وتقرير الإغلاق."],
+    requirements: ["خبرة 3 سنوات+ في الإشراف على مطعم خدمة كاملة", "إقامة قابلة للتحويل مادة 18", "إجادة العربية والإنجليزية", "شهادة سلامة غذائية"],
+    benefits: ["وجبات للموظفين", "سكن", "نسبة الخدمة"] },
+  { id: 8, title: "مدرّس رياضيات للمرحلة الثانوية", company: "مدرسة البحرين الدولية", city: "المنامة", type: "دوام كامل", category: "التعليم",
+    salary: "900 – 1,150 دينار بحريني", salaryNote: "شهرياً، المباشرة في أغسطس", posted: "قبل يوم", views: 233, applicants: 35, closes: "يُغلق 5 أكتوبر",
+    verified: true, urgent: false, featured: false, experience: "3 سنوات+", visa: "تأشيرة عمل من المدرسة", companyJobs: 5,
+    companyBlurb: "مدرسة بمنهج بريطاني تضم 1,100 طالب من الروضة إلى الصف الثالث عشر.",
+    description: ["تدريس الرياضيات للمرحلتين الثالثة والرابعة من المنهج البريطاني، مع مجموعة رياضيات متقدّمة في المرحلة السادسة."],
+    requirements: ["شهادة PGCE أو بكالوريوس تربية مع QTS", "خبرة 3 سنوات+ في تدريس المنهج الوطني الإنجليزي", "خبرة بمناهج IGCSE و A-level"],
+    benefits: ["سكن مؤمَّن", "دراسة مجانية لطفلين", "تذكرة سنوية", "تأمين طبي"] },
+  { id: 9, title: "أمين مستودع", company: "مسقط للخدمات اللوجستية", city: "مسقط", type: "دوام كامل", category: "الشحن والمستودعات",
+    salary: "350 – 420 ريال عماني", salaryNote: "شهرياً", posted: "قبل يوم", views: 161, applicants: 29, closes: "يُغلق 22 أكتوبر",
+    verified: false, urgent: false, featured: false, experience: "سنتان+", visa: "يُفضَّل العمانيون", companyJobs: 3,
+    companyBlurb: "مزوّد خدمات لوجستية لديه 20,000 متر مربع من المستودعات في الرسيل.",
+    description: ["استلام المخزون وترتيبه وصرفه، وتنفيذ الجرد الدوري، وتحديث سجلات نظام إدارة المستودعات."],
+    requirements: ["خبرة سنتين+ في أمانة المستودعات", "خبرة إدخال بيانات على WMS أو ERP", "رخصة رافعة شوكية ميزة إضافية"],
+    benefits: ["مواصلات مؤمَّنة", "تأمين طبي", "أجر العمل الإضافي"] },
+  { id: 10, title: "أخصائية تجميل", company: "صالون لوميير", city: "جدة", type: "دوام جزئي", category: "التجميل والصالونات",
+    salary: "4,500 ريال + عمولة", salaryNote: "شهرياً، خمسة أيام في الأسبوع", posted: "قبل يومين", views: 318, applicants: 44, closes: "يُغلق 25 أكتوبر",
+    verified: false, urgent: false, featured: false, experience: "سنتان+", visa: "نقل الكفالة متاح", companyJobs: 2,
+    companyBlurb: "صالون وسبا نسائي في حي الروضة.",
+    description: ["جلسات العناية بالبشرة وإزالة الشعر لعميلات منتظمات، مع عمولة على بيع المنتجات."],
+    requirements: ["خبرة سنتين+ في الصالونات", "تدريب على جلسات البشرة وإزالة الشعر", "العربية أو الإنجليزية"],
+    benefits: ["عمولة على المنتجات", "بدل سكن", "تأمين طبي"] }
+];
+
+const CATEGORIES = [
+  ["المبيعات والتسويق", 1842, "ph-chart-line-up"],
+  ["السائقون والتوصيل", 1516, "ph-truck"],
+  ["الهندسة", 1204, "ph-compass-tool"],
+  ["المحاسبة والمالية", 986, "ph-calculator"],
+  ["تقنية المعلومات والبرمجة", 874, "ph-code"],
+  ["الرعاية الصحية", 762, "ph-first-aid-kit"],
+  ["الفنادق والمطاعم", 731, "ph-fork-knife"],
+  ["البناء والمهن اليدوية", 690, "ph-wrench"],
+  ["الإدارة والسكرتارية", 604, "ph-folders"],
+  ["التعليم", 512, "ph-graduation-cap"],
+  ["الشحن والمستودعات", 468, "ph-package"],
+  ["الأمن والصيانة", 391, "ph-shield-check"],
+  ["التجميل والصالونات", 264, "ph-scissors"],
+  ["العمالة المنزلية", 236, "ph-house"],
+  ["البيع بالتجزئة والكاشير", 218, "ph-storefront"],
+  ["القانون والموارد البشرية", 182, "ph-scales"]
+];
+
+const CITIES = [
+  ["دبي", 4210], ["أبوظبي", 2164], ["الرياض", 1980], ["الشارقة", 1122],
+  ["الدوحة", 964], ["جدة", 812], ["مدينة الكويت", 604], ["المنامة", 372], ["مسقط", 252]
+];
+
+const ALL_CITIES = "كل المدن";
+const ALL_CATS = "كل الأقسام";
+const ANY_TYPE = "أي نوع";
+
+class Component extends DCLogic {
+  state = { screen: "home", jobId: 1, q: "", city: ALL_CITIES, cat: ALL_CATS, etype: ANY_TYPE, applied: false };
+
+  go = (screen, extra) => { this.setState(Object.assign({ screen: screen }, extra || {})); window.scrollTo(0, 0); };
+
+  monogram = (name) => {
+    const words = name.replace(/^(شركة|مجموعة|مركز|مدرسة|صالون|مواصلات)\s+/, "").trim().split(/\s+/);
+    return words[0] ? words[0].charAt(0) : "؟";
+  };
+
+  renderVals() {
+    const s = this.state;
+    const showFeatured = this.props.showFeatured ?? true;
+    const decorate = (list) => list.map((j) => Object.assign({}, j, {
+      initial: this.monogram(j.company),
+      open: (e) => { if (e) e.preventDefault(); this.go("detail", { jobId: j.id }); }
+    }));
+    const base = JOBS.find((j) => j.id === s.jobId) || JOBS[0];
+    const job = Object.assign({}, base, { initial: this.monogram(base.company) });
+
+    const matches = JOBS.filter((j) =>
+      (s.city === ALL_CITIES || j.city === s.city) &&
+      (s.cat === ALL_CATS || j.category === s.cat) &&
+      (s.etype === ANY_TYPE || j.type === s.etype) &&
+      (s.q.trim() === "" || (j.title + " " + j.company + " " + j.category).includes(s.q.trim()))
+    );
+
+    const bits = [];
+    if (s.q.trim()) bits.push("«" + s.q.trim() + "»");
+    if (s.cat !== ALL_CATS) bits.push(s.cat);
+    if (s.city !== ALL_CITIES) bits.push("في " + s.city);
+
+    return {
+      brandName: this.props.brandName ?? "مهنة",
+      showFeatured: showFeatured,
+      isHome: s.screen === "home",
+      isResults: s.screen === "results",
+      isDetail: s.screen === "detail",
+      applied: s.applied,
+
+      q: s.q, city: s.city, cat: s.cat,
+      onQ: (e) => this.setState({ q: e.target.value }),
+      onCity: (e) => this.setState({ city: e.target.value }),
+      onCat: (e) => this.setState({ cat: e.target.value }),
+      cityOptions: [ALL_CITIES].concat(CITIES.map((c) => c[0])),
+      catOptions: [ALL_CATS].concat(CATEGORIES.map((c) => c[0])),
+      resetFilters: () => this.setState({ q: "", city: ALL_CITIES, cat: ALL_CATS, etype: ANY_TYPE }),
+      typeFilters: [ANY_TYPE, "دوام كامل", "عقد مؤقت", "دوام جزئي", "عن بُعد"].map((t) => ({
+        label: t, checked: s.etype === t, pick: () => this.setState({ etype: t })
+      })),
+
+      goHome: (e) => { if (e) e.preventDefault(); this.go("home"); },
+      goResults: (e) => { if (e) e.preventDefault(); this.go("results"); },
+      noop: (e) => { if (e) e.preventDefault(); },
+      apply: () => this.setState({ applied: true }),
+      closeApply: () => this.setState({ applied: false }),
+
+      categories: CATEGORIES.map(([name, count, icon]) => ({
+        name: name, count: count.toLocaleString("en-US"), icon: icon,
+        open: (e) => { if (e) e.preventDefault(); this.go("results", { cat: name }); }
+      })),
+      cities: CITIES.map(([name, count]) => ({
+        name: name, count: count.toLocaleString("en-US"),
+        open: (e) => { if (e) e.preventDefault(); this.go("results", { city: name }); }
+      })),
+      trending: ["سائق", "محاسب", "تمريض", "مبيعات", "موظف استقبال", "عمل عن بُعد"].map((label) => ({
+        label: label, open: (e) => { if (e) e.preventDefault(); this.go("results", { q: label }); }
+      })),
+      stats: [
+        { value: "640", label: "وظيفة أُضيفت خلال 24 ساعة", icon: "ph-briefcase" },
+        { value: "3,900", label: "صاحب عمل يوظّف هذا الشهر", icon: "ph-buildings" },
+        { value: "2.1 يوم", label: "وسيط زمن أول ردّ", icon: "ph-chat-circle-dots" }
+      ],
+
+      featuredJobs: decorate(JOBS.filter((j) => j.featured)).slice(0, 3),
+      latestJobs: decorate(showFeatured ? JOBS.filter((j) => !j.featured) : JOBS).slice(0, 8),
+      results: decorate(matches),
+      resultsCount: matches.length,
+      noResults: matches.length === 0,
+      resultsHeading: bits.length ? bits.join(" · ") : "جميع الوظائف",
+
+      job: job,
+      jobFacts: [
+        { label: "الراتب الشهري", value: job.salary, icon: "ph-wallet" },
+        { label: "الخبرة المطلوبة", value: job.experience, icon: "ph-medal" },
+        { label: "نوع العمل", value: job.type, icon: "ph-clock-user" },
+        { label: "التأشيرة", value: job.visa, icon: "ph-identification-card" }
+      ],
+      similar: decorate(
+        JOBS.filter((j) => j.category === job.category && j.id !== job.id)
+          .concat(JOBS.filter((j) => j.city === job.city && j.id !== job.id && j.category !== job.category))
+      ).slice(0, 3)
+    };
+  }
+}
+</script>
+</body>
+</html>

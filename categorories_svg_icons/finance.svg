@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-finance">
+  <title id="t-finance">Accounting and finance</title>
+  <defs>
+    <linearGradient id="grad-finance" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-finance" stroke="url(#grad-finance)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="finance-body" d="M6 3.5h12A1.5 1.5 0 0 1 19.5 5v14a1.5 1.5 0 0 1-1.5 1.5H6A1.5 1.5 0 0 1 4.5 19V5A1.5 1.5 0 0 1 6 3.5Z"/>
+    <path id="finance-display" d="M8 7.5h8"/>
+    <path id="finance-keys" d="M8.5 12h.01M12 12h.01M15.5 12h.01M8.5 16h.01M12 16h.01M15.5 16h.01"/>
+  </g>
+</svg>

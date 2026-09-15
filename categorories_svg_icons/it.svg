@@ -1,0 +1,14 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-it">
+  <title id="t-it">IT and software</title>
+  <defs>
+    <linearGradient id="grad-it" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-it" stroke="url(#grad-it)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="it-bracket-left" d="M9 8 4.5 12 9 16"/>
+    <path id="it-bracket-right" d="M15 8l4.5 4-4.5 4"/>
+    <path id="it-slash" d="M13 5.5 11 18.5"/>
+  </g>
+</svg>

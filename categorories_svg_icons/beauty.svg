@@ -1,0 +1,16 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" role="img" aria-labelledby="t-beauty">
+  <title id="t-beauty">Beauty and salons</title>
+  <defs>
+    <linearGradient id="grad-beauty" x1="2" y1="2" x2="22" y2="22" gradientUnits="userSpaceOnUse">
+      <stop offset="0" stop-color="#6366F1"/>
+      <stop offset="1" stop-color="#3B82F6"/>
+    </linearGradient>
+  </defs>
+  <g id="icon-beauty" stroke="url(#grad-beauty)" stroke-width="1" stroke-linecap="round" stroke-linejoin="round">
+    <path id="beauty-ring-upper" d="M6.2 3.3000000000000003a2.9 2.9 0 1 0 0 5.8a2.9 2.9 0 1 0 0 -5.8Z"/>
+    <path id="beauty-ring-lower" d="M6.2 14.9a2.9 2.9 0 1 0 0 5.8a2.9 2.9 0 1 0 0 -5.8Z"/>
+    <path id="beauty-blade-upper" d="M20.5 3.5 8.4 15.6"/>
+    <path id="beauty-blade-lower" d="M14.6 14.4 20.5 20.5"/>
+    <path id="beauty-pivot" d="M8.4 8.4 12 12"/>
+  </g>
+</svg>
