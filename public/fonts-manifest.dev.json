@@ -1,0 +1,118 @@
+{
+  "version": 1,
+  "style": {
+    "inline": "@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/4cc6ba9086668b5d.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/be82e11311aae7ae.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/21e3d905498c43fb.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/6fa0fa79fb568bff.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/175a08958c3a17bc.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/8e86e3f06ba84f24.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/1fb918bae8256b93.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/dd16785034d8763e.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n:root {\n  --font-ibm-plex-sans-arabic: \"IBM Plex Sans Arabic\";\n}\n\n.font-ibm-plex-sans-arabic {\n  font-family: var(--font-ibm-plex-sans-arabic);\n}\n",
+    "familyStyles": {
+      "ibm-plex-sans-arabic": "@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/4cc6ba9086668b5d.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 400;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/be82e11311aae7ae.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/21e3d905498c43fb.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 500;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/6fa0fa79fb568bff.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/175a08958c3a17bc.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 600;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/8e86e3f06ba84f24.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/1fb918bae8256b93.woff2\") format(\"woff2\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n@font-face {\n  font-family: \"IBM Plex Sans Arabic\";\n  font-style: normal;\n  font-weight: 700;\n  font-display: swap;\n  src: url(\"http://[::1]:5173/__laravel_vite_plugin__/fonts/dd16785034d8763e.woff\") format(\"woff\");\n  unicode-range: U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD;\n}\n\n.font-ibm-plex-sans-arabic {\n  font-family: var(--font-ibm-plex-sans-arabic);\n}"
+    },
+    "variables": {
+      "ibm-plex-sans-arabic": "--font-ibm-plex-sans-arabic: \"IBM Plex Sans Arabic\";"
+    }
+  },
+  "preloads": [
+    {
+      "alias": "ibm-plex-sans-arabic",
+      "family": "IBM Plex Sans Arabic",
+      "weight": 400,
+      "style": "normal",
+      "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/4cc6ba9086668b5d.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    },
+    {
+      "alias": "ibm-plex-sans-arabic",
+      "family": "IBM Plex Sans Arabic",
+      "weight": 500,
+      "style": "normal",
+      "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/21e3d905498c43fb.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    },
+    {
+      "alias": "ibm-plex-sans-arabic",
+      "family": "IBM Plex Sans Arabic",
+      "weight": 600,
+      "style": "normal",
+      "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/175a08958c3a17bc.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    },
+    {
+      "alias": "ibm-plex-sans-arabic",
+      "family": "IBM Plex Sans Arabic",
+      "weight": 700,
+      "style": "normal",
+      "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/1fb918bae8256b93.woff2",
+      "as": "font",
+      "type": "font/woff2",
+      "crossorigin": "anonymous"
+    }
+  ],
+  "families": {
+    "ibm-plex-sans-arabic": {
+      "family": "IBM Plex Sans Arabic",
+      "variable": "--font-ibm-plex-sans-arabic",
+      "variants": {
+        "400:normal": {
+          "files": [
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/4cc6ba9086668b5d.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            },
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/be82e11311aae7ae.woff",
+              "format": "woff",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            }
+          ]
+        },
+        "500:normal": {
+          "files": [
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/21e3d905498c43fb.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            },
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/6fa0fa79fb568bff.woff",
+              "format": "woff",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            }
+          ]
+        },
+        "600:normal": {
+          "files": [
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/175a08958c3a17bc.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            },
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/8e86e3f06ba84f24.woff",
+              "format": "woff",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            }
+          ]
+        },
+        "700:normal": {
+          "files": [
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/1fb918bae8256b93.woff2",
+              "format": "woff2",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            },
+            {
+              "url": "http://[::1]:5173/__laravel_vite_plugin__/fonts/dd16785034d8763e.woff",
+              "format": "woff",
+              "unicodeRange": "U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD"
+            }
+          ]
+        }
+      }
+    }
+  }
+}

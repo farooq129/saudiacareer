@@ -1,0 +1,353 @@
+{
+  "_note": "Additional demo listings, used by Database\\Seeders\\DemoDataSeeder on top of the ten from the design canvas. Ten listings is enough to judge a layout but not enough to judge a board: with a realistic spread of statuses it leaves almost nothing published. These fill the categories the canvas set does not reach. Every employer and vacancy here is invented.",
+  "jobs": [
+    {
+      "slug": "receptionist-medical-clinic",
+      "city": "riyadh",
+      "category": "admin",
+      "employment_type": "full",
+      "title_ar": "موظفة استقبال — مجمع طبي",
+      "title_en": "Receptionist — Medical Clinic",
+      "excerpt_ar": "استقبال المراجعين وحجز المواعيد وإدخال البيانات على نظام العيادة، بنظام الفترتين.",
+      "excerpt_en": "Greet patients, book appointments and key records into the clinic system, on a split shift.",
+      "description_ar": [
+        "استقبال المراجعين وتنظيم المواعيد والرد على الاتصالات في مجمع طبي بحي الملقا.",
+        "العمل بنظام الفترتين، ستة أيام في الأسبوع، مع تأمين طبي للموظفة وتذكرة سنوية."
+      ],
+      "description_en": [
+        "Front desk of a medical complex in Al Malqa: greeting patients, managing the appointment book and answering the phone.",
+        "Split shift, six days a week, with medical insurance and an annual ticket."
+      ],
+      "salary_min": 4500,
+      "salary_max": 5500,
+      "salary_note_ar": "شهرياً، مع تأمين طبي",
+      "salary_note_en": "Per month, with medical insurance",
+      "experience_ar": "سنتان+",
+      "experience_en": "2+ years",
+      "eligibility_ar": "للسعوديات فقط",
+      "eligibility_en": "Saudi nationals only",
+      "transfer_available": false,
+      "is_featured": false,
+      "is_urgent": false
+    },
+    {
+      "slug": "delivery-rider-own-motorcycle",
+      "city": "jeddah",
+      "category": "drivers",
+      "employment_type": "part",
+      "title_ar": "مندوب توصيل — بدراجة خاصة",
+      "title_en": "Delivery Rider — Own Motorcycle",
+      "excerpt_ar": "توصيل طلبات المطاعم في شمال جدة بنظام الورديات، مع أجر ثابت وعمولة على كل طلب.",
+      "excerpt_en": "Restaurant deliveries across north Jeddah on shifts, with a base wage plus a fee per order.",
+      "description_ar": [
+        "توصيل طلبات المطاعم في أحياء شمال جدة. الورديات مرنة ويمكن اختيارها أسبوعياً.",
+        "يشترط امتلاك دراجة نارية ورخصة سارية وجوال ذكي."
+      ],
+      "description_en": [
+        "Restaurant deliveries across the northern districts of Jeddah. Shifts are flexible and chosen weekly.",
+        "You need your own motorcycle, a valid licence and a smartphone."
+      ],
+      "salary_min": 3500,
+      "salary_max": 6000,
+      "salary_note_ar": "أجر ثابت وعمولة على كل طلب",
+      "salary_note_en": "Base wage plus a fee per order",
+      "experience_ar": "سنة واحدة",
+      "experience_en": "1 year",
+      "eligibility_ar": "نقل الكفالة متاح",
+      "eligibility_en": "Iqama transfer available",
+      "transfer_available": true,
+      "is_featured": false,
+      "is_urgent": true
+    },
+    {
+      "slug": "accountant-general-ledger",
+      "city": "riyadh",
+      "category": "finance",
+      "employment_type": "full",
+      "title_ar": "محاسب عام — قيود وتسويات",
+      "title_en": "General Accountant",
+      "excerpt_ar": "إعداد القيود والتسويات البنكية وإقرارات ضريبة القيمة المضافة لمجموعة تجارية.",
+      "excerpt_en": "Journals, bank reconciliations and VAT returns for a trading group.",
+      "description_ar": [
+        "إعداد القيود اليومية والتسويات البنكية وإقرارات ضريبة القيمة المضافة، والعمل على نظام أودو.",
+        "ترفع تقاريرك إلى المدير المالي، وتشارك في الإقفال الشهري والسنوي."
+      ],
+      "description_en": [
+        "Daily journals, bank reconciliations and VAT returns, working on Odoo.",
+        "You report to the finance manager and take part in the monthly and annual close."
+      ],
+      "salary_min": 7000,
+      "salary_max": 9500,
+      "salary_note_ar": "شهرياً",
+      "salary_note_en": "Per month",
+      "experience_ar": "3 سنوات+",
+      "experience_en": "3+ years",
+      "eligibility_ar": "نقل الكفالة متاح",
+      "eligibility_en": "Iqama transfer available",
+      "transfer_available": true,
+      "is_featured": true,
+      "is_urgent": false
+    },
+    {
+      "slug": "security-guard-residential-compound",
+      "city": "khobar",
+      "category": "security",
+      "employment_type": "full",
+      "title_ar": "حارس أمن — مجمع سكني",
+      "title_en": "Security Guard — Residential Compound",
+      "excerpt_ar": "مراقبة البوابات وتسجيل الزوار في مجمع سكني بالخبر، بنظام الورديات الثلاث.",
+      "excerpt_en": "Gate control and visitor logging on a Khobar compound, on a three-shift rota.",
+      "description_ar": [
+        "مراقبة البوابة الرئيسية وتسجيل دخول الزوار والمركبات، والتجول الدوري داخل المجمع.",
+        "الورديات ثمان ساعات على مدار الأسبوع، مع سكن وبدل مواصلات."
+      ],
+      "description_en": [
+        "Manning the main gate, logging visitors and vehicles, and walking the compound on a regular round.",
+        "Eight-hour shifts across the week, with accommodation and a transport allowance."
+      ],
+      "salary_min": 3200,
+      "salary_max": 3800,
+      "salary_note_ar": "شهرياً، مع سكن",
+      "salary_note_en": "Per month, with accommodation",
+      "experience_ar": "سنة واحدة",
+      "experience_en": "1 year",
+      "eligibility_ar": "رخصة أمن سارية من الأمن الصناعي",
+      "eligibility_en": "Valid industrial security licence",
+      "transfer_available": true,
+      "is_featured": false,
+      "is_urgent": false
+    },
+    {
+      "slug": "barista-specialty-coffee",
+      "city": "riyadh",
+      "category": "hospitality",
+      "employment_type": "part",
+      "title_ar": "باريستا — قهوة مختصة",
+      "title_en": "Barista — Specialty Coffee",
+      "excerpt_ar": "تحضير القهوة المختصة وخدمة الضيوف في فرع بحي حطين، بدوام جزئي مسائي.",
+      "excerpt_en": "Pull shots and look after guests at a Hittin branch, evenings, part time.",
+      "description_ar": [
+        "تحضير المشروبات على آلة لا ماركزوكو، وضبط الطحن، وخدمة الضيوف على البار.",
+        "الدوام مسائي من الرابعة حتى منتصف الليل، خمسة أيام في الأسبوع."
+      ],
+      "description_en": [
+        "Making drinks on a La Marzocco, dialling in the grind, and looking after guests at the bar.",
+        "Evenings, four until midnight, five days a week."
+      ],
+      "salary_min": 4000,
+      "salary_max": null,
+      "salary_note_ar": "شهرياً، مع نسبة من البقشيش",
+      "salary_note_en": "Per month, plus a share of tips",
+      "experience_ar": "سنة واحدة",
+      "experience_en": "1 year",
+      "eligibility_ar": "نقل الكفالة متاح",
+      "eligibility_en": "Iqama transfer available",
+      "transfer_available": true,
+      "is_featured": false,
+      "is_urgent": false
+    },
+    {
+      "slug": "hr-specialist-payroll",
+      "city": "riyadh",
+      "category": "legal",
+      "employment_type": "full",
+      "title_ar": "أخصائي موارد بشرية — رواتب وعلاقات موظفين",
+      "title_en": "HR Specialist — Payroll and Employee Relations",
+      "excerpt_ar": "إدارة الرواتب والإجازات ومتابعة ملفات التأمينات ومنصة قوى لشركة بها 300 موظف.",
+      "excerpt_en": "Payroll, leave, GOSI files and the Qiwa portal for a 300-person company.",
+      "description_ar": [
+        "تشغيل مسير الرواتب الشهري ومتابعة الإجازات والتأمينات الاجتماعية ومنصتي قوى ومدد.",
+        "التعامل مع استفسارات الموظفين وإعداد العقود وخطابات التعريف."
+      ],
+      "description_en": [
+        "Running the monthly payroll and keeping on top of leave, GOSI, and the Qiwa and Mudad portals.",
+        "Handling employee queries and preparing contracts and letters."
+      ],
+      "salary_min": 9000,
+      "salary_max": 12000,
+      "salary_note_ar": "شهرياً",
+      "salary_note_en": "Per month",
+      "experience_ar": "4 سنوات+",
+      "experience_en": "4+ years",
+      "eligibility_ar": "للسعوديين فقط",
+      "eligibility_en": "Saudi nationals only",
+      "transfer_available": false,
+      "is_featured": false,
+      "is_urgent": false
+    },
+    {
+      "slug": "warehouse-picker-night-shift",
+      "city": "dammam",
+      "category": "logistics",
+      "employment_type": "full",
+      "title_ar": "عامل تجهيز طلبات — وردية ليلية",
+      "title_en": "Warehouse Picker — Night Shift",
+      "excerpt_ar": "تجهيز الطلبات وتغليفها في مستودع بالدمام، وردية ليلية مع بدل ونقل.",
+      "excerpt_en": "Picking and packing orders at a Dammam warehouse, nights, with a shift allowance and transport.",
+      "description_ar": [
+        "تجهيز الطلبات وتغليفها وفق قوائم السحب، والعمل بجهاز المسح اليدوي.",
+        "الوردية من العاشرة مساءً حتى السادسة صباحاً، مع بدل وردية ليلية ونقل من وإلى السكن."
+      ],
+      "description_en": [
+        "Picking and packing to a pick list, working with a handheld scanner.",
+        "Ten at night until six in the morning, with a night allowance and transport to and from the accommodation."
+      ],
+      "salary_min": 3300,
+      "salary_max": 4000,
+      "salary_note_ar": "شهرياً، مع بدل وردية ونقل",
+      "salary_note_en": "Per month, with a shift allowance and transport",
+      "experience_ar": "بدون خبرة",
+      "experience_en": "No experience needed",
+      "eligibility_ar": "نقل الكفالة متاح",
+      "eligibility_en": "Iqama transfer available",
+      "transfer_available": true,
+      "is_featured": false,
+      "is_urgent": true
+    },
+    {
+      "slug": "graphic-designer-social-media",
+      "city": "jeddah",
+      "category": "sales",
+      "employment_type": "remote",
+      "title_ar": "مصمم جرافيك — محتوى السوشيال ميديا",
+      "title_en": "Graphic Designer — Social Media",
+      "excerpt_ar": "تصميم منشورات ومقاطع قصيرة لحسابات عملاء الوكالة، عن بُعد مع اجتماع أسبوعي.",
+      "excerpt_en": "Posts and short video cuts for the agency's client accounts, remote with one weekly call.",
+      "description_ar": [
+        "تصميم منشورات ثابتة ومقاطع قصيرة لحسابات عملاء في قطاعي التجزئة والمطاعم.",
+        "العمل عن بُعد مع اجتماع أسبوعي، وإجادة أدوبي وفيغما شرط أساسي."
+      ],
+      "description_en": [
+        "Static posts and short video cuts for retail and restaurant clients.",
+        "Remote, with one call a week. Fluency in the Adobe suite and Figma is essential."
+      ],
+      "salary_min": 6000,
+      "salary_max": 8000,
+      "salary_note_ar": "شهرياً",
+      "salary_note_en": "Per month",
+      "experience_ar": "3 سنوات+",
+      "experience_en": "3+ years",
+      "eligibility_ar": "متاح لجميع الجنسيات",
+      "eligibility_en": "Open to all nationalities",
+      "transfer_available": true,
+      "is_featured": true,
+      "is_urgent": false
+    },
+    {
+      "slug": "ac-technician-split-units",
+      "city": "makkah",
+      "category": "construction",
+      "employment_type": "full",
+      "title_ar": "فني تكييف — وحدات سبليت ومركزي",
+      "title_en": "AC Technician — Split and Central Units",
+      "excerpt_ar": "تركيب وصيانة وحدات التكييف في مبانٍ سكنية وتجارية بمكة، مع سيارة عمل.",
+      "excerpt_en": "Installing and servicing AC units across residential and commercial buildings in Makkah, with a works vehicle.",
+      "description_ar": [
+        "تركيب وصيانة وحدات السبليت والتكييف المركزي، وتشخيص الأعطال وشحن الغاز.",
+        "تُوفّر الشركة سيارة عمل وعدّة كاملة، والعمل ستة أيام في الأسبوع."
+      ],
+      "description_en": [
+        "Installing and servicing split and central units, diagnosing faults and regassing.",
+        "The company provides a works vehicle and a full tool kit. Six days a week."
+      ],
+      "salary_min": 4200,
+      "salary_max": 5500,
+      "salary_note_ar": "شهرياً، مع سيارة عمل",
+      "salary_note_en": "Per month, with a works vehicle",
+      "experience_ar": "4 سنوات+",
+      "experience_en": "4+ years",
+      "eligibility_ar": "نقل الكفالة متاح",
+      "eligibility_en": "Iqama transfer available",
+      "transfer_available": true,
+      "is_featured": false,
+      "is_urgent": false
+    },
+    {
+      "slug": "cashier-supermarket",
+      "city": "buraidah",
+      "category": "retail",
+      "employment_type": "full",
+      "title_ar": "كاشير — سوبرماركت",
+      "title_en": "Cashier — Supermarket",
+      "excerpt_ar": "تشغيل نقطة البيع وخدمة العملاء في فرع ببريدة، بنظام الورديتين.",
+      "excerpt_en": "Working the till and serving customers at a Buraidah branch, two shifts.",
+      "description_ar": [
+        "تشغيل نقطة البيع وتحصيل المدفوعات وخدمة العملاء وترتيب الرفوف في أوقات الهدوء.",
+        "الورديات صباحية ومسائية بالتناوب، مع تأمين طبي."
+      ],
+      "description_en": [
+        "Working the till, taking payments, serving customers and facing up the shelves in the quiet hours.",
+        "Morning and evening shifts in rotation, with medical insurance."
+      ],
+      "salary_min": 3500,
+      "salary_max": 4200,
+      "salary_note_ar": "شهرياً، مع تأمين طبي",
+      "salary_note_en": "Per month, with medical insurance",
+      "experience_ar": "بدون خبرة",
+      "experience_en": "No experience needed",
+      "eligibility_ar": "للسعوديين فقط",
+      "eligibility_en": "Saudi nationals only",
+      "transfer_available": false,
+      "is_featured": false,
+      "is_urgent": false
+    },
+    {
+      "slug": "it-support-engineer-level-2",
+      "city": "riyadh",
+      "category": "it",
+      "employment_type": "full",
+      "title_ar": "مهندس دعم فني — المستوى الثاني",
+      "title_en": "IT Support Engineer — Level 2",
+      "excerpt_ar": "دعم أجهزة وشبكات مقر الشركة، وإدارة حسابات المستخدمين على مايكروسوفت 365.",
+      "excerpt_en": "Desktop and network support at head office, plus user administration on Microsoft 365.",
+      "description_ar": [
+        "استقبال التذاكر المصعّدة من المستوى الأول ومعالجتها، وإدارة الأجهزة والحسابات على مايكروسوفت 365.",
+        "متابعة الشبكة الداخلية ونقاط الوصول، والتنسيق مع المورّدين عند الحاجة."
+      ],
+      "description_en": [
+        "Taking tickets escalated from level one, and administering devices and accounts on Microsoft 365.",
+        "Keeping an eye on the internal network and access points, and dealing with vendors when needed."
+      ],
+      "salary_min": 10000,
+      "salary_max": 14000,
+      "salary_note_ar": "شهرياً، مع بدل سكن",
+      "salary_note_en": "Per month, with a housing allowance",
+      "experience_ar": "4 سنوات+",
+      "experience_en": "4+ years",
+      "eligibility_ar": "نقل الكفالة متاح",
+      "eligibility_en": "Iqama transfer available",
+      "transfer_available": true,
+      "is_featured": false,
+      "is_urgent": false
+    },
+    {
+      "slug": "housemaid-live-in-family",
+      "city": "riyadh",
+      "category": "domestic",
+      "employment_type": "full",
+      "title_ar": "عاملة منزلية — إقامة مع الأسرة",
+      "title_en": "Housemaid — Live In",
+      "excerpt_ar": "أعمال منزلية ورعاية طفلين لأسرة في شمال الرياض، مع غرفة مستقلة وإجازة أسبوعية.",
+      "excerpt_en": "Housework and care for two children with a family in north Riyadh, with a private room and a weekly day off.",
+      "description_ar": [
+        "الأعمال المنزلية اليومية ورعاية طفلين في سن المدرسة لأسرة في حي النرجس.",
+        "غرفة مستقلة وإجازة أسبوعية، والتأمين الطبي وتذكرة السفر السنوية على الأسرة."
+      ],
+      "description_en": [
+        "Day-to-day housework and looking after two school-age children for a family in Al Narjis.",
+        "A private room and one day off a week. Medical insurance and the annual ticket are covered."
+      ],
+      "salary_min": 2500,
+      "salary_max": 3000,
+      "salary_note_ar": "شهرياً، مع سكن وإعاشة",
+      "salary_note_en": "Per month, with room and board",
+      "experience_ar": "سنتان+",
+      "experience_en": "2+ years",
+      "eligibility_ar": "نقل الكفالة متاح",
+      "eligibility_en": "Iqama transfer available",
+      "transfer_available": true,
+      "is_featured": false,
+      "is_urgent": false
+    }
+  ]
+}

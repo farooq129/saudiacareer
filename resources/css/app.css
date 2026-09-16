@@ -1,0 +1,1910 @@
+/* ═══════════════════════════════════════════════════════════════════════════
+   Mihna — the board's stylesheet.
+
+   This is a direct port of the design canvas (design/Mihna Jobs Light.dc.html)
+   and the Nocturne design system it is built on. The class names, the tokens
+   and the rules are the canvas's own, so a change made there can be carried
+   across by hand without translating it into a different vocabulary first.
+   That is the whole point: the previous pass re-expressed this design in
+   utility classes and the screens drifted apart from each other within a day.
+
+   Order: system tokens → light inversion → base elements → system components
+   → the board's own components (header, hero, cards, footer, dialogs).
+   ═══════════════════════════════════════════════════════════════════════ */
+
+@import '@phosphor-icons/web/regular';
+
+/* ── Tokens ────────────────────────────────────────────────────────────────
+   The tonal ramps are generated on one shared lightness scale, so the same
+   step of any role matches the others in visual value. */
+:root {
+    --color-neutral-100: #f3f5fe;
+    --color-neutral-200: #e4e7f5;
+    --color-neutral-300: #cfd3e5;
+    --color-neutral-400: #b2b6ca;
+    --color-neutral-500: #9397ab;
+    --color-neutral-600: #75798c;
+    --color-neutral-700: #595d6c;
+    --color-neutral-800: #3f424d;
+    --color-neutral-900: #292b31;
+
+    --space-1: 2.8px;
+    --space-2: 5.6px;
+    --space-3: 8.4px;
+    --space-4: 11.2px;
+    --space-6: 16.8px;
+    --space-8: 22.4px;
+
+    --radius-sm: 4px;
+    --radius-md: 8px;
+    --radius-lg: 14px;
+
+    /* Light inversion of Nocturne — every value is still a step of the
+       system's own ramps: ground and surface take the light steps, ink drops
+       to neutral-900. */
+    --color-bg: #ffffff;
+    --color-surface: #f9fafe;
+    --color-text: #292b31;
+    --color-divider: color-mix(in srgb, #292b31 14%, transparent);
+
+    /* The two solid buttons. Call-to-action red carries "place an ad"; the
+       navy carries sign-in and the whole of the brand's furniture. Both are
+       page furniture, not part of the per-language theme.
+       White on red 4.85:1, white on blue 7.1:1. */
+    --color-cta: #e4002b;
+    --color-cta-hover: #c40025;
+    --color-cta-active: #a8001f;
+
+    --color-brand: #004fcb;
+    --color-brand-dark: #003db8;
+
+    /* The utility strip and the footer both run the brand navy, so the page
+       opens and closes on the brand. The footer's ink sits a touch softer
+       because there is far more of it to read. */
+    --color-topbar: #004fcb;
+    --color-topbar-ink: rgba(255, 255, 255, 0.88);
+    --color-footer: #004fcb;
+    --color-footer-ink: rgba(255, 255, 255, 0.82);
+
+    --color-btn: var(--color-brand);
+    --color-btn-hover: var(--color-brand-dark);
+    --color-btn-active: #002da9;
+
+    /* Each solid button carries a gradient of its own hue — a light corner
+       falling to a darker one, so the fill reads as a surface rather than a
+       swatch. The lift is the same hue as the button, never black, and only
+       appears on hover so the resting page stays quiet. */
+    --grad-cta: linear-gradient(135deg, #f51338 0%, #bc0023 100%);
+    --grad-cta-hover: linear-gradient(135deg, #ff2647 0%, #ce0027 100%);
+    --grad-cta-active: linear-gradient(135deg, #d2102f 0%, #a3001e 100%);
+    --grad-btn: linear-gradient(135deg, #0b5fd8 0%, #0040ae 100%);
+    --grad-btn-hover: linear-gradient(135deg, #1268e6 0%, #00479c 100%);
+    --grad-btn-active: linear-gradient(135deg, #0046b8 0%, #00389f 100%);
+    --lift-cta: 0 2px 4px rgba(120, 0, 20, 0.22), 0 8px 18px rgba(228, 0, 43, 0.26);
+    --lift-btn: 0 2px 4px rgba(0, 40, 110, 0.22), 0 8px 18px rgba(0, 79, 203, 0.26);
+
+    --shadow-sm: 0 0 0 1px #e4e7f5;
+    --shadow-md: 0 0 0 1px #cfd3e5, 0 6px 18px rgba(41, 43, 49, 0.08);
+    --shadow-lg: 0 0 0 1px #9397ab, 0 16px 40px rgba(41, 43, 49, 0.16);
+
+    /* The accent ramp is re-declared per language on .app — see below. */
+    --color-accent: #5d5294;
+    --color-accent-100: #f5f4ff;
+    --color-accent-200: #e7e5fe;
+    --color-accent-300: #d2cefd;
+    --color-accent-400: #b5abfc;
+    --color-accent-500: #968ae0;
+    --color-accent-600: #796cbf;
+    --color-accent-700: #5d5294;
+    --color-accent-800: #423a6a;
+    --color-accent-900: #2b2741;
+
+    --font-heading: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+    --font-heading-weight: 500;
+    --font-body: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+}
+
+/* ── Base ──────────────────────────────────────────────────────────────── */
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+body {
+    margin: 0;
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-family: var(--font-body);
+    font-size: 15px;
+    line-height: 1.55;
+    font-weight: 400;
+    -webkit-text-size-adjust: 100%;
+}
+
+h1,
+h2,
+h3,
+h4,
+h5,
+h6 {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    line-height: 1.35;
+    letter-spacing: 0;
+    margin: 0 0 var(--space-2);
+}
+
+h1 { font-size: 42px; }
+h2 { font-size: 32px; }
+h3 { font-size: 25px; }
+h4 { font-size: 20px; }
+h5 { font-size: 16px; }
+h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+
+p { margin: 0 0 var(--space-3); }
+
+a {
+    color: var(--color-accent);
+    text-underline-offset: 3px;
+}
+
+a:hover { color: var(--color-accent-800); }
+
+img {
+    display: block;
+    max-width: 100%;
+}
+
+figure { margin: 0; }
+
+.text-muted,
+.card-meta,
+figcaption {
+    color: var(--color-neutral-700);
+}
+
+:focus { outline: none; }
+:focus-visible { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+::selection { background: color-mix(in srgb, var(--color-accent) 30%, transparent); }
+
+i[class^='ph'] { line-height: 1; }
+
+.sr-only {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    padding: 0;
+    margin: -1px;
+    overflow: hidden;
+    clip: rect(0, 0, 0, 0);
+    white-space: nowrap;
+    border: 0;
+}
+
+/* Alpine holds a cloak on collapsible panels until it boots, so a menu never
+   flashes open on a slow first paint. */
+[x-cloak] { display: none !important; }
+
+/* Set while the drawer or a dialog is open — the page behind must not scroll
+   away under it on a phone. */
+body.is-locked { overflow: hidden; }
+
+/* ── Theme per language ────────────────────────────────────────────────────
+   Arabic keeps IBM Plex Sans Arabic (which carries the Latin too) on the
+   system's own accent. English runs the brand: Proxima Nova on the navy. Both
+   are set on the app root, so flipping language re-themes the page.
+
+   NOTE: Proxima Nova is a licensed face and is NOT loaded — until a kit is
+   added, English falls back to Arial, exactly as it does in the canvas. Add
+   the Adobe Fonts link in the layout head, or a self-hosted @font-face here. */
+.app {
+    --font-heading: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+    --font-body: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
+}
+
+.app[lang='en'] {
+    --font-heading: 'Proxima Nova SemiBold', 'Proxima Nova', Arial, Helvetica, sans-serif;
+    --font-body: 'Proxima Nova', Arial, Helvetica, sans-serif;
+    --font-heading-weight: 600;
+    line-height: 1.6;
+
+    /* The brand navy as a full tonal ramp, not one token: the template reads
+       accent-700 for accent text, accent-800 for tinted fills and accent-100
+       for the text on them, so swapping only --color-accent would leave every
+       tile, tag and badge purple. Steps 100–600 keep the design system's own
+       lightness scale and take the brand's hue and chroma; 700 IS the brand;
+       800/900 step below it so fills stay darker than the text on them.
+       Verified on white: brand text 7.1:1, accent-100 on accent-800 9.1:1. */
+    --color-accent: #004fcb;
+    --color-accent-100: #ebf6ff;
+    --color-accent-200: #d0eaff;
+    --color-accent-300: #a5d5ff;
+    --color-accent-400: #5eb1ff;
+    --color-accent-500: #328cff;
+    --color-accent-600: #086bff;
+    --color-accent-700: #004fcb;
+    --color-accent-800: #073c96;
+    --color-accent-900: #132e5e;
+}
+
+.app[lang='en'] h1,
+.app[lang='en'] h2,
+.app[lang='en'] h3,
+.app[lang='en'] h4,
+.app[lang='en'] h5 {
+    color: var(--color-accent-700);
+}
+
+/* ── Rules ─────────────────────────────────────────────────────────────────
+   Rules fade to transparent at both ends rather than stopping cleanly — a
+   Nocturne signature. The ramp is 48px an end. Freestanding rules fade; box
+   outlines and in-control separators stay solid. */
+.hr {
+    height: 1px;
+    border: 0;
+    margin: var(--space-4) 0;
+    background: linear-gradient(
+        to right,
+        transparent,
+        var(--color-divider) 48px,
+        var(--color-divider) calc(100% - 48px),
+        transparent
+    );
+}
+
+/* ── Buttons ───────────────────────────────────────────────────────────── */
+.btn {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 6px;
+    cursor: pointer;
+    text-decoration: none;
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 14px;
+    line-height: 1.2;
+    color: var(--color-text);
+    background: transparent;
+    border: 1px solid transparent;
+    padding: var(--space-2) calc(var(--space-3) * 1.2);
+    border-radius: var(--radius-sm);
+}
+
+.btn:disabled { opacity: 0.45; cursor: not-allowed; }
+.btn-primary { color: var(--color-accent); border-color: var(--color-accent); }
+.btn-primary:hover { background: color-mix(in srgb, var(--color-accent) 12%, transparent); }
+.btn-primary:active { background: color-mix(in srgb, var(--color-accent) 22%, transparent); }
+.btn-secondary { border-color: var(--color-divider); }
+.btn-secondary:hover { background: color-mix(in srgb, var(--color-text) 7%, transparent); }
+.btn-secondary:active { background: color-mix(in srgb, var(--color-text) 14%, transparent); }
+.btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
+.btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
+.btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-block { width: 100%; margin-top: var(--space-2); }
+
+/* The two solid actions. Everything else in the system is an outline; these
+   are the only filled buttons, and they carry the header's two decisions —
+   sign in, and post a job. Identical shape and text, different ground. */
+.btn-cta,
+.btn-blue {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 7px;
+    min-height: 38px;
+    padding: 0 18px;
+    border: 0;
+    border-radius: 4px;
+    color: #ffffff;
+    font-family: var(--font-heading);
+    font-weight: 500;
+    font-size: 14px;
+    line-height: 1;
+    letter-spacing: 0;
+    white-space: nowrap;
+    text-decoration: none;
+    cursor: pointer;
+    transition: background 0.15s, box-shadow 0.15s, transform 0.15s;
+}
+
+.btn-cta { background: var(--grad-cta); }
+.btn-cta:hover {
+    background: var(--grad-cta-hover);
+    color: #ffffff;
+    box-shadow: var(--lift-cta);
+    transform: translateY(-1px);
+}
+.btn-cta:active { background: var(--grad-cta-active); box-shadow: none; transform: translateY(0); }
+.btn-cta:focus-visible { outline: 2px solid var(--color-cta); outline-offset: 2px; }
+
+.btn-blue { background: var(--grad-btn); }
+.btn-blue:hover {
+    background: var(--grad-btn-hover);
+    color: #ffffff;
+    box-shadow: var(--lift-btn);
+    transform: translateY(-1px);
+}
+.btn-blue:active { background: var(--grad-btn-active); box-shadow: none; transform: translateY(0); }
+.btn-blue:focus-visible { outline: 2px solid var(--color-btn); outline-offset: 2px; }
+
+.btn-wide { width: 100%; }
+
+@media (prefers-reduced-motion: reduce) {
+    .btn-cta,
+    .btn-blue { transition: background 0.15s; }
+    .btn-cta:hover,
+    .btn-blue:hover { transform: none; }
+}
+
+.icon-btn {
+    display: grid;
+    place-items: center;
+    width: 36px;
+    height: 36px;
+    flex: none;
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-md);
+    background: transparent;
+    color: var(--color-text);
+    font-size: 17px;
+    cursor: pointer;
+    transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.icon-btn:hover {
+    background: color-mix(in srgb, var(--color-accent) 9%, transparent);
+    border-color: var(--color-accent);
+    color: var(--color-accent-700);
+}
+
+/* ── Forms ─────────────────────────────────────────────────────────────── */
+/* The system sets field labels at 70% ink; here they are the only thing
+   naming each control, so they take the full ink. */
+.field > label {
+    display: block;
+    font-size: 12px;
+    margin-bottom: 5px;
+    color: var(--color-text);
+}
+
+.input {
+    width: 100%;
+    min-height: 36px;
+    padding: 6px 10px;
+    font: inherit;
+    font-size: 14px;
+    color: var(--color-text);
+    caret-color: var(--color-accent);
+    background: var(--color-surface);
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-sm);
+}
+
+.input:hover { border-color: color-mix(in srgb, var(--color-text) 45%, transparent); }
+.input:focus-visible { border-color: var(--color-accent); outline-offset: 0; }
+textarea.input { min-height: 90px; resize: vertical; }
+
+.radio {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    cursor: pointer;
+    font-size: 14px;
+}
+
+.radio input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.radio .dot {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-divider);
+}
+
+.radio:hover .dot { border-color: var(--color-accent); }
+
+.radio input:checked + .dot {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+
+.radio input:focus-visible + .dot { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+/* The two sides of the board, as a pair of cards rather than bare radios: this
+   is the first question sign-up asks and the answer changes the whole account. */
+.role-opt {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    padding: 12px 13px;
+    font-size: 14px;
+    cursor: pointer;
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-sm);
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.role-opt input {
+    position: absolute;
+    opacity: 0;
+    width: 0;
+    height: 0;
+    pointer-events: none;
+}
+
+.role-opt .dot {
+    width: 16px;
+    height: 16px;
+    flex: none;
+    border-radius: 50%;
+    border: 1.5px solid var(--color-divider);
+}
+
+.role-opt:hover { border-color: var(--color-accent); }
+
+.role-opt:has(input:checked) {
+    border-color: var(--color-accent);
+    background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+}
+
+.role-opt input:checked + .dot {
+    border-color: var(--color-accent);
+    background: var(--color-accent);
+    box-shadow: inset 0 0 0 4px var(--color-bg);
+}
+
+.role-opt:has(input:focus-visible) { outline: 2px solid var(--color-accent); outline-offset: 2px; }
+
+.field-error {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    color: var(--color-cta);
+}
+
+/* ── Cards, tags ───────────────────────────────────────────────────────── */
+.card {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-2);
+    padding: var(--space-3);
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+}
+
+.card-kicker {
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent-700);
+}
+
+.card-title {
+    font-family: var(--font-heading);
+    font-weight: var(--font-heading-weight);
+    font-size: 17px;
+    line-height: 1.2;
+}
+
+.card-body { margin: 0; font-size: 13px; opacity: 0.8; flex: 1; }
+
+.card-meta {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 11px;
+}
+
+.elev-sm { box-shadow: var(--shadow-sm); }
+.elev-md { box-shadow: var(--shadow-md); }
+.elev-lg { box-shadow: var(--shadow-lg); }
+
+.tag {
+    display: inline-flex;
+    align-items: center;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+    padding: 3px 10px;
+    border-radius: calc(var(--radius-md) * 0.75);
+}
+
+.tag-accent { background: var(--color-accent-800); color: var(--color-accent-100); }
+.tag-neutral { background: var(--color-neutral-800); color: var(--color-neutral-100); }
+.tag-outline { border: 1px solid var(--color-accent); color: var(--color-accent); }
+
+/* ── Dialogs ───────────────────────────────────────────────────────────── */
+.dialog-backdrop {
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    display: grid;
+    place-items: center;
+    padding: var(--space-4);
+    background: color-mix(in srgb, var(--color-neutral-900) 50%, transparent);
+}
+
+.dialog {
+    width: min(440px, 100%);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-4);
+    border-radius: var(--radius-lg);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-lg);
+}
+
+.dialog-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 20px;
+}
+
+.dialog-body { font-size: 14px; opacity: 0.85; }
+
+.dialog-actions {
+    display: flex;
+    justify-content: flex-end;
+    gap: var(--space-2);
+    margin-top: var(--space-2);
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   The board's own components
+   ══════════════════════════════════════════════════════════════════════ */
+
+/* ── Header ────────────────────────────────────────────────────────────────
+   Two bars: a quiet utility strip (audience links, language) over the main bar
+   (brand, nav, search, account, the one accented action). Everything positions
+   with logical properties, so the RTL to LTR flip needs no mirrored rules. */
+.hdr {
+    position: sticky;
+    top: 0;
+    z-index: 40;
+    background: color-mix(in srgb, var(--color-bg) 88%, transparent);
+    backdrop-filter: blur(14px) saturate(140%);
+}
+
+.hdr-row {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding-inline: 24px;
+    display: flex;
+    align-items: center;
+}
+
+.hdr-util {
+    background: var(--color-topbar);
+    border-bottom: 1px solid rgba(255, 255, 255, 0.14);
+}
+
+.hdr-util .hdr-row { height: 34px; gap: var(--space-4); font-size: 12px; }
+
+.hdr-util a {
+    color: var(--color-topbar-ink);
+    text-decoration: none;
+    display: inline-flex;
+    align-items: center;
+}
+
+.hdr-util a:hover { color: #ffffff; text-decoration: underline; text-underline-offset: 3px; }
+.hdr-util-links { display: flex; align-items: center; gap: var(--space-4); }
+.hdr-util-sep { width: 1px; height: 12px; background: rgba(255, 255, 255, 0.3); }
+
+.hdr-main .hdr-row { height: 86px; gap: var(--space-6); }
+
+.brand {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    text-decoration: none;
+    color: var(--color-text);
+    font-family: var(--font-heading);
+    font-size: 19px;
+    line-height: 1;
+    white-space: nowrap;
+}
+
+.brand-mark {
+    display: grid;
+    place-items: center;
+    width: 32px;
+    height: 32px;
+    border-radius: var(--radius-md);
+    background: var(--color-accent-800);
+    color: var(--color-accent-100);
+    font-size: 17px;
+    flex: none;
+}
+
+.brand-tld { color: var(--color-accent-700); }
+
+.hdr-nav { display: flex; align-items: center; gap: var(--space-1); }
+
+/* Nav items: brand navy, semi-bold, with the caret carrying the only red in
+   the bar. The icons inherit the navy; only the caret breaks out. */
+.hdr-link {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 11px;
+    border: 0;
+    background: transparent;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 14px;
+    line-height: 1;
+    color: var(--color-brand);
+    text-decoration: none;
+    border-radius: var(--radius-sm);
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s, color 0.15s;
+}
+
+.hdr-link:hover {
+    background: color-mix(in srgb, var(--color-brand) 8%, transparent);
+    color: var(--color-brand-dark);
+}
+
+.hdr-link.is-open {
+    background: color-mix(in srgb, var(--color-brand) 12%, transparent);
+    color: var(--color-brand-dark);
+}
+
+.hdr-link .caret { font-size: 11px; color: var(--color-cta); transition: transform 0.2s; }
+.hdr-link.is-open .caret { transform: rotate(180deg); }
+
+.hdr-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-inline-start: auto;
+}
+
+/* A nav item that owns a panel runs the full height of the bar and squares
+   off, so when it opens it reads as a tab the panel hangs from. */
+.nav-drop {
+    position: relative;
+    display: inline-flex;
+    align-items: stretch;
+    align-self: stretch;
+}
+
+.nav-drop > .hdr-link { align-self: stretch; border-radius: 0; padding-inline: 14px; }
+.nav-drop > .hdr-link.is-open {
+    background: var(--color-bg);
+    box-shadow: inset 0 3px 0 0 var(--color-brand);
+}
+
+/* ── AI tools menu ─────────────────────────────────────────────────────────
+   A panel anchored to its own nav item rather than a full-width mega: three
+   tools with a line of explanation each is a menu, not a directory. */
+.ai-mark { font-size: 15px; color: var(--color-brand); }
+
+.ai-badge {
+    font-size: 9px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    padding: 3px 5px;
+    border-radius: 999px;
+    line-height: 1;
+    background: var(--color-accent-800);
+    color: var(--color-accent-100);
+}
+
+.ai-menu {
+    position: absolute;
+    top: 100%;
+    inset-inline-start: 0;
+    z-index: 21;
+    width: 360px;
+    padding: 20px 22px 14px;
+    background: var(--color-bg);
+    border: 1px solid var(--color-divider);
+    box-shadow: 0 10px 26px rgba(41, 43, 49, 0.14);
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+}
+
+.ai-item {
+    display: flex;
+    align-items: flex-start;
+    gap: 10px;
+    padding: 9px 0;
+    text-decoration: none;
+    color: inherit;
+    transition: color 0.12s;
+}
+
+.ai-item:hover .ai-t {
+    color: var(--color-brand-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.ai-ico {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 30px;
+    height: 30px;
+    border-radius: var(--radius-sm);
+    font-size: 16px;
+    color: var(--color-accent-800);
+}
+
+.ai-t { display: block; font-size: 13.5px; line-height: 1.35; color: var(--color-brand); }
+.ai-d {
+    display: block;
+    font-size: 11.5px;
+    line-height: 1.5;
+    margin-top: 2px;
+    color: var(--color-neutral-700);
+}
+
+/* Compact search — stands in for the hero search on every screen that does
+   not carry one, so search is never more than a click away. */
+.hdr-search {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    min-width: 210px;
+    padding: 0 11px;
+    height: 36px;
+    border-radius: 999px;
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    color: var(--color-neutral-700);
+}
+
+.hdr-search:focus-within { box-shadow: 0 0 0 1px var(--color-accent); }
+
+.hdr-search input {
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 13px;
+    color: var(--color-text);
+    width: 100%;
+    min-width: 0;
+    outline: none;
+}
+
+/* Language switch — a two-state segment rather than a dropdown: with exactly
+   two languages the alternative should always be visible. */
+.lang-seg {
+    display: inline-flex;
+    align-items: center;
+    padding: 2px;
+    flex: none;
+    border: 1px solid var(--color-divider);
+    border-radius: 999px;
+    background: var(--color-bg);
+}
+
+.lang-opt {
+    appearance: none;
+    border: 0;
+    background: transparent;
+    font: inherit;
+    font-size: 11px;
+    line-height: 1;
+    padding: 5px 10px;
+    border-radius: 999px;
+    cursor: pointer;
+    color: var(--color-neutral-700);
+    white-space: nowrap;
+    text-decoration: none;
+    transition: background 0.15s, color 0.15s;
+}
+
+.lang-opt:hover { color: var(--color-accent-700); }
+.lang-opt.is-on { background: var(--color-accent-800); color: var(--color-accent-100); }
+.hdr-util .lang-seg { background: transparent; border-color: rgba(255, 255, 255, 0.34); }
+.hdr-util .lang-opt { color: var(--color-topbar-ink); }
+.hdr-util .lang-opt:hover { color: #ffffff; }
+.hdr-util .lang-opt.is-on { background: #ffffff; color: var(--color-topbar); }
+
+/* ── Mega menu ─────────────────────────────────────────────────────────────
+   The sixteen categories are the spine of the site; reaching them should not
+   mean going home first. A bordered card hung off its own nav item rather than
+   a full-bleed band. */
+.mega {
+    position: absolute;
+    top: 100%;
+    inset-inline-start: 0;
+    z-index: 21;
+    width: min(880px, calc(100vw - 48px));
+    background: var(--color-bg);
+    border: 1px solid var(--color-divider);
+    box-shadow: 0 10px 26px rgba(41, 43, 49, 0.14);
+}
+
+.mega-inner { padding: 26px 30px 28px; }
+
+/* 180px inside the card lands on four even columns, so all sixteen keep the
+   4×4 block they had when the panel ran the full width. */
+.mega-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    gap: 4px var(--space-8);
+}
+
+.mega-foot {
+    display: flex;
+    margin-top: var(--space-4);
+    padding-top: var(--space-3);
+    border-top: 1px solid var(--color-divider);
+}
+
+.mega-item {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    padding: 6px 0;
+    text-decoration: none;
+    color: var(--color-brand);
+    font-size: 13.5px;
+    transition: color 0.12s;
+}
+
+.mega-item:hover {
+    color: var(--color-brand-dark);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+}
+
+.mega-item i { font-size: 16px; color: var(--color-brand); flex: none; }
+.mega-item img { flex: none; }
+
+/* Column heading: bold ink with the red double-chevron the reference bar uses
+   to mark each group. */
+.mega-h {
+    display: flex;
+    align-items: center;
+    gap: 7px;
+    margin: 0 0 var(--space-6);
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 15px;
+    letter-spacing: 0;
+    text-transform: none;
+    color: var(--color-text);
+}
+
+/* Guillemets are bidi-mirrored, so this one glyph points right in English and
+   left in Arabic on its own — do not add an RTL override. */
+.mega-h::after { content: '\00bb'; color: var(--color-cta); font-weight: 700; }
+
+/* ── Mobile drawer ─────────────────────────────────────────────────────────
+   A fixed box resolves logical insets against its own writing mode, which is
+   not what we want here, so the side is pinned explicitly off the app root's
+   direction. */
+.burger { display: none; }
+
+.scrim {
+    position: fixed;
+    inset: 0;
+    z-index: 50;
+    background: rgba(41, 43, 49, 0.45);
+}
+
+.mega-scrim { position: fixed; inset: 0; z-index: 20; background: transparent; }
+
+.drawer {
+    position: fixed;
+    top: 0;
+    bottom: 0;
+    z-index: 51;
+    width: min(88vw, 330px);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-lg);
+    overflow-y: auto;
+    display: flex;
+    flex-direction: column;
+    padding: var(--space-6);
+}
+
+.app[dir='rtl'] .drawer { right: 0; left: auto; }
+.app[dir='ltr'] .drawer { left: 0; right: auto; }
+
+.drawer-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 12px 4px;
+    font-size: 15px;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.drawer-link i { font-size: 17px; color: var(--color-accent-700); }
+.drawer-link img { flex: none; }
+
+/* ── Hero band ─────────────────────────────────────────────────────────────
+   The photograph runs the full width of the viewport while the content stays
+   on the same 1240px measure as the rest of the page. A scrim over the image
+   keeps the navy type legible whatever the photo turns out to be. */
+.hero { position: relative; isolation: isolate; overflow: hidden; }
+
+.hero-media {
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    background-color: var(--color-surface);
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+}
+
+.hero-media::after { content: ''; position: absolute; inset: 0; }
+
+/* Two layers. The bottom fade dissolves the band into the page below so the
+   hero has no cut edge. Over it, the light is a pool centred on the type
+   rather than a wipe across the page — it falls off in every direction, so the
+   photograph survives in all four corners instead of only one. Only the pool's
+   centre flips for Arabic; the fade is symmetrical already. */
+.app[dir='ltr'] .hero-media::after {
+    background:
+        linear-gradient(to top, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0) 24%),
+        radial-gradient(
+            125% 135% at 14% 42%,
+            rgba(255, 255, 255, 0.97) 0%,
+            rgba(255, 255, 255, 0.82) 30%,
+            rgba(255, 255, 255, 0.26) 56%,
+            rgba(255, 255, 255, 0) 76%
+        );
+}
+
+.app[dir='rtl'] .hero-media::after {
+    background:
+        linear-gradient(to top, rgba(255, 255, 255, 0.88) 0%, rgba(255, 255, 255, 0) 24%),
+        radial-gradient(
+            125% 135% at 86% 42%,
+            rgba(255, 255, 255, 0.97) 0%,
+            rgba(255, 255, 255, 0.82) 30%,
+            rgba(255, 255, 255, 0.26) 56%,
+            rgba(255, 255, 255, 0) 76%
+        );
+}
+
+.hero-inner { max-width: 1240px; margin: 0 auto; padding: 88px 24px 64px; }
+
+/* Over a photograph the search panel has to read as a card of its own, so it
+   takes the page ground and a real elevation rather than a surface tint. */
+.hero-search { background: var(--color-bg); box-shadow: var(--shadow-md); }
+
+/* A hero field carries a leading icon inside the control. inset-inline-start
+   and padding-inline-start put it on the reading-start edge in both scripts,
+   and pointer-events:none keeps the click going through to the control. */
+.hero-field { position: relative; }
+
+.hero-field > i,
+.hero-field > img {
+    position: absolute;
+    inset-inline-start: 11px;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 16px;
+    z-index: 1;
+    color: var(--color-neutral-600);
+    pointer-events: none;
+}
+
+.hero-field .input { padding-inline-start: 38px; }
+
+/* ── Tabs ──────────────────────────────────────────────────────────────────
+   The latest-jobs panel carries two sides of the same board, so its heading is
+   a tab bar rather than the rail every other section uses — a rail labels one
+   thing, a tab bar says there is another thing behind it. */
+.tabs {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-6);
+    border-bottom: 1px solid var(--color-divider);
+    margin-bottom: var(--space-4);
+}
+
+.tab {
+    appearance: none;
+    border: 0;
+    background: none;
+    cursor: pointer;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 18px;
+    line-height: 1.3;
+    padding: 0 0 10px;
+    color: var(--color-neutral-700);
+    border-bottom: 3px solid transparent;
+    margin-bottom: -1px;
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.tab:hover { color: var(--color-brand); }
+.tab.is-on { color: var(--color-brand); border-bottom-color: var(--color-brand); }
+.tab:focus-visible { outline: 2px solid var(--color-brand); outline-offset: 3px; }
+
+.tabs-note {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    font-size: 12px;
+    margin-inline-start: auto;
+    padding-bottom: 10px;
+    color: var(--color-neutral-700);
+}
+
+/* Trending searches — links, not chips. These are shortcuts into the results,
+   so they should read as text you follow, and leave the filled shapes to the
+   two buttons that actually commit to something. */
+.trend-link {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 13px;
+    color: var(--color-brand);
+    text-decoration: underline;
+    text-underline-offset: 3px;
+    text-decoration-thickness: 1px;
+    text-decoration-color: color-mix(in srgb, var(--color-brand) 45%, transparent);
+    transition: color 0.12s, text-decoration-color 0.12s;
+}
+
+.trend-link:hover { color: var(--color-brand-dark); text-decoration-color: currentColor; }
+
+/* ── Section rail ──────────────────────────────────────────────────────────
+   The short accent mark that labels every section on the page. */
+.rail {
+    display: flex;
+    align-items: center;
+    gap: 9px;
+    margin-bottom: var(--space-6);
+}
+
+.rail::before {
+    content: '';
+    width: 3px;
+    height: 20px;
+    flex: none;
+    background: var(--color-accent);
+    border-radius: 2px;
+}
+
+.rail h5 { margin: 0; font-size: 20px; }
+.rail .rail-note { font-size: 12px; margin-inline-start: auto; color: var(--color-neutral-700); }
+
+/* ── List rows ─────────────────────────────────────────────────────────────
+   The latest feed, the results list and the similar-jobs rail are all the same
+   object: a surface-tinted panel of rows divided by hairlines. */
+.list-panel {
+    display: flex;
+    flex-direction: column;
+    border-radius: var(--radius-md);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.list-row {
+    display: grid;
+    align-items: center;
+    gap: var(--space-2) var(--space-4);
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--color-divider);
+    transition: background 0.12s;
+}
+
+.list-row:last-child { border-bottom: 0; }
+.list-row:hover { background: color-mix(in srgb, var(--color-accent) 6%, var(--color-surface)); }
+
+.list-row-title {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 16px;
+}
+
+.list-row-sub {
+    display: block;
+    font-size: 13px;
+    line-height: 1.5;
+    margin-top: 3px;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    color: var(--color-neutral-700);
+}
+
+.list-row-meta {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex-wrap: wrap;
+    font-size: 13px;
+    margin-top: 2px;
+    color: var(--color-neutral-700);
+}
+
+/* The canvas writes hover states as a `style-hover` attribute its runtime
+   applies; on a real page they have to be classes. These three are the only
+   places it used one. */
+.cat-tile {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 13px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--color-surface);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: var(--color-text);
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+.cat-tile:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+.feature-card { transition: box-shadow 0.15s, transform 0.15s; }
+.feature-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+.city-row {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: var(--space-2);
+    padding: 9px 2px;
+    font-size: 14px;
+    text-decoration: none;
+    color: inherit;
+    border-bottom: 1px solid var(--color-divider);
+    transition: color 0.12s;
+}
+
+.city-row:hover { color: var(--color-accent-700); }
+
+/* The monogram chip that stands in for an employer logo. */
+.mono {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 40px;
+    height: 40px;
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    box-shadow: inset 0 0 0 1px var(--color-divider);
+    font-family: var(--font-heading);
+    font-size: 16px;
+    color: var(--color-accent-700);
+}
+
+.mono-sm { width: 34px; height: 34px; font-size: 14px; }
+
+/* ── Pagination ────────────────────────────────────────────────────────────
+   Square 34px cells on the system's own corner, so the pager reads as part of
+   the results panel above it rather than as framework furniture. */
+.pager {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-2);
+    justify-content: center;
+}
+
+.pager-item {
+    display: grid;
+    place-items: center;
+    min-width: 34px;
+    height: 34px;
+    padding: 0 8px;
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--color-divider);
+    font-family: var(--font-heading);
+    font-size: 13.5px;
+    font-variant-numeric: tabular-nums;
+    text-decoration: none;
+    color: var(--color-text);
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.pager-item:hover {
+    border-color: var(--color-accent);
+    color: var(--color-accent-700);
+    background: color-mix(in srgb, var(--color-accent) 7%, transparent);
+}
+
+.pager-item.is-on {
+    background: var(--color-accent-800);
+    border-color: var(--color-accent-800);
+    color: var(--color-accent-100);
+}
+
+.pager-item.is-disabled {
+    opacity: 0.4;
+    pointer-events: none;
+}
+
+.pager-gap { padding: 0 4px; color: var(--color-neutral-600); }
+
+/* ── Contact dialog ────────────────────────────────────────────────────────
+   Each row is the whole hit area, so the number is tappable rather than
+   something to copy by hand. The values are forced to LTR: a phone number or
+   an email address reads left-to-right even on the Arabic page. */
+.contact-row {
+    display: flex;
+    align-items: center;
+    gap: 11px;
+    padding: 11px 12px;
+    border: 1px solid var(--color-divider);
+    border-radius: var(--radius-md);
+    text-decoration: none;
+    color: inherit;
+    transition: border-color 0.15s, background 0.15s;
+}
+
+.contact-row + .contact-row { margin-top: var(--space-2); }
+
+.contact-row:hover {
+    border-color: var(--color-brand);
+    background: color-mix(in srgb, var(--color-brand) 6%, transparent);
+}
+
+.contact-ico {
+    display: grid;
+    place-items: center;
+    flex: none;
+    width: 34px;
+    height: 34px;
+    border-radius: var(--radius-sm);
+    font-size: 17px;
+    background: var(--color-accent-800);
+    color: var(--color-accent-100);
+}
+
+.contact-k { display: block; font-size: 11px; color: var(--color-neutral-700); }
+
+.contact-v {
+    display: block;
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14.5px;
+    line-height: 1.35;
+    color: var(--color-brand);
+    direction: ltr;
+}
+
+.app[dir='rtl'] .contact-v { text-align: right; }
+
+/* ── Footer ────────────────────────────────────────────────────────────── */
+.ftr { margin-top: 72px; background: var(--color-footer); color: #ffffff; }
+
+/* The wordmark sits on navy here, so the chip inverts: white tile, navy glyph.
+   Scoped to the footer so the header's mark is untouched. */
+.ftr .brand { color: #ffffff; }
+.ftr .brand-mark { background: #ffffff; color: var(--color-footer); }
+.ftr .brand-tld { color: rgba(255, 255, 255, 0.62); }
+
+.ftr-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 52px 24px 44px;
+    display: grid;
+    grid-template-columns: minmax(0, 1.6fr) repeat(3, minmax(0, 1fr));
+    gap: 44px;
+}
+
+.ftr-tagline {
+    margin: var(--space-4) 0 var(--space-6);
+    max-width: 34ch;
+    font-size: 13px;
+    line-height: 1.75;
+    color: var(--color-footer-ink);
+}
+
+.ftr-social { display: flex; gap: var(--space-3); }
+
+.ftr-social a {
+    display: grid;
+    place-items: center;
+    width: 34px;
+    height: 34px;
+    border: 1px solid rgba(255, 255, 255, 0.34);
+    border-radius: var(--radius-sm);
+    color: var(--color-footer-ink);
+    font-size: 16px;
+    text-decoration: none;
+    transition: border-color 0.15s, background 0.15s, color 0.15s;
+}
+
+.ftr-social a:hover { border-color: #ffffff; color: var(--color-footer); background: #ffffff; }
+
+.ftr-col { display: flex; flex-direction: column; }
+
+.ftr-h {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 14px;
+    color: #ffffff;
+    margin-bottom: var(--space-4);
+}
+
+.ftr-link {
+    padding: 6px 0;
+    font-size: 13.5px;
+    color: var(--color-footer-ink);
+    text-decoration: none;
+    transition: color 0.12s;
+}
+
+.ftr-link:hover { color: #ffffff; text-decoration: underline; text-underline-offset: 3px; }
+.ftr-bar { border-top: 1px solid rgba(255, 255, 255, 0.18); }
+
+.ftr-bar-inner {
+    max-width: 1240px;
+    margin: 0 auto;
+    padding: 18px 24px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: var(--space-3) var(--space-6);
+    font-size: 12px;
+    color: rgba(255, 255, 255, 0.7);
+}
+
+.ftr-legal {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-6);
+    margin-inline-start: auto;
+}
+
+.ftr-legal a { color: rgba(255, 255, 255, 0.7); text-decoration: none; }
+.ftr-legal a:hover { color: #ffffff; text-decoration: underline; text-underline-offset: 3px; }
+
+/* ── Page grids ────────────────────────────────────────────────────────────
+   Held in classes rather than inline styles so they can collapse to one
+   column; the sidebar follows the main column on a narrow screen. */
+.page-home,
+.page-results,
+.page-narrow { max-width: 1240px; margin: 0 auto; }
+
+.page-home,
+.page-results,
+.page-detail { display: grid; align-items: start; }
+
+.page-home {
+    grid-template-columns: minmax(0, 1fr) minmax(250px, 312px);
+    gap: 56px;
+    padding: 44px 24px;
+}
+
+.page-results {
+    grid-template-columns: minmax(230px, 266px) minmax(0, 1fr);
+    gap: 44px;
+    padding: 36px 24px;
+}
+
+.page-detail { grid-template-columns: minmax(0, 1fr) minmax(270px, 340px); gap: 56px; }
+.page-detail-wrap { max-width: 1240px; margin: 0 auto; padding: 28px 24px 0; }
+.page-narrow { padding: 44px 24px; }
+
+/* A flash message sits on the page measure, above whatever screen follows. */
+.flash {
+    max-width: 1240px;
+    margin: var(--space-6) auto 0;
+    padding: 11px 14px;
+    border-radius: var(--radius-sm);
+    background: var(--color-accent-100);
+    color: var(--color-accent-900);
+    font-size: 13.5px;
+}
+
+.flash-error { background: #fdecef; color: #8c0020; }
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 1080px) {
+    .hdr-search { display: none; }
+}
+
+@media (max-width: 980px) {
+    .page-home,
+    .page-results,
+    .page-detail { grid-template-columns: minmax(0, 1fr); gap: 44px; }
+
+    /* On results the filter rail would otherwise bury the listings. */
+    .page-results > aside { order: 2; }
+    .page-detail > aside > .card { position: static; }
+}
+
+@media (max-width: 900px) {
+    .hero-inner { padding: 56px 24px 44px; }
+
+    /* Narrow screens leave no room beside the text, so the scrim goes flat and
+       the photo reads as a tint behind it. */
+    .app[dir='ltr'] .hero-media::after,
+    .app[dir='rtl'] .hero-media::after {
+        background: linear-gradient(
+            to top,
+            rgba(255, 255, 255, 0.92) 0%,
+            rgba(255, 255, 255, 0.78) 22%,
+            rgba(255, 255, 255, 0.78) 100%
+        );
+    }
+
+    .hdr-nav,
+    .hdr-util-links,
+    .hdr-signin { display: none; }
+
+    .burger { display: grid; }
+    .mega,
+    .mega-scrim { display: none; }
+    .hdr-main .hdr-row { height: 72px; gap: var(--space-3); }
+    .ftr-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
+}
+
+@media (max-width: 560px) {
+    /* The action keeps its words at every width — it is the point of the bar —
+       and gives back a little padding instead. */
+    .btn-cta,
+    .btn-blue { padding: 0 13px; font-size: 13px; }
+
+    .hdr-util .hdr-row { justify-content: flex-end; }
+    .hero-inner { padding-inline: 16px; }
+    .page-home,
+    .page-results,
+    .page-narrow { padding-inline: 16px; }
+    .page-detail-wrap { padding-inline: 16px; }
+    .ftr-inner { grid-template-columns: minmax(0, 1fr); padding: 40px 16px 32px; }
+    .ftr-bar-inner { padding-inline: 16px; }
+    .ftr-legal { margin-inline-start: 0; }
+}
+
+/* ══════════════════════════════════════════════════════════════════════════
+   Admin
+   ──────────────────────────────────────────────────────────────────────────
+   Same tokens and the same component classes as the board — .card, .btn,
+   .input, .tag all carry over. What differs is the chrome: a sidebar of queues
+   instead of the board's top bar, and dense tables instead of cards, because
+   moderation is a list you work down rather than a page you read.
+   ══════════════════════════════════════════════════════════════════════ */
+
+.admin {
+    display: grid;
+    grid-template-columns: 250px minmax(0, 1fr);
+    min-height: 100vh;
+    background: var(--color-surface);
+}
+
+/* ── Sidebar ───────────────────────────────────────────────────────────── */
+.adm-side {
+    display: flex;
+    flex-direction: column;
+    background: var(--color-topbar);
+    color: #ffffff;
+    padding: var(--space-6) var(--space-4);
+    position: sticky;
+    top: 0;
+    height: 100vh;
+    overflow-y: auto;
+}
+
+.adm-side .brand { color: #ffffff; }
+.adm-side .brand-mark { background: #ffffff; color: var(--color-topbar); }
+
+.adm-side-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-bottom: var(--space-8);
+}
+
+.adm-side-close {
+    display: none;
+    margin-inline-start: auto;
+    color: #ffffff;
+    border-color: rgba(255, 255, 255, 0.34);
+}
+
+.adm-nav { display: flex; flex-direction: column; gap: 2px; }
+
+.adm-nav-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 11px;
+    border-radius: var(--radius-sm);
+    font-size: 14px;
+    text-decoration: none;
+    color: var(--color-topbar-ink);
+    transition: background 0.15s, color 0.15s;
+}
+
+.adm-nav-link i { font-size: 17px; flex: none; }
+.adm-nav-link:hover { background: rgba(255, 255, 255, 0.12); color: #ffffff; }
+
+.adm-nav-link.is-on {
+    background: #ffffff;
+    color: var(--color-topbar);
+    font-family: var(--font-heading);
+    font-weight: 600;
+}
+
+/* The backlog beside a queue's name. It takes the call-to-action red rather
+   than the accent: this is the one number on the page that means "act". */
+.adm-badge {
+    margin-inline-start: auto;
+    min-width: 20px;
+    padding: 2px 6px;
+    border-radius: 999px;
+    background: var(--color-cta);
+    color: #ffffff;
+    font-size: 11px;
+    line-height: 1.5;
+    text-align: center;
+    font-variant-numeric: tabular-nums;
+}
+
+.adm-side-foot {
+    margin-top: auto;
+    padding-top: var(--space-6);
+    border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+/* ── Main column ───────────────────────────────────────────────────────── */
+.adm-main { min-width: 0; display: flex; flex-direction: column; }
+
+.adm-top {
+    position: sticky;
+    top: 0;
+    z-index: 30;
+    display: flex;
+    align-items: center;
+    gap: var(--space-4);
+    padding: var(--space-4) var(--space-8);
+    background: var(--color-bg);
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.adm-top-title {
+    margin: 0;
+    font-size: 19px;
+    line-height: 1.3;
+    min-width: 0;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}
+
+.adm-top-actions {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    margin-inline-start: auto;
+}
+
+.adm-who {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 13px;
+    color: var(--color-neutral-700);
+}
+
+.adm-who i { font-size: 17px; }
+
+.adm-burger { display: none; }
+.adm-scrim { display: none; }
+
+.adm-body {
+    padding: var(--space-8);
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-8);
+}
+
+/* ── Stat tiles ────────────────────────────────────────────────────────── */
+.adm-stats {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+    gap: var(--space-4);
+}
+
+.adm-stat {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+    padding: var(--space-6);
+    border-radius: var(--radius-sm);
+    background: var(--color-bg);
+    box-shadow: var(--shadow-sm);
+    text-decoration: none;
+    color: inherit;
+    transition: box-shadow 0.15s, transform 0.15s;
+}
+
+a.adm-stat:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+.adm-stat-k {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    color: var(--color-neutral-700);
+}
+
+.adm-stat-v {
+    font-family: var(--font-heading);
+    font-weight: 700;
+    font-size: 28px;
+    line-height: 1.2;
+    font-variant-numeric: tabular-nums;
+}
+
+/* A tile whose number is a backlog goes red once it is not zero, and grey when
+   it is — so a cleared queue reads as done rather than as an alert at zero. */
+.adm-stat.is-waiting .adm-stat-v { color: var(--color-cta); }
+.adm-stat.is-clear .adm-stat-v { color: var(--color-neutral-500); }
+
+/* ── Panels and tables ─────────────────────────────────────────────────── */
+.adm-panel {
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    overflow: hidden;
+}
+
+.adm-panel-head {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-6);
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.adm-panel-head h5 { margin: 0; font-size: 16px; }
+.adm-panel-head .adm-panel-more { margin-inline-start: auto; font-size: 13px; }
+
+.adm-table-wrap { overflow-x: auto; }
+.adm-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
+
+.adm-table th {
+    text-align: start;
+    font-size: 11px;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--color-neutral-600);
+    font-weight: 600;
+    padding: 11px var(--space-6);
+    border-bottom: 1px solid var(--color-divider);
+    white-space: nowrap;
+}
+
+.adm-table td {
+    padding: 13px var(--space-6);
+    border-bottom: 1px solid var(--color-divider);
+    vertical-align: middle;
+}
+
+.adm-table tbody tr:last-child td { border-bottom: 0; }
+.adm-table tbody tr:hover { background: color-mix(in srgb, var(--color-accent) 5%, transparent); }
+
+.adm-table a { color: var(--color-brand); text-decoration: none; }
+.adm-table a:hover { text-decoration: underline; text-underline-offset: 3px; }
+
+.adm-table .num { font-variant-numeric: tabular-nums; white-space: nowrap; }
+.adm-cell-title { font-family: var(--font-heading); font-weight: 600; font-size: 14px; }
+.adm-cell-sub { display: block; font-size: 12px; color: var(--color-neutral-700); margin-top: 2px; }
+.adm-row-actions { display: flex; gap: var(--space-2); justify-content: flex-end; }
+
+.adm-empty {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: var(--space-3);
+    padding: 64px var(--space-6);
+    text-align: center;
+    color: var(--color-neutral-700);
+}
+
+.adm-empty i { font-size: 30px; color: var(--color-neutral-500); }
+
+/* ── Status pills ──────────────────────────────────────────────────────────
+   One shape, several meanings. Colour carries the meaning but never alone —
+   the word is always there, because a moderator scanning a queue at speed
+   should not have to remember which amber is which, and about one man in
+   twelve cannot tell the red from the green at all. */
+.pill {
+    display: inline-flex;
+    align-items: center;
+    gap: 5px;
+    padding: 3px 9px;
+    border-radius: 999px;
+    font-size: 11.5px;
+    line-height: 1.6;
+    white-space: nowrap;
+}
+
+.pill-pending { background: #fff4d6; color: #7a5200; }
+.pill-published { background: #dcfce7; color: #14532d; }
+.pill-rejected { background: #fdecef; color: #8c0020; }
+.pill-draft { background: var(--color-neutral-200); color: var(--color-neutral-800); }
+.pill-expired { background: var(--color-neutral-200); color: var(--color-neutral-700); }
+.pill-filled { background: var(--color-accent-200); color: var(--color-accent-900); }
+.pill-hired { background: var(--color-accent-200); color: var(--color-accent-900); }
+.pill-open { background: #fff4d6; color: #7a5200; }
+.pill-reviewing { background: var(--color-accent-200); color: var(--color-accent-900); }
+.pill-upheld { background: #fdecef; color: #8c0020; }
+.pill-dismissed { background: var(--color-neutral-200); color: var(--color-neutral-700); }
+
+/* ── Filter bar ────────────────────────────────────────────────────────── */
+.adm-filters {
+    display: flex;
+    align-items: flex-end;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+}
+
+.adm-filters .field { min-width: 170px; margin: 0; }
+.adm-filters .field-grow { flex: 1 1 240px; }
+
+/* Status tabs above a queue — the same shape as the board's tab bar. */
+.adm-tabs {
+    display: flex;
+    gap: var(--space-4);
+    flex-wrap: wrap;
+    border-bottom: 1px solid var(--color-divider);
+    padding: 0 var(--space-6);
+}
+
+.adm-tab {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+    padding: 12px 0;
+    margin-bottom: -1px;
+    border-bottom: 3px solid transparent;
+    font-family: var(--font-heading);
+    font-weight: 600;
+    font-size: 13.5px;
+    text-decoration: none;
+    color: var(--color-neutral-700);
+    transition: color 0.15s, border-color 0.15s;
+}
+
+.adm-tab:hover { color: var(--color-brand); }
+.adm-tab.is-on { color: var(--color-brand); border-bottom-color: var(--color-brand); }
+
+.adm-tab-n {
+    font-size: 11px;
+    padding: 1px 6px;
+    border-radius: 999px;
+    background: var(--color-neutral-200);
+    color: var(--color-neutral-800);
+    font-variant-numeric: tabular-nums;
+}
+
+.adm-tab.is-on .adm-tab-n { background: var(--color-accent-800); color: var(--color-accent-100); }
+
+/* ── Bulk action bar ───────────────────────────────────────────────────────
+   Only shown once something is ticked, so the resting queue stays quiet. */
+.adm-bulk {
+    display: flex;
+    align-items: center;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    padding: var(--space-4) var(--space-6);
+    background: var(--color-accent-100);
+    border-bottom: 1px solid var(--color-divider);
+}
+
+.adm-bulk-n { font-size: 13px; font-weight: 600; color: var(--color-accent-900); }
+
+/* ── Detail screen ─────────────────────────────────────────────────────── */
+.adm-detail {
+    display: grid;
+    grid-template-columns: minmax(0, 1fr) minmax(280px, 340px);
+    gap: var(--space-8);
+    align-items: start;
+}
+
+.adm-block {
+    background: var(--color-bg);
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+    padding: var(--space-6);
+    margin-bottom: var(--space-6);
+}
+
+.adm-block:last-child { margin-bottom: 0; }
+
+.adm-block h5 {
+    margin: 0 0 var(--space-4);
+    font-size: 15px;
+    padding-bottom: var(--space-3);
+    border-bottom: 1px solid var(--color-divider);
+}
+
+/* Both languages side by side, so a moderator can see at a glance that one of
+   them is missing, or is the other one run through a machine. */
+.adm-bilingual {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: var(--space-6);
+}
+
+.adm-bilingual + .adm-bilingual { margin-top: var(--space-6); }
+
+.adm-lang-label {
+    display: inline-block;
+    font-size: 10px;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--color-accent-700);
+    margin-bottom: 4px;
+}
+
+.adm-missing { color: var(--color-cta); font-size: 13px; font-style: italic; }
+
+.adm-facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(150px, 1fr)); gap: var(--space-6); }
+.adm-facts dt { font-size: 11px; color: var(--color-neutral-600); margin-bottom: 3px; }
+.adm-facts dd { margin: 0; font-size: 14px; }
+
+.adm-actions { display: flex; flex-direction: column; gap: var(--space-3); }
+
+/* ── Responsive ────────────────────────────────────────────────────────── */
+@media (max-width: 1100px) {
+    .adm-detail { grid-template-columns: minmax(0, 1fr); }
+}
+
+@media (max-width: 900px) {
+    .admin { grid-template-columns: minmax(0, 1fr); }
+
+    .adm-side {
+        position: fixed;
+        top: 0;
+        bottom: 0;
+        z-index: 51;
+        width: min(86vw, 280px);
+        height: auto;
+        transition: transform 0.2s ease;
+    }
+
+    .app[dir='ltr'] .adm-side { left: 0; right: auto; transform: translateX(-110%); }
+    .app[dir='rtl'] .adm-side { right: 0; left: auto; transform: translateX(110%); }
+    .adm-side.is-open { transform: translateX(0); }
+
+    .adm-side-close { display: grid; }
+    .adm-burger { display: grid; }
+    .adm-scrim { display: block; }
+    .adm-top { padding-inline: var(--space-6); }
+    .adm-body { padding: var(--space-6); }
+    .adm-who { display: none; }
+}
+
+/* A <details> used as a row-action menu.
+   The browser drives the open/closed state, so these keep working with no
+   JavaScript at all — which matters on the staff screen, where the actions
+   behind them are the only way to change who can administer the board. */
+.row-actions { display: inline-block; }
+
+.row-actions > summary {
+    list-style: none;
+    cursor: pointer;
+    user-select: none;
+}
+
+.row-actions > summary::-webkit-details-marker { display: none; }
+.row-actions > summary::marker { content: ''; }
+.row-actions[open] > summary { border-color: var(--color-accent); color: var(--color-accent-700); }

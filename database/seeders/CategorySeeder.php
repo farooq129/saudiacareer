@@ -1,0 +1,218 @@
+<?php
+
+namespace Database\Seeders;
+
+use App\Models\Category;
+use Illuminate\Database\Seeder;
+
+/**
+ * The sixteen categories, with the artwork the canvas drew for each: the SVG in
+ * public/icons/categories, the Phosphor icon name as its fallback, and the
+ * three-colour gradient a listing card falls back to when it has no photo.
+ *
+ * Ordered by listing volume, the same as the tile grid on the home page.
+ */
+class CategorySeeder extends Seeder
+{
+    public function run(): void
+    {
+        $categories = [
+            [
+                'key' => 'sales',
+                'name_ar' => 'المبيعات والتسويق',
+                'name_en' => 'Sales & Marketing',
+                'icon' => 'ph-chart-line-up',
+                'svg_path' => 'icons/categories/sales.svg',
+                'art_from' => '#dbeafe',
+                'art_to' => '#bfdbfe',
+                'art_ink' => '#1e4b91',
+                'jobs_count' => 2842,
+                'sort_order' => 10,
+            ],
+            [
+                'key' => 'drivers',
+                'name_ar' => 'السائقون والتوصيل',
+                'name_en' => 'Drivers & Delivery',
+                'icon' => 'ph-truck',
+                'svg_path' => 'icons/categories/drivers.svg',
+                'art_from' => '#fef3c7',
+                'art_to' => '#fde68a',
+                'art_ink' => '#8a5a05',
+                'jobs_count' => 1516,
+                'sort_order' => 20,
+            ],
+            [
+                'key' => 'engineering',
+                'name_ar' => 'الهندسة',
+                'name_en' => 'Engineering',
+                'icon' => 'ph-compass-tool',
+                'svg_path' => 'icons/categories/engineering.svg',
+                'art_from' => '#e0e7ff',
+                'art_to' => '#c7d2fe',
+                'art_ink' => '#3b3f8f',
+                'jobs_count' => 1204,
+                'sort_order' => 30,
+            ],
+            [
+                'key' => 'finance',
+                'name_ar' => 'المحاسبة والمالية',
+                'name_en' => 'Accounting & Finance',
+                'icon' => 'ph-calculator',
+                'svg_path' => 'icons/categories/finance.svg',
+                'art_from' => '#dcfce7',
+                'art_to' => '#bbf7d0',
+                'art_ink' => '#166534',
+                'jobs_count' => 986,
+                'sort_order' => 40,
+            ],
+            [
+                'key' => 'it',
+                'name_ar' => 'تقنية المعلومات والبرمجة',
+                'name_en' => 'IT & Software',
+                'icon' => 'ph-code',
+                'svg_path' => 'icons/categories/it.svg',
+                'art_from' => '#e0f2fe',
+                'art_to' => '#bae6fd',
+                'art_ink' => '#075985',
+                'jobs_count' => 874,
+                'sort_order' => 50,
+            ],
+            [
+                'key' => 'health',
+                'name_ar' => 'الرعاية الصحية',
+                'name_en' => 'Healthcare',
+                'icon' => 'ph-first-aid-kit',
+                'svg_path' => 'icons/categories/health.svg',
+                'art_from' => '#fee2e2',
+                'art_to' => '#fecaca',
+                'art_ink' => '#9f1239',
+                'jobs_count' => 762,
+                'sort_order' => 60,
+            ],
+            [
+                'key' => 'hospitality',
+                'name_ar' => 'الفنادق والمطاعم',
+                'name_en' => 'Hotels & Restaurants',
+                'icon' => 'ph-fork-knife',
+                'svg_path' => 'icons/categories/hospitality.svg',
+                'art_from' => '#ffedd5',
+                'art_to' => '#fed7aa',
+                'art_ink' => '#9a3412',
+                'jobs_count' => 731,
+                'sort_order' => 70,
+            ],
+            [
+                'key' => 'construction',
+                'name_ar' => 'البناء والمهن اليدوية',
+                'name_en' => 'Construction & Trades',
+                'icon' => 'ph-wrench',
+                'svg_path' => 'icons/categories/construction.svg',
+                'art_from' => '#eceae7',
+                'art_to' => '#ded9d3',
+                'art_ink' => '#57534e',
+                'jobs_count' => 690,
+                'sort_order' => 80,
+            ],
+            [
+                'key' => 'admin',
+                'name_ar' => 'الإدارة والسكرتارية',
+                'name_en' => 'Admin & Secretarial',
+                'icon' => 'ph-folders',
+                'svg_path' => 'icons/categories/admin.svg',
+                'art_from' => '#f3e8ff',
+                'art_to' => '#e9d5ff',
+                'art_ink' => '#6b21a8',
+                'jobs_count' => 604,
+                'sort_order' => 90,
+            ],
+            [
+                'key' => 'education',
+                'name_ar' => 'التعليم',
+                'name_en' => 'Education',
+                'icon' => 'ph-graduation-cap',
+                'svg_path' => 'icons/categories/education.svg',
+                'art_from' => '#ccfbf1',
+                'art_to' => '#99f6e4',
+                'art_ink' => '#115e59',
+                'jobs_count' => 512,
+                'sort_order' => 100,
+            ],
+            [
+                'key' => 'logistics',
+                'name_ar' => 'الشحن والمستودعات',
+                'name_en' => 'Logistics & Warehouse',
+                'icon' => 'ph-package',
+                'svg_path' => 'icons/categories/logistics.svg',
+                'art_from' => '#ecfccb',
+                'art_to' => '#d9f99d',
+                'art_ink' => '#3f6212',
+                'jobs_count' => 468,
+                'sort_order' => 110,
+            ],
+            [
+                'key' => 'security',
+                'name_ar' => 'الأمن والصيانة',
+                'name_en' => 'Security & Maintenance',
+                'icon' => 'ph-shield-check',
+                'svg_path' => 'icons/categories/security.svg',
+                'art_from' => '#e2e8f0',
+                'art_to' => '#cbd5e1',
+                'art_ink' => '#334155',
+                'jobs_count' => 391,
+                'sort_order' => 120,
+            ],
+            [
+                'key' => 'beauty',
+                'name_ar' => 'التجميل والصالونات',
+                'name_en' => 'Beauty & Salons',
+                'icon' => 'ph-scissors',
+                'svg_path' => 'icons/categories/beauty.svg',
+                'art_from' => '#fce7f3',
+                'art_to' => '#fbcfe8',
+                'art_ink' => '#9d2463',
+                'jobs_count' => 264,
+                'sort_order' => 130,
+            ],
+            [
+                'key' => 'domestic',
+                'name_ar' => 'العمالة المنزلية',
+                'name_en' => 'Domestic Staff',
+                'icon' => 'ph-house',
+                'svg_path' => 'icons/categories/domestic.svg',
+                'art_from' => '#fef9c3',
+                'art_to' => '#fef08a',
+                'art_ink' => '#854d0e',
+                'jobs_count' => 236,
+                'sort_order' => 140,
+            ],
+            [
+                'key' => 'retail',
+                'name_ar' => 'البيع بالتجزئة والكاشير',
+                'name_en' => 'Retail & Cashier',
+                'icon' => 'ph-storefront',
+                'svg_path' => 'icons/categories/retail.svg',
+                'art_from' => '#cffafe',
+                'art_to' => '#a5f3fc',
+                'art_ink' => '#155e75',
+                'jobs_count' => 218,
+                'sort_order' => 150,
+            ],
+            [
+                'key' => 'legal',
+                'name_ar' => 'القانون والموارد البشرية',
+                'name_en' => 'Legal & HR',
+                'icon' => 'ph-scales',
+                'svg_path' => 'icons/categories/legal.svg',
+                'art_from' => '#ede9fe',
+                'art_to' => '#ddd6fe',
+                'art_ink' => '#5b21b6',
+                'jobs_count' => 182,
+                'sort_order' => 160,
+            ],
+        ];
+
+        foreach ($categories as $category) {
+            Category::updateOrCreate(['key' => $category['key']], $category);
+        }
+    }
+}

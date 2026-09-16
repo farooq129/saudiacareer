@@ -1,0 +1,111 @@
+<?php
+
+return [
+
+    'title' => 'My account',
+
+    'nav' => [
+        'dashboard' => 'Dashboard',
+        'posts' => 'My posts',
+        'applications' => 'My applications',
+        'profile' => 'Profile',
+    ],
+
+    'dashboard' => [
+        'progress' => 'Where you stand',
+        'shortlisted' => 'Shortlisted',
+        'viewed' => 'Seen by an employer',
+        'sent' => 'Applications sent',
+        'saved' => 'Saved ads',
+        'livePosts' => 'Live posts',
+        'pendingPosts' => 'Posts awaiting review',
+        'recentApplications' => 'Your applications',
+        'yourPosts' => 'Your posts',
+        'noApplications' => 'You have not applied to anything yet.',
+        'noPosts' => 'You have not posted about yourself yet. Employers browse these.',
+        'browseJobs' => 'Browse jobs',
+        'createPost' => 'Post about yourself',
+    ],
+
+    'posts' => [
+        'title' => 'My posts',
+        'new' => 'New post',
+        'edit' => 'Edit',
+        'deleteConfirm' => 'Delete this post?',
+        'views' => 'Views',
+        'empty' => 'Nothing here yet.',
+        'rejectedNotice' => 'This post was turned down. Fix the point below and submit it again.',
+        'pendingNotice' => 'Submitted. An administrator reviews new posts before they go on the board.',
+    ],
+
+    'form' => [
+        'newTitle' => 'Post about yourself',
+        'editTitle' => 'Edit post',
+        'intro' => 'This is what employers browsing for people will see. Keep the headline concrete — "Heavy truck driver, valid heavy licence" beats "hard worker".',
+        'bothLanguages' => 'Your name and headline are needed in both languages: employers search in Arabic and in English.',
+        'nameAr' => 'Your name (Arabic)',
+        'nameEn' => 'Your name (English)',
+        'headlineAr' => 'Headline (Arabic)',
+        'headlineEn' => 'Headline (English)',
+        'pitchAr' => 'A little about you (Arabic)',
+        'pitchEn' => 'A little about you (English)',
+        'experienceAr' => 'Experience (Arabic)',
+        'experienceEn' => 'Experience (English)',
+        'experienceHint' => 'For example "8 years" or "2 years".',
+        'expectedSalary' => 'Pay you are looking for',
+        'salaryMin' => 'From (SAR)',
+        'salaryMax' => 'To (SAR)',
+        'salaryHint' => 'Optional. Most people leave this blank.',
+        'transfer' => 'My iqama can be transferred',
+        'available' => 'I can start immediately',
+        'cv' => 'Your CV',
+        'cvHint' => 'PDF or Word, up to 4 MB. Optional, but employers open posts with one first.',
+        'cvCurrent' => 'A CV is already attached. Choosing a new file replaces it.',
+        'contact' => 'How employers reach you',
+        'saveDraft' => 'Save as draft',
+        'submit' => 'Submit for review',
+        'submitDirect' => 'Publish',
+        'update' => 'Save changes',
+    ],
+
+    'applications' => [
+        'title' => 'My applications',
+        'allStatuses' => 'Every status',
+        'job' => 'Job',
+        'employer' => 'Employer',
+        'sent' => 'Sent',
+        'status' => 'Status',
+        'empty' => 'You have not applied to anything yet.',
+        'notViewed' => 'Not opened yet',
+        'viewedOn' => 'Opened :date',
+        'statuses' => [
+            'sent' => 'Sent',
+            'viewed' => 'Opened by the employer',
+            'shortlisted' => 'Shortlisted',
+            'rejected' => 'Not taken forward',
+            'hired' => 'Hired',
+        ],
+    ],
+
+    'profile' => [
+        'title' => 'Profile',
+        'account' => 'Your details',
+        'phoneHint' => 'This is how you sign in. Changing it means verifying the new number.',
+        'language' => 'Language you prefer',
+        'password' => 'Change password',
+        'currentPassword' => 'Current password',
+        'newPassword' => 'New password',
+        'confirmPassword' => 'Confirm new password',
+        'save' => 'Save',
+    ],
+
+    'flash' => [
+        'draftSaved' => 'Saved as a draft. It is not on the board yet.',
+        'submitted' => 'Submitted for review. It goes live once an administrator approves it.',
+        'updated' => 'Saved.',
+        'deleted' => 'Deleted.',
+        'profileSaved' => 'Profile saved.',
+        'passwordChanged' => 'Password changed.',
+    ],
+
+];
