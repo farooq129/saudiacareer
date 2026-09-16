@@ -242,13 +242,18 @@ them, reading the language off the URL so an English visitor bounced off
 `/en/admin` lands on the English sign-in page and is returned to `/en/admin`
 afterwards.
 
-**A stale `public/hot` file silently breaks the whole front end.** `npm run dev`
-writes it and removes it on a clean exit; kill the process and it is left behind.
-While it exists, `@vite` emits script and style tags pointing at the dev server
-instead of the built files, so if that server is not running the page loads with
-no CSS and no Alpine — and every menu, dialog and toggle on the site quietly does
-nothing. If the site looks unstyled or nothing is clickable, delete
+**`public/hot` decides where the front end comes from.** `npm run dev` writes it
+and removes it on a clean exit; kill the process and it is left behind. While it
+exists, `@vite` emits script and style tags pointing at the dev server instead of
+the built files. That is what you want while developing — but if the dev server
+is not actually running, the page loads with no CSS and no Alpine, and every
+menu, dialog and toggle quietly does nothing. If the site looks unstyled or
+nothing is clickable, check whether `npm run dev` is alive; if it is not, delete
 `public/hot` and run `npm run build`.
+
+Note the file records the address vite bound to, which is often `http://[::1]:5173`
+— IPv6. Checking `127.0.0.1:5173` will report nothing listening even when the
+server is up.
 
 ---
 
@@ -311,9 +316,11 @@ rather than by accident:
   does. If the brand navy should carry both, override the `--color-accent*` ramp
   on `.app` rather than only on `.app[lang='en']`.
 - **English is themed onto Proxima Nova, which is not loaded.** It is a licensed
-  face, so English currently falls back to Arial — again exactly as the canvas
-  does. Add an Adobe Fonts kit to the layout head when a licence is in place, or
-  change the stack in `resources/css/app.css`.
+  face and stays first in the stack, so adding an Adobe Fonts kit is the only
+  thing needed to switch English over. Until then it falls back to IBM Plex Sans
+  Arabic rather than Arial: Plex is already self-hosted for the Arabic side, its
+  Latin is good, and the alternative was English rendering in a system face while
+  Arabic rendered in a webfont — two textures in one product.
 
 Icons are Phosphor (`<i class="ph ph-map-pin">`), installed from npm and
 self-hosted. Fonts are self-hosted too, built by the Vite font plugin.

@@ -140,7 +140,7 @@ h2 { font-size: 32px; }
 h3 { font-size: 25px; }
 h4 { font-size: 20px; }
 h5 { font-size: 16px; }
-h6 { font-size: 13px; letter-spacing: 0.08em; text-transform: uppercase; }
+h6 { font-size: 13px; }
 
 p { margin: 0 0 var(--space-3); }
 
@@ -191,21 +191,28 @@ i[class^='ph'] { line-height: 1; }
 body.is-locked { overflow: hidden; }
 
 /* ── Theme per language ────────────────────────────────────────────────────
-   Arabic keeps IBM Plex Sans Arabic (which carries the Latin too) on the
-   system's own accent. English runs the brand: Proxima Nova on the navy. Both
-   are set on the app root, so flipping language re-themes the page.
+   Arabic keeps IBM Plex Sans Arabic, which carries the Latin too. English runs
+   the brand navy. Both are set on the app root, so flipping language re-themes
+   the page.
 
-   NOTE: Proxima Nova is a licensed face and is NOT loaded — until a kit is
-   added, English falls back to Arial, exactly as it does in the canvas. Add
-   the Adobe Fonts link in the layout head, or a self-hosted @font-face here. */
+   FONTS: Proxima Nova is the canvas's choice for English, but it is a licensed
+   face and is not loaded here. It stays first in the stack so that dropping in
+   an Adobe Fonts kit is the only thing needed to switch the English side over.
+
+   What it falls back to is the part that matters day to day. It used to be
+   Arial, which meant English rendered in a system face while every Arabic page
+   rendered in the self-hosted IBM Plex — two different textures, and the weaker
+   of the two on the side with all the dense admin tables. IBM Plex Sans Arabic
+   now sits in front of Arial: it is already downloaded for the Arabic side, its
+   Latin is good, and the two languages finally look like one product. */
 .app {
     --font-heading: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
     --font-body: 'IBM Plex Sans Arabic', 'Inter', system-ui, sans-serif;
 }
 
 .app[lang='en'] {
-    --font-heading: 'Proxima Nova SemiBold', 'Proxima Nova', Arial, Helvetica, sans-serif;
-    --font-body: 'Proxima Nova', Arial, Helvetica, sans-serif;
+    --font-heading: 'Proxima Nova SemiBold', 'Proxima Nova', 'IBM Plex Sans Arabic', Arial, Helvetica, sans-serif;
+    --font-body: 'Proxima Nova', 'IBM Plex Sans Arabic', Arial, Helvetica, sans-serif;
     --font-heading-weight: 600;
     line-height: 1.6;
 
@@ -270,7 +277,14 @@ body.is-locked { overflow: hidden; }
     border: 1px solid transparent;
     padding: var(--space-2) calc(var(--space-3) * 1.2);
     border-radius: var(--radius-sm);
+    /* The two solid buttons already refuse to wrap; the outline ones did not,
+       so a label like "Grant verified badge" broke over three lines inside a
+       table cell. A button reads as one object or not at all. */
+    white-space: nowrap;
 }
+
+/* …except when it is deliberately full-width, where wrapping is fine. */
+.btn-block { white-space: normal; }
 
 .btn:disabled { opacity: 0.45; cursor: not-allowed; }
 .btn-primary { color: var(--color-accent); border-color: var(--color-accent); }
@@ -482,10 +496,11 @@ textarea.input { min-height: 90px; resize: vertical; }
     background: var(--color-surface);
 }
 
+/* The small label above a card title. No caps and no tracking: see the note on
+   .adm-table th — both hurt Arabic and neither earns its place in Latin. */
 .card-kicker {
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 11.5px;
+    font-weight: 600;
     color: var(--color-accent-700);
 }
 
@@ -512,8 +527,7 @@ textarea.input { min-height: 90px; resize: vertical; }
 .tag {
     display: inline-flex;
     align-items: center;
-    font-size: 11px;
-    letter-spacing: 0.02em;
+    font-size: 11.5px;
     padding: 3px 10px;
     border-radius: calc(var(--radius-md) * 0.75);
 }
@@ -693,10 +707,8 @@ textarea.input { min-height: 90px; resize: vertical; }
 .ai-mark { font-size: 15px; color: var(--color-brand); }
 
 .ai-badge {
-    font-size: 9px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    padding: 3px 5px;
+    font-size: 10px;
+    padding: 3px 6px;
     border-radius: 999px;
     line-height: 1;
     background: var(--color-accent-800);
@@ -1679,14 +1691,21 @@ a.adm-stat:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .adm-table-wrap { overflow-x: auto; }
 .adm-table { width: 100%; border-collapse: collapse; font-size: 13.5px; }
 
+/*
+ * Column headings read as plain words.
+ *
+ * They used to be 11px grey small-caps with letter-spacing, which is a Latin
+ * typographic habit and does two bad things here. Arabic has no capitals, so
+ * `text-transform` gives it nothing — while the letter-spacing it came with
+ * actively breaks the script, prising apart letters that are supposed to join.
+ * And at 11px in grey the English side was barely legible either.
+ */
 .adm-table th {
     text-align: start;
-    font-size: 11px;
-    letter-spacing: 0.06em;
-    text-transform: uppercase;
-    color: var(--color-neutral-600);
+    font-size: 12.5px;
+    color: var(--color-text);
     font-weight: 600;
-    padding: 11px var(--space-6);
+    padding: 12px var(--space-6);
     border-bottom: 1px solid var(--color-divider);
     white-space: nowrap;
 }
@@ -1848,9 +1867,8 @@ a.adm-stat:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 
 .adm-lang-label {
     display: inline-block;
-    font-size: 10px;
-    letter-spacing: 0.1em;
-    text-transform: uppercase;
+    font-size: 11.5px;
+    font-weight: 600;
     color: var(--color-accent-700);
     margin-bottom: 4px;
 }
