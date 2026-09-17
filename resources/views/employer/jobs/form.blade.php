@@ -4,7 +4,15 @@
     use App\Models\Job;
 
     $editing = $job->exists;
-    $action = $editing ? lroute('employer.jobs.update', $job) : lroute('employer.jobs.store');
+
+    /*
+     * Admin and moderator reuse this form to correct a listing, so the target
+     * and the submit block are overridable. Everything between them — the
+     * bilingual fields, the placement selects — is identical whoever is typing,
+     * and duplicating it into a second view is how the two drift apart.
+     */
+    $adminMode = $adminMode ?? false;
+    $action = $action ?? ($editing ? lroute('employer.jobs.update', $job) : lroute('employer.jobs.store'));
 
     /*
      * The list fields are stored as JSON arrays and edited as one-per-line
@@ -22,8 +30,8 @@
     };
 @endphp
 
-@section('title', $editing ? __('employer.form.editTitle') : __('employer.form.newTitle'))
-@section('heading', $editing ? __('employer.form.editTitle') : __('employer.form.newTitle'))
+@section('title', $formTitle ?? ($editing ? __('employer.form.editTitle') : __('employer.form.newTitle')))
+@section('heading', $formTitle ?? ($editing ? __('employer.form.editTitle') : __('employer.form.newTitle')))
 
 @section('content')
 
@@ -247,24 +255,43 @@
 
             <div class="adm-block">
                 <div class="adm-actions">
-                    <button type="submit" name="intent" value="submit" class="btn-blue btn-wide">
-                        @if ($editing)
-                            {{ __('employer.form.update') }}
-                        @elseif (config('board.listing.moderated'))
-                            {{ __('employer.form.submit') }}
-                        @else
-                            {{ __('employer.form.submitDirect') }}
-                        @endif
-                    </button>
+                    @if ($adminMode)
+                        {{-- No draft/submit pair here: a staff edit corrects the
+                             content and leaves the listing in whatever state it
+                             was already in. Approving, rejecting and
+                             withdrawing stay on the review screen, where the
+                             reason box and the audit trail live. --}}
+                        <button type="submit" class="btn-blue btn-wide">
+                            {{ __('admin.edit.save') }}
+                        </button>
 
-                    <button type="submit" name="intent" value="draft" class="btn btn-secondary btn-block">
-                        {{ __('employer.form.saveDraft') }}
-                    </button>
+                        <a href="{{ lroute('admin.jobs.show', $job) }}" class="btn btn-secondary btn-block">
+                            {{ __('admin.edit.cancel') }}
+                        </a>
 
-                    @if (config('board.listing.moderated'))
                         <p class="text-muted" style="font-size:12px;margin:var(--space-3) 0 0">
-                            {{ __('employer.form.moderationNote') }}
+                            {{ __('admin.edit.staffNote') }}
                         </p>
+                    @else
+                        <button type="submit" name="intent" value="submit" class="btn-blue btn-wide">
+                            @if ($editing)
+                                {{ __('employer.form.update') }}
+                            @elseif (config('board.listing.moderated'))
+                                {{ __('employer.form.submit') }}
+                            @else
+                                {{ __('employer.form.submitDirect') }}
+                            @endif
+                        </button>
+
+                        <button type="submit" name="intent" value="draft" class="btn btn-secondary btn-block">
+                            {{ __('employer.form.saveDraft') }}
+                        </button>
+
+                        @if (config('board.listing.moderated'))
+                            <p class="text-muted" style="font-size:12px;margin:var(--space-3) 0 0">
+                                {{ __('employer.form.moderationNote') }}
+                            </p>
+                        @endif
                     @endif
                 </div>
             </div>

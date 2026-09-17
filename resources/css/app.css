@@ -296,6 +296,7 @@ body.is-locked { overflow: hidden; }
 .btn-ghost { color: var(--color-accent); padding-inline: var(--space-1); }
 .btn-ghost:hover { background: color-mix(in srgb, var(--color-accent) 10%, transparent); }
 .btn-icon { width: 36px; height: 36px; padding: 0; }
+.btn-sm { height: 30px; padding-inline: 10px; font-size: 12.5px; }
 .btn-block { width: 100%; margin-top: var(--space-2); }
 
 /* The two solid actions. Everything else in the system is an outline; these
@@ -486,6 +487,28 @@ textarea.input { min-height: 90px; resize: vertical; }
     color: var(--color-cta);
 }
 
+/* The quiet sibling of .field-error: what a box is for, not what went wrong
+   with it. Muted so it never competes with the label above it. */
+.field-hint {
+    display: block;
+    margin-top: 5px;
+    font-size: 12px;
+    line-height: 1.55;
+    color: var(--color-neutral-600);
+}
+
+/* A checkbox with its label on one line. The table checkboxes elsewhere are
+   bare and labelled by their column, so this is only for standalone ones. */
+.check {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 13.5px;
+    cursor: pointer;
+}
+
+.check input { flex: none; margin: 0; }
+
 /* ── Cards, tags ───────────────────────────────────────────────────────── */
 .card {
     display: flex;
@@ -618,30 +641,46 @@ textarea.input { min-height: 90px; resize: vertical; }
 .hdr-main .hdr-row { height: 86px; gap: var(--space-6); }
 
 .brand {
-    display: flex;
+    display: inline-flex;
     align-items: center;
-    gap: 9px;
     text-decoration: none;
-    color: var(--color-text);
-    font-family: var(--font-heading);
-    font-size: 19px;
-    line-height: 1;
-    white-space: nowrap;
-}
-
-.brand-mark {
-    display: grid;
-    place-items: center;
-    width: 32px;
-    height: 32px;
-    border-radius: var(--radius-md);
-    background: var(--color-accent-800);
-    color: var(--color-accent-100);
-    font-size: 17px;
     flex: none;
 }
 
-.brand-tld { color: var(--color-accent-700); }
+/* The lockup is one image, so height drives it and width follows the
+   intrinsic 1965x438 ratio. The source is cropped to the artwork, so this
+   height is what actually shows -- no transparent padding to discount. */
+.brand-logo {
+    display: block;
+    height: 42px;
+    width: auto;
+}
+
+.brand-logo.is-compact { height: 28px; }
+
+/* Featured card with no uploaded photo: the lockup sits on the category
+   gradient in place of a picture. Sized by width, not height, so it scales
+   with the card as the grid reflows, and held under full opacity so it reads
+   as a placeholder rather than as the ad's own artwork. */
+/* The seal that follows a verified company name. Sits on the text baseline
+   rather than centre, so it reads as punctuation on the name and not as a
+   separate control. */
+.verified-badge {
+    flex: none;
+    display: inline-block;
+    width: 1.05em;
+    height: 1.05em;
+    vertical-align: -0.17em;
+    margin-inline-start: 5px;
+    color: #3d9bf7;
+}
+
+.card-fallback-logo {
+    width: 64%;
+    max-width: 200px;
+    height: auto;
+    opacity: .82;
+}
 
 .hdr-nav { display: flex; align-items: center; gap: var(--space-1); }
 
@@ -1203,6 +1242,10 @@ textarea.input { min-height: 90px; resize: vertical; }
 
 .mono-sm { width: 34px; height: 34px; font-size: 14px; }
 
+/* Sized in em so the one icon fits both tiles: 40px .mono and 34px .mono-sm
+   carry different font-sizes, and the glyph should track them. */
+.company-icon { width: 1.4em; height: 1.4em; }
+
 /* ── Pagination ────────────────────────────────────────────────────────────
    Square 34px cells on the system's own corner, so the pager reads as part of
    the results panel above it rather than as framework furniture. */
@@ -1301,11 +1344,11 @@ textarea.input { min-height: 90px; resize: vertical; }
 /* ── Footer ────────────────────────────────────────────────────────────── */
 .ftr { margin-top: 72px; background: var(--color-footer); color: #ffffff; }
 
-/* The wordmark sits on navy here, so the chip inverts: white tile, navy glyph.
-   Scoped to the footer so the header's mark is untouched. */
-.ftr .brand { color: #ffffff; }
-.ftr .brand-mark { background: #ffffff; color: var(--color-footer); }
-.ftr .brand-tld { color: rgba(255, 255, 255, 0.62); }
+/* The wordmark sits on navy here, so the lockup is knocked out to solid
+   white. Scoped to the footer so the header's full-colour logo is untouched.
+   It also runs larger than the header mark: this column has no row height to
+   respect, and the logo anchors the footer rather than sharing a bar. */
+.ftr .brand-logo { filter: brightness(0) invert(1); height: 45px; }
 
 .ftr-inner {
     max-width: 1240px;
@@ -1462,6 +1505,10 @@ textarea.input { min-height: 90px; resize: vertical; }
     .mega,
     .mega-scrim { display: none; }
     .hdr-main .hdr-row { height: 72px; gap: var(--space-3); }
+
+    /* The bar loses 14px of height here and the burger joins the row, so the
+       lockup steps down to keep its breathing room. */
+    .brand-logo { height: 32px; }
     .ftr-inner { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 36px; }
 }
 
@@ -1511,8 +1558,7 @@ textarea.input { min-height: 90px; resize: vertical; }
     overflow-y: auto;
 }
 
-.adm-side .brand { color: #ffffff; }
-.adm-side .brand-mark { background: #ffffff; color: var(--color-topbar); }
+.adm-side .brand-logo { filter: brightness(0) invert(1); }
 
 .adm-side-head {
     display: flex;
@@ -1926,3 +1972,200 @@ a.adm-stat:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
 .row-actions > summary::-webkit-details-marker { display: none; }
 .row-actions > summary::marker { content: ''; }
 .row-actions[open] > summary { border-color: var(--color-accent); color: var(--color-accent-700); }
+
+/* ── Blog ──────────────────────────────────────────────────────────────────
+   The reading surfaces. Measure is the thing being controlled here: the body
+   is capped in ch rather than px so the line length holds at 66-ish characters
+   in both languages, which no pixel width does across two scripts. */
+
+.blog-head { margin-bottom: var(--space-8); }
+.blog-head h1 { font-size: clamp(28px, 4vw, 38px); margin: 0 0 var(--space-3); }
+.blog-head p { font-size: 15px; max-width: 62ch; margin: 0; }
+
+.blog-sections {
+    display: flex;
+    flex-wrap: wrap;
+    gap: var(--space-2);
+    margin-bottom: var(--space-6);
+}
+
+.blog-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 7px 14px;
+    border-radius: 999px;
+    border: 1px solid var(--color-divider);
+    background: var(--color-bg);
+    color: var(--color-text);
+    font-size: 13.5px;
+    text-decoration: none;
+}
+
+.blog-chip:hover { border-color: var(--color-brand); color: var(--color-brand); }
+.blog-chip.is-on { background: var(--color-brand); border-color: var(--color-brand); color: #ffffff; }
+.blog-chip-n { font-size: 11.5px; opacity: .7; }
+
+.blog-search { display: flex; gap: var(--space-2); margin-bottom: var(--space-8); }
+.blog-search .input { flex: 1; }
+
+.blog-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(268px, 1fr));
+    gap: var(--space-6);
+}
+
+.blog-card {
+    display: flex;
+    flex-direction: column;
+    gap: 0;
+    padding: 0;
+    min-width: 0;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+}
+
+.blog-card:hover { box-shadow: var(--shadow-md); transform: translateY(-1px); }
+
+/* A fixed ratio rather than a fixed height: every card in a row lines up
+   whatever the image, and a missing one leaves no hole. */
+.blog-card-art {
+    display: grid;
+    place-items: center;
+    aspect-ratio: 16 / 9;
+    background: var(--color-surface);
+    overflow: hidden;
+}
+
+.blog-card-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-card-art .card-fallback-logo { width: 38%; height: auto; object-fit: contain; opacity: .38; }
+
+.blog-card-body {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+    gap: var(--space-2);
+    /* A headline with no spaces (a long URL, a hashtag) must break rather
+       than widen the card past its grid track. */
+    overflow-wrap: anywhere;
+    padding: var(--space-6) var(--space-6) var(--space-8);
+}
+
+.blog-card-meta { display: flex; gap: 6px; align-items: center; margin-top: auto; padding-top: var(--space-3); }
+
+.blog-kicker {
+    font-family: var(--font-heading);
+    font-size: 11.5px;
+    font-weight: 600;
+    letter-spacing: .04em;
+    text-transform: uppercase;
+    color: var(--color-brand);
+}
+
+/* The lead article: one wide card above the grid, stacking on a phone. */
+.blog-lead {
+    display: grid;
+    grid-template-columns: minmax(0, 1.1fr) minmax(0, 1fr);
+    gap: 0;
+    padding: 0;
+    overflow: hidden;
+    border-radius: var(--radius-sm);
+    text-decoration: none;
+    color: inherit;
+    margin-bottom: var(--space-8);
+}
+
+.blog-lead-art { display: grid; place-items: center; background: var(--color-surface); min-height: 260px; }
+.blog-lead-art img { width: 100%; height: 100%; object-fit: cover; display: block; }
+.blog-lead-art .card-fallback-logo { width: 32%; height: auto; object-fit: contain; opacity: .38; }
+
+.blog-lead-body {
+    display: flex;
+    flex-direction: column;
+    gap: var(--space-3);
+    padding: var(--space-8);
+    justify-content: center;
+}
+
+.blog-lead-title { font-family: var(--font-heading); font-size: 23px; font-weight: 600; line-height: 1.35; }
+
+.blog-empty {
+    display: grid;
+    place-items: center;
+    gap: var(--space-3);
+    padding: 64px 24px;
+    color: var(--color-neutral-600);
+}
+
+.blog-empty i { font-size: 34px; }
+
+/* ── The article ───────────────────────────────────────────────────────── */
+
+.blog-crumbs {
+    display: flex;
+    gap: var(--space-2);
+    align-items: center;
+    font-size: 12px;
+    margin-bottom: var(--space-8);
+}
+
+.blog-crumbs i { color: var(--color-neutral-600); font-size: 11px; }
+
+.blog-article { max-width: 72ch; margin: 0 auto; }
+.blog-title { font-size: clamp(28px, 4.4vw, 40px); line-height: 1.25; margin: var(--space-3) 0 var(--space-4); }
+.blog-standfirst { font-size: 17px; line-height: 1.7; color: var(--color-neutral-700); margin: 0 0 var(--space-6); }
+
+.blog-byline {
+    display: flex;
+    gap: 6px;
+    align-items: center;
+    flex-wrap: wrap;
+    font-size: 13px;
+    color: var(--color-neutral-600);
+}
+
+.blog-hero { margin: var(--space-8) 0; }
+
+.blog-hero img {
+    width: 100%;
+    height: auto;
+    display: block;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+}
+
+.blog-body p { font-size: 16.5px; line-height: 1.9; margin: 0 0 var(--space-6); }
+
+.blog-related { margin-top: 64px; }
+
+@media (max-width: 760px) {
+    .blog-lead { grid-template-columns: minmax(0, 1fr); }
+    .blog-lead-art { min-height: 200px; }
+    .blog-lead-body { padding: var(--space-6); }
+    .blog-lead-title { font-size: 20px; }
+}
+
+/* ── Blog, admin side ──────────────────────────────────────────────────── */
+
+.adm-head-actions {
+    display: flex;
+    gap: var(--space-3);
+    flex-wrap: wrap;
+    margin-bottom: var(--space-6);
+}
+
+.adm-image-current {
+    display: flex;
+    gap: var(--space-4);
+    align-items: flex-start;
+    margin-bottom: var(--space-6);
+}
+
+.adm-image-current img {
+    width: 180px;
+    height: auto;
+    border-radius: var(--radius-sm);
+    box-shadow: var(--shadow-sm);
+}

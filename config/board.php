@@ -73,6 +73,7 @@ return [
             'links' => [
                 ['key' => 'about', 'route' => null],
                 ['key' => 'contact', 'route' => null],
+                ['key' => 'blog', 'route' => 'blog.index'],
                 ['key' => 'advice', 'route' => null],
                 ['key' => 'help', 'route' => null],
             ],

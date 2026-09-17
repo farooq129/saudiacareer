@@ -39,12 +39,7 @@
 
     <aside class="adm-side" :class="drawer && 'is-open'">
         <div class="adm-side-head">
-            <a href="{{ lroute('home') }}" class="brand" style="font-size:17px">
-                <span class="brand-mark" style="width:28px;height:28px;font-size:15px">
-                    <i class="ph ph-briefcase"></i>
-                </span>
-                <span>{{ $brand }}</span>
-            </a>
+            @include('partials.brand', ['compact' => true])
             <button type="button" class="icon-btn adm-side-close" @click="drawer = false"
                     aria-label="{{ __('nav.close') }}">
                 <i class="ph ph-x"></i>

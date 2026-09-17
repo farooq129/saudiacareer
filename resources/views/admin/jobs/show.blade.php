@@ -180,6 +180,10 @@
                 <h5>{{ __('admin.listing.moderation') }}</h5>
 
                 <div class="adm-actions">
+                    <a href="{{ lroute('admin.jobs.edit', $job) }}" class="btn btn-secondary btn-block">
+                        <i class="ph ph-pencil-simple"></i>{{ __('admin.edit.editListing') }}
+                    </a>
+
                     @if ($job->status !== Job::STATUS_PUBLISHED)
                         <form method="POST" action="{{ lroute('admin.jobs.approve', $job) }}">
                             @csrf @method('PATCH')

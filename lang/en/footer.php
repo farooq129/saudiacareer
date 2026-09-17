@@ -25,6 +25,7 @@ return [
         'title' => 'Company',
         'about' => 'About us',
         'contact' => 'Contact us',
+        'blog' => 'Blog',
         'advice' => 'Career advice',
         'help' => 'Help centre',
     ],

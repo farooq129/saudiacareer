@@ -26,6 +26,9 @@ class DatabaseSeeder extends Seeder
             EmploymentTypeSeeder::class,
             RoleSeeder::class,
             AdminUserSeeder::class,
+            // After AdminUserSeeder: the sample articles take their byline from
+            // the first admin account.
+            BlogSeeder::class,
         ]);
     }
 }

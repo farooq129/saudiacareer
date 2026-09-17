@@ -50,60 +50,15 @@
                 <div style="display:flex;align-items:center;gap:var(--space-4);flex-wrap:wrap;font-size:14px">
                     <span style="display:flex;align-items:center;gap:9px">
                         <span class="mono mono-sm" style="background:var(--color-surface);box-shadow:var(--shadow-sm)">
-                            {{ $job->company?->monogram() ?? '؟' }}
+                            @include('partials.company-icon')
                         </span>
-                        {{ $job->company?->name }}
+                        {{ $job->company?->name }}@if ($job->company?->is_verified)@include('partials.verified-badge')@endif
                     </span>
-
-                    @if ($job->company?->is_verified)
-                        <span class="tag tag-accent">
-                            <i class="ph ph-seal-check" style="margin-inline-end:4px"></i>{{ __('detail.verifiedEmployer') }}
-                        </span>
-                    @endif
 
                     <span class="text-muted" style="display:flex;align-items:center;gap:6px">
                         <i class="ph ph-map-pin"></i>{{ $job->city->name }}
                     </span>
                 </div>
-
-                {{-- The facts a reader scans for before they read a word of the
-                     description: pay, hours, experience, who may take it. --}}
-                <dl style="display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:var(--space-6);margin:var(--space-8) 0 0;padding:var(--space-6);border-radius:var(--radius-sm);background:var(--color-surface);box-shadow:var(--shadow-sm)">
-                    @if ($job->salary_min)
-                        <div>
-                            <dt class="card-kicker">{{ __('detail.salaryLabel') }}</dt>
-                            <dd style="margin:0;font-family:var(--font-heading);font-weight:700;font-size:16px;color:var(--color-accent-700)">
-                                @if ($job->salary_max)
-                                    {{ __('units.salaryRange', ['min' => sar($job->salary_min), 'max' => sar($job->salary_max)]) }}
-                                @else
-                                    {{ __('units.salaryOne', ['n' => sar($job->salary_min)]) }}
-                                @endif
-                            </dd>
-                            @if ($job->salary_note)
-                                <dd class="text-muted" style="margin:3px 0 0;font-size:12px">{{ $job->salary_note }}</dd>
-                            @endif
-                        </div>
-                    @endif
-
-                    <div>
-                        <dt class="card-kicker">{{ __('search.employmentType') }}</dt>
-                        <dd style="margin:0;font-size:15px">{{ $job->employmentType->name }}</dd>
-                    </div>
-
-                    @if ($job->experience)
-                        <div>
-                            <dt class="card-kicker">{{ __('detail.experienceLabel') }}</dt>
-                            <dd style="margin:0;font-size:15px">{{ $job->experience }}</dd>
-                        </div>
-                    @endif
-
-                    @if ($job->eligibility)
-                        <div>
-                            <dt class="card-kicker">{{ __('detail.eligibilityLabel') }}</dt>
-                            <dd style="margin:0;font-size:15px">{{ $job->eligibility }}</dd>
-                        </div>
-                    @endif
-                </dl>
 
                 <h4 style="font-size:19px;margin:44px 0 var(--space-3)">{{ __('detail.description') }}</h4>
                 @foreach (($job->description ?? []) as $paragraph)
@@ -152,8 +107,8 @@
                     <span class="card-kicker">{{ __('detail.postedBy') }}</span>
 
                     <div style="display:flex;align-items:center;gap:10px">
-                        <span class="mono" style="width:38px;height:38px">{{ $job->company?->monogram() ?? '؟' }}</span>
-                        <span class="card-title" style="font-size:16px;line-height:1.4">{{ $job->company?->name }}</span>
+                        <span class="mono" style="width:38px;height:38px">@include('partials.company-icon')</span>
+                        <span class="card-title" style="font-size:16px;line-height:1.4">{{ $job->company?->name }}@if ($job->company?->is_verified)@include('partials.verified-badge')@endif</span>
                     </div>
 
                     @if ($job->company?->blurb)

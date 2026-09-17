@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Public\ApplicationController;
+use App\Http\Controllers\Public\BlogController;
 use App\Http\Controllers\Public\CategoryController;
 use App\Http\Controllers\Public\CityController;
 use App\Http\Controllers\Public\HomeController;
@@ -38,6 +39,15 @@ Route::post('jobs/{job}/apply', [ApplicationController::class, 'store'])
 
 Route::get('categories/{category}', CategoryController::class)->name('categories.show');
 Route::get('cities/{city}', CityController::class)->name('cities.show');
+
+/*
+ | The blog. The section page is its own URL rather than ?section=, because it
+ | is a page a crawler should index in its own right — a filtered feed with a
+ | heading and a description, not a view state of the index.
+ */
+Route::get('blog', [BlogController::class, 'index'])->name('blog.index');
+Route::get('blog/section/{blogCategory}', [BlogController::class, 'index'])->name('blog.section');
+Route::get('blog/{post}', [BlogController::class, 'show'])->name('blog.show');
 
 Route::get('seekers', [SeekerPostController::class, 'index'])->name('seekers.index');
 Route::get('seekers/{post}', [SeekerPostController::class, 'show'])->name('seekers.show');

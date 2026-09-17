@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Employer\JobRequest;
 use App\Models\Category;
 use App\Models\City;
+use App\Models\EmploymentType;
 use App\Models\Job;
 use App\Services\ListingModerator;
+use App\Support\Phone;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -65,6 +68,52 @@ class JobModerationController extends Controller
         ]);
 
         return view('admin.jobs.show', ['job' => $job]);
+    }
+
+    /**
+     * Correct a listing in place.
+     *
+     * Open to moderators as well as admins: fixing a mangled title or a
+     * miscategorised ad is the same job as approving one, and forcing a
+     * rejection round-trip for a typo costs the employer a day and the board a
+     * listing. The employer's own form is reused rather than copied — see the
+     * note at the top of that view.
+     */
+    public function edit(Job $job): View
+    {
+        return view('employer.jobs.form', [
+            'job' => $job,
+            'cities' => City::active()->get(),
+            'categories' => Category::active()->get(),
+            'employmentTypes' => EmploymentType::active()->get(),
+            'adminMode' => true,
+            'action' => lroute('admin.jobs.update', $job),
+            'formTitle' => __('admin.edit.jobTitle'),
+        ]);
+    }
+
+    public function update(JobRequest $request, Job $job): RedirectResponse
+    {
+        $job->fill($request->safe()->except(array_keys($request->listFields())));
+        $job->fill($request->listFields());
+        $job->transfer_available = $request->boolean('transfer_available');
+        $job->whatsapp = Phone::normalise($request->input('whatsapp')) ?? $request->input('whatsapp');
+        $job->phone = Phone::normalise($request->input('phone')) ?? $request->input('phone');
+
+        /*
+         * The status and the publish window are deliberately untouched. An
+         * employer editing a live ad sends it back for review, because they
+         * could otherwise rewrite an approved ad into anything. Staff are the
+         * people that rule protects against, so the same bounce here would only
+         * unpublish a listing a moderator just fixed. Changing state stays on
+         * the review screen, where the reason box and the audit trail are.
+         */
+        $job->save();
+        $this->moderator->refreshCounts();
+
+        return redirect()
+            ->to(lroute('admin.jobs.show', $job))
+            ->with('status', __('admin.edit.jobSaved'));
     }
 
     public function approve(Request $request, Job $job): RedirectResponse

@@ -4,11 +4,15 @@
     use App\Models\JobSeekerPost;
 
     $editing = $post->exists;
-    $action = $editing ? lroute('seeker.posts.update', $post) : lroute('seeker.posts.store');
+
+    // Admin and moderator reuse this form to correct a post; see the note in
+    // employer/jobs/form.blade.php for why it is shared rather than copied.
+    $adminMode = $adminMode ?? false;
+    $action = $action ?? ($editing ? lroute('seeker.posts.update', $post) : lroute('seeker.posts.store'));
 @endphp
 
-@section('title', $editing ? __('seeker.form.editTitle') : __('seeker.form.newTitle'))
-@section('heading', $editing ? __('seeker.form.editTitle') : __('seeker.form.newTitle'))
+@section('title', $formTitle ?? ($editing ? __('seeker.form.editTitle') : __('seeker.form.newTitle')))
+@section('heading', $formTitle ?? ($editing ? __('seeker.form.editTitle') : __('seeker.form.newTitle')))
 
 @section('content')
 
@@ -222,24 +226,38 @@
 
             <div class="adm-block">
                 <div class="adm-actions">
-                    <button type="submit" name="intent" value="submit" class="btn-blue btn-wide">
-                        @if ($editing)
-                            {{ __('seeker.form.update') }}
-                        @elseif (config('board.listing.moderated'))
-                            {{ __('seeker.form.submit') }}
-                        @else
-                            {{ __('seeker.form.submitDirect') }}
-                        @endif
-                    </button>
+                    @if ($adminMode)
+                        <button type="submit" class="btn-blue btn-wide">
+                            {{ __('admin.edit.save') }}
+                        </button>
 
-                    <button type="submit" name="intent" value="draft" class="btn btn-secondary btn-block">
-                        {{ __('seeker.form.saveDraft') }}
-                    </button>
+                        <a href="{{ lroute('admin.seekers.show', $post) }}" class="btn btn-secondary btn-block">
+                            {{ __('admin.edit.cancel') }}
+                        </a>
 
-                    @if (config('board.listing.moderated'))
                         <p class="text-muted" style="font-size:12px;margin:var(--space-3) 0 0">
-                            {{ __('employer.form.moderationNote') }}
+                            {{ __('admin.edit.staffNote') }}
                         </p>
+                    @else
+                        <button type="submit" name="intent" value="submit" class="btn-blue btn-wide">
+                            @if ($editing)
+                                {{ __('seeker.form.update') }}
+                            @elseif (config('board.listing.moderated'))
+                                {{ __('seeker.form.submit') }}
+                            @else
+                                {{ __('seeker.form.submitDirect') }}
+                            @endif
+                        </button>
+
+                        <button type="submit" name="intent" value="draft" class="btn btn-secondary btn-block">
+                            {{ __('seeker.form.saveDraft') }}
+                        </button>
+
+                        @if (config('board.listing.moderated'))
+                            <p class="text-muted" style="font-size:12px;margin:var(--space-3) 0 0">
+                                {{ __('employer.form.moderationNote') }}
+                            </p>
+                        @endif
                     @endif
                 </div>
             </div>

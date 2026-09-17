@@ -3,7 +3,6 @@
 
     $locale = Locale::current();
     $isAr = $locale === 'ar';
-    $brand = config('board.brand.'.$locale);
 
     // Eight categories, not sixteen: the drawer is a shortcut, and the full
     // list is one tap further on at "view all jobs".
@@ -18,12 +17,7 @@
     <div class="drawer" dir="{{ Locale::dir() }}">
 
         <div style="display:flex;align-items:center;gap:var(--space-3);margin-bottom:var(--space-6)">
-            <a href="{{ lroute('home') }}" class="brand" style="font-size:17px">
-                <span class="brand-mark" style="width:28px;height:28px;font-size:15px">
-                    <i class="ph ph-briefcase"></i>
-                </span>
-                <span>{{ $brand }}<span class="brand-tld">{{ __('brand.tld') }}</span></span>
-            </a>
+            @include('partials.brand', ['compact' => true])
             <button type="button" class="icon-btn" style="margin-inline-start:auto"
                     aria-label="{{ __('nav.close') }}" @click="drawer = false">
                 <i class="ph ph-x"></i>

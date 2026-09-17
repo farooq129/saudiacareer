@@ -20,7 +20,7 @@
         toggle, so each declares the other as its alternate. Without these a
         search engine reads them as duplicates and picks one to drop.
     --}}
-    <link rel="canonical" href="{{ url()->current() }}">
+    <link rel="canonical" href="@yield('canonical', url()->current())">
     <link rel="alternate" hreflang="ar" href="{{ Locale::urlIn('ar') }}">
     <link rel="alternate" hreflang="en" href="{{ Locale::urlIn('en') }}">
     <link rel="alternate" hreflang="x-default" href="{{ Locale::urlIn('ar') }}">

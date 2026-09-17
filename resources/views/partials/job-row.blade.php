@@ -38,12 +38,12 @@
 @elseif ($variant === 'compact')
     <a href="{{ lroute('jobs.show', $job) }}" class="list-row"
        style="grid-template-columns:auto minmax(0,1fr) auto;gap:var(--space-4);padding:15px 18px">
-        <span class="mono mono-sm">{{ $job->company?->monogram() ?? '؟' }}</span>
+        <span class="mono mono-sm">@include('partials.company-icon')</span>
 
         <span style="min-width:0">
             <span style="display:block;font-family:var(--font-heading);font-weight:500;font-size:15px">{{ $job->title }}</span>
             <span class="text-muted" style="display:block;font-size:13px">
-                {{ $job->company?->name }} · {{ $job->city->name }}
+                {{ $job->company?->name }}@if ($job->company?->is_verified)@include('partials.verified-badge')@endif · {{ $job->city->name }}
             </span>
         </span>
 
@@ -55,7 +55,7 @@
 @else
     <a href="{{ lroute('jobs.show', $job) }}" class="list-row"
        style="grid-template-columns:auto minmax(0,1fr) auto;padding:17px 18px">
-        <span class="mono">{{ $job->company?->monogram() ?? '؟' }}</span>
+        <span class="mono">@include('partials.company-icon')</span>
 
         <span style="min-width:0">
             <span style="display:flex;align-items:center;gap:8px;flex-wrap:wrap">
@@ -79,7 +79,7 @@
             </span>
 
             <span class="list-row-meta">
-                <span>{{ $job->company?->name }}</span>
+                <span>{{ $job->company?->name }}@if ($job->company?->is_verified)@include('partials.verified-badge')@endif</span>
                 <span><i class="ph ph-map-pin" style="margin-inline-end:4px"></i>{{ $job->city->name }}</span>
                 <span><i class="ph ph-clock-user" style="margin-inline-end:4px"></i>{{ $job->employmentType->name }}</span>
                 <span>{{ $job->category->name }}</span>

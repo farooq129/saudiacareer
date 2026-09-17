@@ -3,7 +3,6 @@
 
     $locale = Locale::current();
     $isAr = $locale === 'ar';
-    $brand = config('board.brand.'.$locale);
 
     // Direction-aware glyphs — the arrow has to point the way reading goes.
     $arrowIcon = $isAr ? 'ph-arrow-left' : 'ph-arrow-right';
@@ -52,10 +51,7 @@
                 <i class="ph ph-list"></i>
             </button>
 
-            <a href="{{ lroute('home') }}" class="brand">
-                <span class="brand-mark"><i class="ph ph-briefcase"></i></span>
-                <span>{{ $brand }}<span class="brand-tld">{{ __('brand.tld') }}</span></span>
-            </a>
+            @include('partials.brand')
 
             <nav class="hdr-nav">
 
@@ -162,8 +158,11 @@
 
     <div style="height:1px;background:linear-gradient(to right,transparent,var(--color-divider) 48px,var(--color-divider) calc(100% - 48px),transparent)"></div>
 
-    {{-- A transparent scrim behind whichever panel is open, so a click anywhere
-         else on the page closes it. --}}
-    <div class="mega-scrim" x-show="mega || ai" x-cloak @click="mega = false; ai = false"></div>
-
 </header>
+
+{{-- A transparent scrim behind whichever panel is open, so a click anywhere
+     else on the page closes it. It sits OUTSIDE the header on purpose: .hdr
+     carries a backdrop-filter, which makes it the containing block for fixed
+     descendants, so a scrim nested inside it would be clipped to the header
+     strip and never catch a click on the page below. --}}
+<div class="mega-scrim" x-show="mega || ai" x-cloak @click="mega = false; ai = false"></div>

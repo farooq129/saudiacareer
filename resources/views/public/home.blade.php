@@ -100,7 +100,9 @@
 
             {{-- ── Featured ─────────────────────────────────────────────────
                  A listing with its own photo wins; otherwise the category
-                 gradient stands in, so every card carries an image either way. --}}
+                 gradient stands in and carries the site lockup, so every card
+                 shows an image either way and an ad with no art still reads as
+                 ours rather than as a hole in the grid. --}}
             @if ($featured->isNotEmpty())
                 <div style="margin-bottom:56px">
                     <div class="rail">
@@ -121,8 +123,8 @@
                                     @else linear-gradient(135deg, {{ $art['from'] }}, {{ $art['to'] }})
                                     @endif">
                                     @unless ($job->image_path)
-                                        <i class="ph {{ $job->category->icon }}"
-                                           style="font-size:46px;color:{{ $art['ink'] }};opacity:.5"></i>
+                                        <img src="{{ asset('images/main_logo.png') }}" alt=""
+                                             class="card-fallback-logo" width="1965" height="438">
                                     @endunless
                                 </div>
 

@@ -57,6 +57,9 @@ class PortalNavigator
                 JobSeekerPost::query()->awaitingReview()->count()],
             ['admin.reports.index', 'ph-flag', __('admin.nav.reports'),
                 JobReport::query()->open()->count()],
+            // Authoring, not a queue — nothing arrives here from the public,
+            // so there is no backlog to badge.
+            ['admin.blog.index', 'ph-newspaper', __('admin.nav.blog'), null],
             // A moderator can read the employer directory but not act on it, so
             // the badge counting employers awaiting verification is not their
             // backlog and is left off.

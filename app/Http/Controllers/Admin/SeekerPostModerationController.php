@@ -3,10 +3,13 @@
 namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Seeker\PostRequest;
 use App\Models\Category;
 use App\Models\City;
+use App\Models\EmploymentType;
 use App\Models\JobSeekerPost;
 use App\Services\ListingModerator;
+use App\Support\Phone;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\View\View;
@@ -57,6 +60,45 @@ class SeekerPostModerationController extends Controller
         $post->load(['city', 'category', 'employmentType', 'user', 'reviewer']);
 
         return view('admin.seekers.show', ['post' => $post]);
+    }
+
+    /**
+     * Correct a post in place. Same reasoning as the listing side: a moderator
+     * who can already approve or reject this post can certainly fix the city on
+     * it, and a rejection round-trip for a typo helps nobody.
+     */
+    public function edit(JobSeekerPost $post): View
+    {
+        return view('seeker.posts.form', [
+            'post' => $post,
+            'cities' => City::active()->get(),
+            'categories' => Category::active()->get(),
+            'employmentTypes' => EmploymentType::active()->get(),
+            'adminMode' => true,
+            'action' => lroute('admin.seekers.update', $post),
+            'formTitle' => __('admin.edit.seekerTitle'),
+        ]);
+    }
+
+    public function update(PostRequest $request, JobSeekerPost $post): RedirectResponse
+    {
+        $post->fill($request->safe()->except('cv'));
+        $post->transfer_available = $request->boolean('transfer_available');
+        $post->available_immediately = $request->boolean('available_immediately');
+        $post->whatsapp = Phone::normalise($request->input('whatsapp')) ?? $request->input('whatsapp');
+        $post->phone = Phone::normalise($request->input('phone')) ?? $request->input('phone');
+
+        if ($request->hasFile('cv')) {
+            $post->cv_path = $request->file('cv')->store('cvs', 'local');
+        }
+
+        // Status and publish window left alone, exactly as on the listing side.
+        $post->save();
+        $this->moderator->refreshCounts();
+
+        return redirect()
+            ->to(lroute('admin.seekers.show', $post))
+            ->with('status', __('admin.edit.seekerSaved'));
     }
 
     public function approve(Request $request, JobSeekerPost $post): RedirectResponse

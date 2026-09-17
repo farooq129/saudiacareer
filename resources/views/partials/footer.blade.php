@@ -10,10 +10,7 @@
     <div class="ftr-inner">
 
         <div>
-            <a href="{{ lroute('home') }}" class="brand">
-                <span class="brand-mark"><i class="ph ph-briefcase"></i></span>
-                <span>{{ $brand }}<span class="brand-tld">{{ __('brand.tld') }}</span></span>
-            </a>
+            @include('partials.brand')
 
             <p class="ftr-tagline">{{ __('footer.tagline') }}</p>
 

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Public\SitemapController;
 use App\Http\Middleware\SetLocale;
 use Illuminate\Support\Facades\Route;
 
@@ -36,6 +37,17 @@ Route::middleware(SetLocale::class)->group(function () {
         require base_path('routes/portal.php');
     });
 });
+
+/*
+| The sitemap and robots.txt sit outside the two language groups: they are one
+| file for the whole site, not a page that exists twice. The sitemap emits both
+| languages of every URL internally.
+*/
+Route::get('sitemap.xml', SitemapController::class)->name('sitemap');
+
+Route::get('robots.txt', function () {
+    return response(view('robots')->render())->header('Content-Type', 'text/plain; charset=UTF-8');
+})->name('robots');
 
 require __DIR__.'/auth.php';
 
