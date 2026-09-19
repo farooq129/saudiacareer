@@ -70,12 +70,9 @@
                         </div>
                     @endif
 
-                    @if ($post->employmentType)
-                        <div>
-                            <dt class="card-kicker">{{ __('search.employmentType') }}</dt>
-                            <dd style="margin:0;font-size:15px">{{ $post->employmentType->name }}</dd>
-                        </div>
-                    @endif
+                    {{-- Employment type is shelved on seeker posts: the column
+                         stays, but a value seeded before it was withdrawn
+                         should not show a field nobody can edit. --}}
                 </dl>
 
                 @if ($post->pitch)

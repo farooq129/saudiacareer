@@ -53,6 +53,7 @@ return [
         'experienceEn' => 'Experience (English)',
         'experienceHint' => 'For example "8 years" or "2 years".',
         'expectedSalary' => 'Pay you are looking for',
+        'availability' => 'Availability',
         'salaryMin' => 'From (SAR)',
         'salaryMax' => 'To (SAR)',
         'salaryHint' => 'Optional. Most people leave this blank.',

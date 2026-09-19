@@ -8,6 +8,20 @@
     // Admin and moderator reuse this form to correct a post; see the note in
     // employer/jobs/form.blade.php for why it is shared rather than copied.
     $adminMode = $adminMode ?? false;
+
+    /*
+     * Expected pay is hidden for now, on the seeker's form and on the staff
+     * edit screen alike. The columns stay on job_seeker_posts and the rules
+     * stay in PostRequest, so bringing it back is this one flag — nothing to
+     * migrate, and any figures already stored are left untouched rather than
+     * blanked, because a form that does not post a key cannot overwrite it.
+     */
+    $showExpectedSalary = false;
+
+    // Employment type is shelved on seeker posts on the same terms: the column
+    // and the relation stay, only the control goes. The public post hides it
+    // to match, so a seeded value cannot show a field nobody can edit.
+    $showEmploymentType = false;
     $action = $action ?? ($editing ? lroute('seeker.posts.update', $post) : lroute('seeker.posts.store'));
 @endphp
 
@@ -101,28 +115,34 @@
             </div>
 
             <div class="adm-block">
-                <h5>{{ __('seeker.form.expectedSalary') }}</h5>
+                @if ($showExpectedSalary)
+                    <h5>{{ __('seeker.form.expectedSalary') }}</h5>
 
-                <div class="adm-bilingual">
-                    <div class="field">
-                        <label for="expected_salary_min">{{ __('seeker.form.salaryMin') }}</label>
-                        <input id="expected_salary_min" class="input" name="expected_salary_min"
-                               type="number" min="0" dir="ltr"
-                               value="{{ old('expected_salary_min', $post->expected_salary_min) }}">
+                    <div class="adm-bilingual">
+                        <div class="field">
+                            <label for="expected_salary_min">{{ __('seeker.form.salaryMin') }}</label>
+                            <input id="expected_salary_min" class="input" name="expected_salary_min"
+                                   type="number" min="0" dir="ltr"
+                                   value="{{ old('expected_salary_min', $post->expected_salary_min) }}">
+                        </div>
+
+                        <div class="field">
+                            <label for="expected_salary_max">{{ __('seeker.form.salaryMax') }}</label>
+                            <input id="expected_salary_max" class="input" name="expected_salary_max"
+                                   type="number" min="0" dir="ltr"
+                                   value="{{ old('expected_salary_max', $post->expected_salary_max) }}">
+                            @error('expected_salary_max') <span class="field-error">{{ $message }}</span> @enderror
+                        </div>
                     </div>
 
-                    <div class="field">
-                        <label for="expected_salary_max">{{ __('seeker.form.salaryMax') }}</label>
-                        <input id="expected_salary_max" class="input" name="expected_salary_max"
-                               type="number" min="0" dir="ltr"
-                               value="{{ old('expected_salary_max', $post->expected_salary_max) }}">
-                        @error('expected_salary_max') <span class="field-error">{{ $message }}</span> @enderror
-                    </div>
-                </div>
-
-                <p class="text-muted" style="font-size:12px;margin:0 0 var(--space-6)">
-                    {{ __('seeker.form.salaryHint') }}
-                </p>
+                    <p class="text-muted" style="font-size:12px;margin:0 0 var(--space-6)">
+                        {{ __('seeker.form.salaryHint') }}
+                    </p>
+                @else
+                    {{-- The two checkboxes below carried the pay heading; with
+                         pay hidden they need one of their own. --}}
+                    <h5>{{ __('seeker.form.availability') }}</h5>
+                @endif
 
                 <label class="radio" style="display:flex;margin-bottom:var(--space-3)">
                     <input type="checkbox" name="transfer_available" value="1"
@@ -211,17 +231,19 @@
                     @error('category_id') <span class="field-error">{{ $message }}</span> @enderror
                 </div>
 
-                <div class="field" style="margin-top:var(--space-4)">
-                    <label for="employment_type_id">{{ __('search.employmentType') }}</label>
-                    <select id="employment_type_id" class="input" name="employment_type_id">
-                        <option value="">{{ __('search.anyType') }}</option>
-                        @foreach ($employmentTypes as $type)
-                            <option value="{{ $type->id }}" @selected(old('employment_type_id', $post->employment_type_id) == $type->id)>
-                                {{ $type->name }}
-                            </option>
-                        @endforeach
-                    </select>
-                </div>
+                @if ($showEmploymentType)
+                    <div class="field" style="margin-top:var(--space-4)">
+                        <label for="employment_type_id">{{ __('search.employmentType') }}</label>
+                        <select id="employment_type_id" class="input" name="employment_type_id">
+                            <option value="">{{ __('search.anyType') }}</option>
+                            @foreach ($employmentTypes as $type)
+                                <option value="{{ $type->id }}" @selected(old('employment_type_id', $post->employment_type_id) == $type->id)>
+                                    {{ $type->name }}
+                                </option>
+                            @endforeach
+                        </select>
+                    </div>
+                @endif
             </div>
 
             <div class="adm-block">

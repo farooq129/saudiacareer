@@ -53,6 +53,7 @@ return [
         'experienceEn' => 'الخبرة (بالإنجليزية)',
         'experienceHint' => 'مثل «8 سنوات» أو «سنتان».',
         'expectedSalary' => 'الراتب المتوقع',
+        'availability' => 'الجاهزية للعمل',
         'salaryMin' => 'من (ريال)',
         'salaryMax' => 'إلى (ريال)',
         'salaryHint' => 'اختياري، ومعظم الناس يتركونه فارغاً.',
